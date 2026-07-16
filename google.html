@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In | WoodleDoo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.15), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(244, 63, 94, 0.15), transparent 25%);
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="min-h-screen w-full flex flex-col items-center justify-center p-6 text-slate-100 relative">
+
+    <a href="index.html" class="absolute top-8 left-8 flex items-center gap-2 text-slate-400 hover:text-white transition-colors font-medium">
+        <span class="material-symbols-outlined text-xl">arrow_back</span> Return to Studio
+    </a>
+
+    <div class="glass-card rounded-[2rem] p-12 flex flex-col items-center text-center max-w-md w-full animate-[fadeIn_0.6s_ease-out]">
+        <div class="bg-blue-500/10 border border-blue-500/20 p-4 rounded-2xl shadow-[0_0_20px_rgba(59,130,246,0.2)] mb-6">
+            <span class="material-symbols-outlined text-blue-400 text-4xl">account_circle</span>
+        </div>
+        
+        <h1 class="text-3xl font-bold mb-2">Welcome Back</h1>
+        <p class="text-slate-400 mb-10">Sign in with your Google account to continue to WoodleDoo.</p>
+
+        <!-- Custom Login Button -->
+        <button id="login-btn" class="flex items-center justify-center gap-3 bg-white text-gray-900 font-bold text-lg px-8 py-3 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 w-full mb-4">
+            <svg class="w-6 h-6" viewBox="0 0 48 48">
+                <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                <path fill="none" d="M0 0h48v48H0z"/>
+            </svg>
+            <span>Sign in with Google</span>
+        </button>
+
+        <!-- Authenticated User Profile (Hidden by default) -->
+        <div id="userProfile" class="hidden flex-col items-center gap-4 w-full">
+            <img id="userPicture" src="" alt="Profile" class="w-20 h-20 rounded-full border-4 border-slate-700 shadow-lg object-cover">
+            <div>
+                <p class="text-sm text-slate-400 font-bold uppercase tracking-widest">Signed in as</p>
+                <h2 id="userName" class="text-2xl font-bold text-white mt-1"></h2>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Firebase SDK & Logic -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyC9PwmfDi8BxFXi6Rb_n5_H_x83iIXJeP8",
+            authDomain: "woodledoo-auth.firebaseapp.com",
+            projectId: "woodledoo-auth",
+            storageBucket: "woodledoo-auth.firebasestorage.app",
+            messagingSenderId: "551323879293",
+            appId: "1:551323879293:web:6477f4310262a27238ee14",
+            measurementId: "G-VLJ5EVD50B"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+
+        const loginBtn = document.getElementById('login-btn');
+        const profileDiv = document.getElementById('userProfile');
+        const userName = document.getElementById('userName');
+        const userPicture = document.getElementById('userPicture');
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // Change button to Sign Out
+                loginBtn.innerHTML = `
+                    <span class="material-symbols-outlined text-gray-700">logout</span>
+                    <span>Sign Out</span>
+                `;
+                
+                // Show profile info
+                profileDiv.classList.remove('hidden');
+                profileDiv.classList.add('flex');
+                userName.innerText = user.displayName;
+                userPicture.src = user.photoURL || 'https://via.placeholder.com/80';
+            } else {
+                // Revert to Sign In
+                loginBtn.innerHTML = `
+                    <svg class="w-6 h-6" viewBox="0 0 48 48">
+                        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                        <path fill="none" d="M0 0h48v48H0z"/>
+                    </svg>
+                    <span>Sign in with Google</span>
+                `;
+                
+                // Hide profile info
+                profileDiv.classList.add('hidden');
+                profileDiv.classList.remove('flex');
+            }
+        });
+
+        async function handleAuth() {
+            if (auth.currentUser) {
+                try {
+                    await signOut(auth);
+                } catch (error) {
+                    console.error(error);
+                }
+            } else {
+                try {
+                    const result = await signInWithPopup(auth, provider);
+                    // Successfully logged in! Redirect to the home page automatically:
+                    window.location.href = "index.html"; 
+                } catch (error) {
+                    alert("Login failed: " + error.message);
+                }
+            }
+        }
+
+        loginBtn.addEventListener('click', handleAuth);
+    </script>
+</body>
+</html>
