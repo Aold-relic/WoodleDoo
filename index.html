@@ -240,7 +240,453 @@
         </div>
       </div>
     </div>
+ <!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WoodleDoo | Refined Creativity</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&amp;family=Hanken+Grotesk:wght@300;400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed": "#e4e2e4",
+                    "surface-variant": "#333536",
+                    "on-primary-fixed": "#1a1b21",
+                    "primary-container": "#c0c0c8",
+                    "on-secondary-fixed": "#1b1b1e",
+                    "surface-container-lowest": "#0c0e0f",
+                    "on-tertiary-fixed-variant": "#474649",
+                    "tertiary": "#dedcde",
+                    "surface-tint": "#c6c6ce",
+                    "on-secondary-fixed-variant": "#47464a",
+                    "surface-container-highest": "#333536",
+                    "primary": "#dcdce4",
+                    "background": "#121415",
+                    "outline-variant": "#46464b",
+                    "error": "#ffb4ab",
+                    "on-background": "#e2e2e3",
+                    "on-error": "#690005",
+                    "primary-fixed-dim": "#c6c6ce",
+                    "surface-bright": "#38393a",
+                    "on-surface-variant": "#c7c6cb",
+                    "outline": "#909095",
+                    "surface-container-low": "#1a1c1d",
+                    "on-tertiary": "#303032",
+                    "surface-container": "#1e2021",
+                    "on-primary-fixed-variant": "#45464d",
+                    "inverse-primary": "#5d5e65",
+                    "surface": "#121415",
+                    "secondary-container": "#47464a",
+                    "surface-dim": "#121415",
+                    "inverse-on-surface": "#2f3132",
+                    "secondary-fixed": "#e4e2e5",
+                    "primary-fixed": "#e2e2ea",
+                    "inverse-surface": "#e2e2e3",
+                    "error-container": "#93000a",
+                    "on-tertiary-container": "#4f4e50",
+                    "on-primary": "#2f3036",
+                    "on-surface": "#e2e2e3",
+                    "on-secondary-container": "#b6b4b8",
+                    "tertiary-fixed-dim": "#c8c6c8",
+                    "on-tertiary-fixed": "#1b1b1d",
+                    "on-secondary": "#303033",
+                    "tertiary-container": "#c2c0c2",
+                    "on-primary-container": "#4d4e55",
+                    "on-error-container": "#ffdad6",
+                    "surface-container-high": "#282a2b",
+                    "secondary-fixed-dim": "#c8c6c9",
+                    "secondary": "#c8c6c9"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "8px",
+                    "container-margin-desktop": "64px",
+                    "gutter": "24px",
+                    "container-margin-mobile": "20px",
+                    "gutter-mobile": "16px"
+            }
+          }
+        }
+      }
+</script>
+<style>
+        body {
+            background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDMnDCkvR1bcl97FH-FxQtgz9Yux7GJzSNkq9sRYj_o0kVWoVigyEjSLBe3Jh6yOodM9QI93CHOQCL-adgvGMVuLKUn7soGJXl-9yJ1UTztXn-67gcD3faI1lskXFhaijqEB-og0MUxHyLGbBtZ0I0vRZ-jJEgOxVD9prOB97tD0gjm9Q6Lp-X2r-9MKlqn2X1NitEXuahsGRZLHT5UsEKos00xwbf5St6E5kSnj-kLkDwdRpbyelnxL2uwD_ml99lhiA');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            overflow-x: hidden;
+        }
+        body.vibe-kids {
+            background: #FFFAEB !important;
+            transition: background 0.5s ease;
+        }
+    #studioSidebar {
+      background: #FFFAEB;
+      border-right: 4px solid #111827;
+      color: #111827;
+    }
+    #studioSidebar h2 { font-weight: 900; color: #F43F5E; }
+    .picnic-bg {
+      background-color: #fff;
+      background-image: 
+        repeating-linear-gradient(transparent, transparent 10px, rgba(244, 63, 94, 0.6) 10px, rgba(244, 63, 94, 0.6) 20px),
+        repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(244, 63, 94, 0.6) 10px, rgba(244, 63, 94, 0.6) 20px);
+    }
+    .peeking-btn {
+      width: 90px;
+      height: 70px;
+      border: 4px solid #111827;
+      border-right: none;
+      border-radius: 20px 0 0 20px;
+      font-size: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: -4px 4px 0 0 rgba(17,24,39,1);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transform: translateX(15px);
+    }
+</style>
+</head>
+<body class="bg-[#FFFAEB] text-gray-900 overflow-x-hidden vibe-kids min-h-screen flex flex-col">
 
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-[100] bg-white/50 backdrop-blur-xl border-b border-gray-900/20 shadow-sm flex justify-between items-center px-8 py-4">
+<div class="flex items-center gap-8">
+<span class="font-black text-2xl tracking-widest text-gray-900 uppercase">WoodleDoo</span>
+<div class="hidden md:flex gap-6 font-bold text-gray-700 items-center">
+<a class="text-[#F43F5E] border-b-4 border-[#F43F5E] pb-1 hover:opacity-80 transition-opacity" href="#">Studio</a>
+<a class="hover:text-[#F43F5E] transition-colors duration-300" href="#">Gallery</a>
+<a class="hover:text-[#F43F5E] transition-colors duration-300 cursor-pointer" href="about.html">About Us</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+  <span id="userNameDisplay" class="font-bold text-gray-800 hidden"></span>
+  <img id="userHeaderPicture" src="" class="w-8 h-8 rounded-full hidden border-2 border-gray-900 shadow-sm" alt="Profile">
+  <a href="google.html" class="flex items-center">
+    <span id="accountBtn" class="material-symbols-outlined text-[#F43F5E] text-[32px] cursor-pointer hover:scale-110 transition-transform" title="Sign In">account_circle</span>
+  </a>
+</div>
+</div>
+</nav>
+
+<!-- SideNavBar -->
+<aside id="studioSidebar" class="fixed left-0 top-0 h-full w-[280px] z-[90] flex flex-col p-6 pt-28 hidden md:flex">
+  <div class="mb-10">
+    <h2 class="font-black text-3xl leading-tight uppercase tracking-wider">Studio</h2>
+  </div>
+  <nav class="flex-grow space-y-2 flex flex-col">
+    <div class="tool-btn picnic-bg flex items-center gap-4 p-4 cursor-pointer">
+      <span class="material-symbols-outlined bg-white p-1 rounded-md border-2 border-gray-900">edit</span><span class="bg-white px-2 py-1 rounded-md border-2 border-gray-900">Pencil</span>
+    </div>
+  </nav>
+</aside>
+
+<!-- KIDS MODE VIEW (Hero) -->
+<section class="absolute inset-0 pt-16 flex flex-col items-center md:items-start md:pl-[340px] overflow-x-hidden overflow-y-auto pb-32" id="kids-hero" style="background-color: #fdfbf7;">
+  <div class="max-w-[1200px] w-full px-8 relative mt-16">
+    <div class="bg-cover bg-center border-4 border-gray-900 shadow-[12px_12px_0_0_rgba(17,24,39,1)] rounded-3xl p-12 flex flex-col md:flex-row gap-12 mb-12 relative z-10">
+      <div class="flex-1 flex flex-col justify-center text-left bg-white/80 p-8 rounded-2xl border-2 border-gray-900 shadow-[4px_4px_0_0_rgba(17,24,39,1)]">
+        <h2 class="font-extrabold text-5xl text-gray-900 leading-tight mb-4">Your Cloud Sketchbook.</h2>
+        <div class="flex flex-wrap gap-4">
+          <button id="kidsStartBtn" class="picnic-bg font-bold text-lg px-6 py-4 border-4 border-gray-900 rounded-xl shadow-[4px_4px_0_0_rgba(17,24,39,1)]"><span class="bg-white text-gray-900 px-4 py-2 rounded-lg border-2 border-gray-900">Start a new page</span></button>
+        </div>
+      </div>
+      <div class="flex-1">
+        <div class="bg-white border-4 border-gray-900 rounded-2xl h-80 relative overflow-hidden flex flex-col shadow-[6px_6px_0_0_rgba(17,24,39,1)]">
+          <div class="flex-1 bg-white bg-contain bg-center bg-no-repeat" id="heroCanvasPreview"></div>
+          <div class="h-12 bg-gray-700 border-t-4 border-gray-900 flex items-center px-4">
+            <span class="text-white text-sm font-medium" id="heroCanvasTitle">Draw something and save it!</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Google Drive Drop Basket (Line 243 Insert) -->
+    <div class="text-left mb-12">
+      <p class="font-bold text-blue-500 mb-4">☁️ google drive drop basket</p>
+      <div id="cloudBasket" class="w-full min-h-[150px] border-4 border-dashed border-blue-400 bg-blue-50/50 rounded-2xl flex flex-col items-center justify-center p-6 transition-all duration-300 group hover:bg-blue-50 hover:border-blue-600">
+        <span class="text-5xl mb-2 group-hover:scale-125 transition-transform duration-300">🧺</span>
+        <p class="font-black text-xl text-slate-700">Drag your sketches here to upload directly to Drive</p>
+        <p class="text-xs text-slate-500 font-bold mt-1 uppercase tracking-wider" id="basketStatus">Requires Google Sign-in</p>
+      </div>
+    </div>
+
+    <!-- Saved Pages List -->
+    <div class="text-left mb-16">
+      <p class="font-bold text-[#F43F5E] mb-4">↳ synced local paintings</p>
+      <div id="savedPagesGrid" class="flex gap-6 overflow-x-auto pb-4"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Kids Isolated Canvas Studio -->
+<div id="kidsCanvasStudio" class="fixed inset-0 bg-lime-100 z-[110] flex flex-col opacity-0 pointer-events-none transition-all duration-500">
+  <div class="h-24 border-b-8 border-gray-900 flex justify-between items-center px-8 bg-lime-300 relative z-50">
+    <button id="kidsCanvasClose" class="bg-white border-4 border-gray-900 px-6 py-3 rounded-2xl font-black text-xl">🏠 Exit</button>
+    <div class="flex items-center gap-4">
+      <div class="bg-white border-4 border-gray-900 rounded-2xl px-6 py-2 flex items-center gap-4">
+        <input type="range" id="widthSlider" min="5" max="100" value="20">
+      </div>
+      <h2 id="kidsCanvasTitleDisplay" class="text-gray-900 font-black px-6 py-2 rounded-2xl border-4 border-gray-900">Art Canvas</h2>
+      <button id="kidsCanvasSaveBtn" class="bg-amber-400 text-gray-900 border-4 border-gray-900 px-6 py-3 rounded-2xl font-black text-lg tracking-widest flex items-center gap-2 uppercase">
+        <span class="text-2xl">💾</span> <span>Save Art</span>
+      </button>
+    </div>
+  </div>
+  <div class="flex-1 relative flex items-center justify-center bg-lime-100" id="kidsCanvasStage">
+    <div id="canvasFrame" class="absolute inset-[10%] bg-[#15803d] border-[12px] border-gray-900 rounded-[40px] p-3">
+      <canvas id="kidsIsolatedCanvas" class="bg-white border-4 border-gray-900 rounded-2xl" style="width:100%; height:100%; object-fit:contain;"></canvas>
+    </div>
+    <div id="toolsSidebar" class="absolute right-0 top-1/2 -translate-y-1/2 flex flex-col gap-3 z-50">
+      <button class="peeking-btn kids-tool-btn bg-amber-200 active flex relative" data-tool="pen">🖍️</button>
+      <button class="peeking-btn kids-tool-btn bg-sky-300 flex relative" data-tool="brush">🖌️</button>
+      <button class="peeking-btn kids-tool-btn bg-pink-300 flex relative" data-tool="eraser">🧽</button>
+      <button class="peeking-btn kids-tool-btn bg-violet-300 flex relative" data-tool="rainbow">🌈</button>
+    </div>
+  </div>
+</div>
+
+<!-- Kids Setup Dialog -->
+<div id="kidsSetupDialog" class="fixed inset-0 bg-gray-900/80 z-50 flex items-center justify-center p-8 opacity-0 pointer-events-none transition-all duration-300">
+  <div class="bg-[#FFFDF0] border-8 border-gray-900 rounded-[2rem] p-10 max-w-md w-full shadow-[16px_16px_0_0_rgba(17,24,39,1)]">
+    <h3 class="text-gray-900 text-3xl font-black mb-4">NEW ART PIECE</h3>
+    <input id="kidsSetupTitle" type="text" value="My Painting" class="w-full bg-white border-4 border-gray-900 text-gray-900 p-4 rounded-xl font-bold text-xl mb-6">
+    <div class="flex gap-4">
+      <button id="kidsSetupCancel" class="py-4 px-6 text-gray-600 font-black border-4 border-transparent hover:border-gray-900 rounded-xl">Cancel</button>
+      <button id="kidsSetupConfirm" class="flex-1 py-4 bg-lime-400 text-gray-900 font-black rounded-xl border-4 border-gray-900 text-xl uppercase">Create</button>
+    </div>
+  </div>
+</div>
+
+<!-- Firebase Infrastructure Integration Script -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+  const firebaseConfig = {
+      apiKey: "AIzaSyC9PwmfDi8BxFXi6Rb_n5_H_x83iIXJeP8",
+      authDomain: "woodledoo-auth.firebaseapp.com",
+      projectId: "woodledoo-auth",
+      storageBucket: "woodledoo-auth.firebasestorage.app",
+      messagingSenderId: "551323879293",
+      appId: "1:551323879293:web:6477f4310262a27238ee14",
+      measurementId: "G-VLJ5EVD50B"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  window.firebaseAuthInstance = auth;
+
+  onAuthStateChanged(auth, (user) => {
+    const nameDisplay = document.getElementById('userNameDisplay');
+    const pfpDisplay = document.getElementById('userHeaderPicture');
+    const accountIcon = document.getElementById('accountBtn');
+    const basketStatus = document.getElementById('basketStatus');
+
+    if (user) {
+      if(nameDisplay) { nameDisplay.innerText = `Hi, ${user.displayName}!`; nameDisplay.classList.remove('hidden'); }
+      if(pfpDisplay) { pfpDisplay.src = user.photoURL; pfpDisplay.classList.remove('hidden'); }
+      if(accountIcon) accountIcon.classList.add('text-green-500');
+      if(basketStatus) basketStatus.textContent = "Ready to drop your files!";
+    } else {
+      if(nameDisplay) nameDisplay.classList.add('hidden');
+      if(pfpDisplay) pfpDisplay.classList.add('hidden');
+      if(accountIcon) accountIcon.classList.remove('text-green-500');
+      if(basketStatus) basketStatus.textContent = "Requires Google Sign-in";
+    }
+  });
+</script>
+
+<!-- UI Layout Engine and Drag Drop Handler Operations -->
+<script>
+  (function initApplicationScripts() {
+    var startBtn = document.getElementById('kidsStartBtn');
+    var setupDialog = document.getElementById('kidsSetupDialog');
+    var cancelBtn = document.getElementById('kidsSetupCancel');
+    var confirmBtn = document.getElementById('kidsSetupConfirm');
+    var canvasStudio = document.getElementById('kidsCanvasStudio');
+    var canvasClose = document.getElementById('kidsCanvasClose');
+    var canvasTitleDisplay = document.getElementById('kidsCanvasTitleDisplay');
+    var isolatedCanvas = document.getElementById('kidsIsolatedCanvas');
+    var toolBtns = document.querySelectorAll('.kids-tool-btn');
+    var widthSlider = document.getElementById('widthSlider');
+    
+    var ctx = isolatedCanvas.getContext('2d');
+    var isDrawing = false;
+    var lastX = 0, lastY = 0;
+    var currentMode = 'pen';
+
+    if(startBtn) startBtn.addEventListener('click', () => { setupDialog.classList.remove('opacity-0', 'pointer-events-none'); setupDialog.classList.add('opacity-100'); });
+    if(cancelBtn) cancelBtn.addEventListener('click', () => { setupDialog.classList.remove('opacity-100'); setupDialog.classList.add('opacity-0', 'pointer-events-none'); });
+    
+    if(confirmBtn) {
+      confirmBtn.addEventListener('click', function() {
+        setupDialog.classList.remove('opacity-100'); setupDialog.classList.add('opacity-0', 'pointer-events-none');
+        canvasStudio.classList.remove('opacity-0', 'pointer-events-none'); canvasStudio.classList.add('opacity-100');
+        
+        var frame = document.getElementById('canvasFrame');
+        var rect = frame.getBoundingClientRect();
+        isolatedCanvas.width = rect.width - 24;
+        isolatedCanvas.height = rect.height - 24;
+        
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(0, 0, isolatedCanvas.width, isolatedCanvas.height);
+        canvasTitleDisplay.textContent = document.getElementById('kidsSetupTitle').value || 'My Painting';
+      });
+    }
+
+    if(canvasClose) canvasClose.addEventListener('click', () => { canvasStudio.classList.remove('opacity-100'); canvasStudio.classList.add('opacity-0', 'pointer-events-none'); });
+
+    toolBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        currentMode = btn.getAttribute('data-tool');
+        toolBtns.forEach(b => b.classList.remove('ring-4', 'ring-gray-900'));
+        btn.classList.add('ring-4', 'ring-gray-900');
+      });
+    });
+
+    function getPos(e) {
+      var rect = isolatedCanvas.getBoundingClientRect();
+      return {
+        x: (e.clientX - rect.left) * (isolatedCanvas.width / rect.width),
+        y: (e.clientY - rect.top) * (isolatedCanvas.height / rect.height)
+      };
+    }
+
+    isolatedCanvas.addEventListener('mousedown', (e) => { isDrawing = true; var pos = getPos(e); lastX = pos.x; lastY = pos.y; ctx.beginPath(); ctx.moveTo(lastX, lastY); });
+    isolatedCanvas.addEventListener('mousemove', (e) => {
+      if(!isDrawing) return;
+      var pos = getPos(e);
+      ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      ctx.lineWidth = widthSlider.value * (currentMode === 'eraser' ? 2.5 : 0.5);
+      ctx.strokeStyle = currentMode === 'eraser' ? '#FFFFFF' : '#111827';
+      if(currentMode === 'rainbow') ctx.strokeStyle = `hsl(${Date.now() % 360}, 100%, 50%)`;
+      ctx.lineTo(pos.x, pos.y); ctx.stroke();
+      lastX = pos.x; lastY = pos.y;
+    });
+    window.addEventListener('mouseup', () => { if(isDrawing) { isDrawing = false; ctx.closePath(); } });
+
+    // Local Native Directory Picker Creation Strategy Block
+    var saveBtn = document.getElementById('kidsCanvasSaveBtn');
+    if(saveBtn) {
+      saveBtn.addEventListener('click', async function() {
+        try {
+          const rootDirectoryHandle = await window.showDirectoryPicker();
+          const woodledooFolder = await rootDirectoryHandle.getDirectoryHandle('woodle doo', { create: true });
+          const imageBlob = await new Promise(resolve => isolatedCanvas.toBlob(resolve, 'image/png'));
+          
+          const titleStr = canvasTitleDisplay.textContent;
+          const dataURL = isolatedCanvas.toDataURL('image/png');
+          const drawId = Date.now().toString();
+          const filename = 'canvas-' + drawId + '.png';
+          
+          const fileHandle = await woodledooFolder.getFileHandle(filename, { create: true });
+          const stream = await fileHandle.createWritable();
+          await stream.write(imageBlob);
+          await stream.close();
+
+          // Render newly generated asset inside local site gallery view state grid
+          var grid = document.getElementById('savedPagesGrid');
+          if(grid) {
+            var newCard = document.createElement('div');
+            newCard.id = 'saved-card-' + drawId;
+            newCard.className = 'min-w-[140px] h-[140px] bg-white border-4 border-gray-900 rounded-2xl shadow-[4px_4px_0_0_rgba(17,24,39,1)] flex flex-col overflow-hidden relative cursor-grab active:cursor-grabbing group';
+            newCard.innerHTML = `
+              <div class="flex-1 bg-white bg-contain bg-center bg-no-repeat relative" style="background-image: url('${dataURL}')"></div>
+              <div class="bg-gray-700 border-t-4 border-gray-900 text-white text-[10px] font-bold p-2 text-center truncate">${titleStr}</div>
+            `;
+            
+            // Set element up to interact inside drag and drop engines
+            newCard.setAttribute('draggable', 'true');
+            newCard.addEventListener('dragstart', function(evt) {
+              evt.dataTransfer.setData('text/plain', dataURL);
+              evt.dataTransfer.setData('image-title', titleStr);
+            });
+            
+            grid.appendChild(newCard);
+          }
+
+          var originalContent = saveBtn.innerHTML;
+          saveBtn.innerHTML = '<span>✅ File Created & Saved!</span>';
+          setTimeout(() => { saveBtn.innerHTML = originalContent; canvasStudio.classList.add('opacity-0', 'pointer-events-none'); }, 1200);
+        } catch (error) {
+          alert("Save target cancelled or denied.");
+        }
+      });
+    }
+
+    // Basket Target Listener Pipeline Engine Blocks
+    const basket = document.getElementById('cloudBasket');
+    const statusText = document.getElementById('basketStatus');
+
+    if(basket) {
+      basket.addEventListener('dragover', (e) => { e.preventDefault(); basket.classList.replace('bg-blue-50/50', 'bg-blue-100'); });
+      basket.addEventListener('dragleave', () => { basket.classList.replace('bg-blue-100', 'bg-blue-50/50'); });
+      
+      basket.addEventListener('drop', async function(e) {
+        e.preventDefault();
+        basket.classList.replace('bg-blue-100', 'bg-blue-50/50');
+
+        const dataURL = e.dataTransfer.getData('text/plain');
+        const drawingTitle = e.dataTransfer.getData('image-title') || 'Painting';
+
+        if (!dataURL) return;
+
+        const auth = window.firebaseAuthInstance;
+        if (!auth || !auth.currentUser) {
+          statusText.textContent = "❌ Log in with Google first!";
+          return;
+        }
+
+        statusText.textContent = "⏳ Uploading to your Google Drive folder...";
+        
+        try {
+          const res = await fetch(dataURL);
+          const blob = await res.blob();
+          const token = await auth.currentUser.getIdToken();
+
+          const metadata = { name: `${drawingTitle}-${Date.now()}.png`, mimeType: 'image/png' };
+          const form = new FormData();
+          form.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
+          form.append('file', blob);
+
+          const uploadResponse = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
+            method: 'POST',
+            headers: { 'Authorization': 'Bearer ' + token },
+            body: form
+          });
+
+          if (!uploadResponse.ok) throw new Error();
+          statusText.textContent = "✅ Dropped into your Google Drive safely!";
+        } catch (err) {
+          statusText.textContent = "⚠️ Cloud denied permissions. Triggering local backup download...";
+          const a = document.createElement('a');
+          a.href = dataURL;
+          a.download = `${drawingTitle}.png`;
+          a.click();
+        }
+      });
+    }
+  })();
+</script>
+</body>
+</html>
     <!-- Saved Pages List -->
     <div class="text-left mb-16">
       <p class="font-bold text-[#F43F5E] mb-4">↳ synced cloud paintings</p>
