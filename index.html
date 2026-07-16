@@ -97,62 +97,11 @@
             border-right: 1px solid rgba(0, 0, 0, 0.3);
         }
 
-        .joystick-outer {
-            width: 240px;
-            height: 240px;
-            border-radius: 50%;
-            background: rgba(45, 45, 48, 0.3);
-            backdrop-filter: blur(40px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .joystick-knob {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: #C0C0C8;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 2px 2px rgba(255,255,255,0.5);
-            cursor: pointer;
-            transition: transform 0.1s ease-out;
-        }
-
-        .vibe-gradient-strip {
-            position: fixed;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 6px;
-            background: linear-gradient(to bottom, #FF4500, #0077BE);
-            z-index: 60;
-        }
-
-        .mode-transition {
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        .animate-float { animation: float 4s ease-in-out infinite; }
-        
         body.vibe-kids {
             background: #FFFAEB !important;
             transition: background 0.5s ease;
         }
         
-        body.vibe-adult {
-            background-image: url('https://aold-relic.github.io/WoodleDoo/images/home/adult-bg.jpg') !important;
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            transition: background 0.5s ease;
-        }
-    /* Sidebar styles */
     #studioSidebar {
       background: #FFFAEB;
       border-right: 4px solid #111827;
@@ -171,9 +120,7 @@
     #studioSidebar .tool-btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0px 0px #111827; }
     #studioSidebar .tool-btn.active { background: #F43F5E; color: #fff; }
     #studioSidebar .tool-btn.expanded .sub-items { display: flex !important; }
-    #studioSidebar .tool-btn.expanded .folder-icon { transform: rotate(180deg); }
 
-    /* Picnic Pattern */
     .picnic-bg {
       background-color: #fff;
       background-image: 
@@ -181,18 +128,14 @@
         repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(244, 63, 94, 0.6) 10px, rgba(244, 63, 94, 0.6) 20px);
     }
     
-    /* Bubbles Pattern */
     .bubbles-bg {
       background-color: #38bdf8; 
       background-image: 
         radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.4) 4px, transparent 5px),
-        radial-gradient(circle at 70% 60%, rgba(255, 255, 255, 0.4) 6px, transparent 7px),
-        radial-gradient(circle at 40% 80%, rgba(255, 255, 255, 0.4) 3px, transparent 4px),
-        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.4) 5px, transparent 6px);
+        radial-gradient(circle at 70% 60%, rgba(255, 255, 255, 0.4) 6px, transparent 7px);
       background-size: 40px 40px;
     }
     
-    /* Green Pattern */
     .green-bg {
       background-color: #4ade80;
       background-image: radial-gradient(#22c55e 20%, transparent 20%), radial-gradient(#22c55e 20%, transparent 20%);
@@ -200,15 +143,12 @@
       background-position: 0 0, 15px 15px;
     }
 
-    /* Orange Pattern */
     .orange-bg {
       background-color: #fb923c;
-      background-image: linear-gradient(45deg, #f97316 25%, transparent 25%, transparent 75%, #f97316 75%, #f97316), linear-gradient(45deg, #f97316 25%, transparent 25%, transparent 75%, #f97316 75%, #f97316);
+      background-image: linear-gradient(45deg, #f97316 25%, transparent 25%, transparent 75%, #f97316 75%, #f97316);
       background-size: 20px 20px;
-      background-position: 0 0, 10px 10px;
     }
     
-    /* Peeking Tools (Right Edge) */
     .peeking-btn {
       width: 90px;
       height: 70px;
@@ -228,21 +168,11 @@
       transform: translateX(0);
       box-shadow: -8px 8px 0 0 rgba(17,24,39,1);
     }
-    .peeking-btn.active {
-      filter: brightness(1.2);
-    }
     
-    /* Train Movement */
     @keyframes slither {
       0% { transform: translateX(100vw); }
       100% { transform: translateX(-100%); }
     }
-    
-    @keyframes chooChoo {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(-8px); }
-    }
-    
     .snake-move {
       position: absolute;
       bottom: 2%;
@@ -250,47 +180,7 @@
       font-size: 80px;
       z-index: 70;
       animation: slither 12s linear infinite;
-      cursor: pointer;
-      filter: drop-shadow(4px 4px 0 rgba(17,24,39,1));
     }
-    .snake-move.stopped {
-      animation-play-state: paused;
-    }
-    
-    /* Animal Click Animations */
-    @keyframes shake-head {
-      0% { transform: rotate(0deg); }
-      25% { transform: rotate(-15deg); }
-      50% { transform: rotate(15deg); }
-      75% { transform: rotate(-15deg); }
-      100% { transform: rotate(0deg); }
-    }
-    
-    @keyframes nod-head {
-      0% { transform: translateY(0); }
-      25% { transform: translateY(-15px); }
-      50% { transform: translateY(0); }
-      75% { transform: translateY(15px); }
-      100% { transform: translateY(0); }
-    }
-    
-    @keyframes spin-head {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    
-    @keyframes jump-up {
-      0% { transform: translateY(0); }
-      30% { transform: translateY(-30px); }
-      50% { transform: translateY(0); }
-      70% { transform: translateY(-15px); }
-      100% { transform: translateY(0); }
-    }
-    
-    .shake-active { animation: shake-head 0.5s ease-in-out !important; }
-    .nod-active { animation: nod-head 0.5s ease-in-out !important; }
-    .spin-active { animation: spin-head 0.5s ease-in-out !important; }
-    .jump-active { animation: jump-up 0.5s ease-in-out !important; }
 </style>
 </head>
 <body class="bg-[#FFFAEB] text-gray-900 overflow-x-hidden vibe-kids min-h-screen flex flex-col">
@@ -301,15 +191,16 @@
 <span class="font-black text-2xl tracking-widest text-gray-900 uppercase">WoodleDoo</span>
 <div class="hidden md:flex gap-6 font-bold text-gray-700 items-center">
 <a class="text-[#F43F5E] border-b-4 border-[#F43F5E] pb-1 hover:opacity-80 transition-opacity" href="#">Studio</a>
-<a href="nightsky.html" class="hover:scale-125 transition-transform drop-shadow-sm text-2xl" title="Night Sky">🌙</a>
+<a href="nightsky.html" class="hover:scale-125 transition-transform drop-shadow-sm text-2xl">A</a>
 <a class="hover:text-[#F43F5E] transition-colors duration-300" href="#">Gallery</a>
 <a class="hover:text-[#F43F5E] transition-colors duration-300 cursor-pointer" href="about.html">About Us</a>
 </div>
 </div>
 <div class="flex items-center gap-4">
-<span id="ambientMuteBtn" class="material-symbols-outlined text-[#F43F5E] text-[32px] cursor-pointer hover:scale-110 transition-transform" title="Mute/Unmute Music">volume_up</span>
 <div class="flex items-center gap-2">
+  <!-- Dynamic Logged In User Profile Data Header Info -->
   <span id="userNameDisplay" class="font-bold text-gray-800 hidden"></span>
+  <img id="userHeaderPicture" src="" class="w-8 h-8 rounded-full hidden border-2 border-gray-900 shadow-sm" alt="Profile">
   <a href="google.html" class="flex items-center">
     <span id="accountBtn" class="material-symbols-outlined text-[#F43F5E] text-[32px] cursor-pointer hover:scale-110 transition-transform" title="Sign In">account_circle</span>
   </a>
@@ -317,544 +208,272 @@
 </div>
 </nav>
 
-<!-- SideNavBar (Studio Tools) -->
-<aside id="studioSidebar" class="fixed left-0 top-0 h-full w-[280px] z-[90] flex flex-col p-6 pt-28 hidden md:flex transition-all duration-500">
+<!-- SideNavBar -->
+<aside id="studioSidebar" class="fixed left-0 top-0 h-full w-[280px] z-[90] flex flex-col p-6 pt-28 hidden md:flex">
   <div class="mb-10">
     <h2 class="font-black text-3xl leading-tight uppercase tracking-wider">Studio</h2>
     <p class="font-bold text-gray-500 mt-1 uppercase text-sm tracking-widest">Kids Mode</p>
   </div>
   <nav class="flex-grow space-y-2 flex flex-col">
-    <div class="tool-btn picnic-bg flex items-center gap-4 p-4 transition-all cursor-pointer">
+    <div class="tool-btn picnic-bg flex items-center gap-4 p-4 cursor-pointer">
       <span class="material-symbols-outlined bg-white p-1 rounded-md border-2 border-gray-900">edit</span><span class="bg-white px-2 py-1 rounded-md border-2 border-gray-900">Pencil</span>
     </div>
-    <div class="tool-btn bubbles-bg flex flex-col transition-all cursor-pointer overflow-hidden" onclick="this.classList.toggle('expanded')">
-      <div class="flex items-center gap-4 p-4 w-full">
-        <span class="material-symbols-outlined bg-white p-1 rounded-md border-2 border-gray-900">sports_esports</span>
-        <span class="bg-white px-2 py-1 rounded-md border-2 border-gray-900">Games</span>
-        <span class="material-symbols-outlined ml-auto bg-white rounded-md border-2 border-gray-900 folder-icon transition-transform">expand_more</span>
-      </div>
-      <!-- Sub-folder items -->
-      <div class="hidden flex-col gap-2 px-8 pb-4 w-full sub-items">
-        <a href="ticktacktow.html" class="bg-white px-4 py-2 rounded-xl border-2 border-gray-900 font-bold hover:-translate-y-1 hover:shadow-[2px_2px_0_0_rgba(17,24,39,1)] transition-all flex items-center gap-2 text-sm uppercase tracking-wider">
-          <span>❌⭕</span> Tic Tac Toe
-        </a>
-        <a href="blocks.html" class="bg-white px-4 py-2 rounded-xl border-2 border-gray-900 font-bold hover:-translate-y-1 hover:shadow-[2px_2px_0_0_rgba(17,24,39,1)] transition-all flex items-center gap-2 text-sm uppercase tracking-wider">
-          <span>🔺🟩</span> Shapes Game
-        </a>
-        <a href="simonsays.html" class="bg-white px-4 py-2 rounded-xl border-2 border-gray-900 font-bold hover:-translate-y-1 hover:shadow-[2px_2px_0_0_rgba(17,24,39,1)] transition-all flex items-center gap-2 text-sm uppercase tracking-wider">
-          <span>🧠</span> Simon Says
-        </a>
-        <a href="oddoneout.html" class="bg-white px-4 py-2 rounded-xl border-2 border-gray-900 font-bold hover:-translate-y-1 hover:shadow-[2px_2px_0_0_rgba(17,24,39,1)] transition-all flex items-center gap-2 text-sm uppercase tracking-wider">
-          <span>🍎</span> Odd One Out
-        </a>
-        <a href="stars.html" class="bg-white px-4 py-2 rounded-xl border-2 border-gray-900 font-bold hover:-translate-y-1 hover:shadow-[2px_2px_0_0_rgba(17,24,39,1)] transition-all flex items-center gap-2 text-sm uppercase tracking-wider">
-          <span>⭐</span> Star Catch
-        </a>
-        <a href="flower.html" class="bg-white px-4 py-2 rounded-xl border-2 border-gray-900 font-bold hover:-translate-y-1 hover:shadow-[2px_2px_0_0_rgba(17,24,39,1)] transition-all flex items-center gap-2 text-sm uppercase tracking-wider">
-          <span>🌻</span> Flower Game
-        </a>
-      </div>
-    </div>
-    <div class="tool-btn green-bg flex flex-col transition-all cursor-pointer overflow-hidden" onclick="this.classList.toggle('expanded')">
-      <div class="flex items-center gap-4 p-4 w-full">
-        <span class="material-symbols-outlined bg-white p-1 rounded-md border-2 border-gray-900">self_improvement</span>
-        <span class="bg-white px-2 py-1 rounded-md border-2 border-gray-900">Relaxation Room</span>
-        <span class="material-symbols-outlined ml-auto bg-white rounded-md border-2 border-gray-900 folder-icon transition-transform">expand_more</span>
-      </div>
-      <div class="hidden flex-col gap-2 px-8 pb-4 w-full sub-items">
-        <div class="mb-4 pt-2">
-          <div class="flex flex-col gap-2 pl-4 border-l-2 border-emerald-200">
-            <a href="breathing.html" class="bg-white px-4 py-2 rounded-xl border-2 border-gray-900 font-bold hover:-translate-y-1 hover:shadow-[2px_2px_0_0_rgba(17,24,39,1)] transition-all flex items-center gap-2 text-sm uppercase tracking-wider">
-              <span class="text-xl">🌬️</span> Breathing
-            </a>
-            <a href="eye.html" class="bg-white px-4 py-2 rounded-xl border-2 border-gray-900 font-bold hover:-translate-y-1 hover:shadow-[2px_2px_0_0_rgba(17,24,39,1)] transition-all flex items-center gap-2 text-sm uppercase tracking-wider">
-              <span class="text-xl">👀</span> Focus Light
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <div class="tool-btn orange-bg flex flex-col transition-all cursor-pointer overflow-hidden" onclick="this.classList.toggle('expanded')">
-      <div class="flex items-center gap-4 p-4 w-full">
-        <span class="material-symbols-outlined bg-white p-1 rounded-md border-2 border-gray-900">menu_book</span>
-        <span class="bg-white px-2 py-1 rounded-md border-2 border-gray-900 font-bold">Dictionary</span>
-        <span class="material-symbols-outlined ml-auto bg-white rounded-md border-2 border-gray-900 folder-icon transition-transform">expand_more</span>
-      </div>
-      <div class="hidden flex-col gap-2 px-8 pb-4 w-full sub-items">
-        <a href="animalsafari.html" class="bg-white px-4 py-2 rounded-xl border-2 border-gray-900 font-bold hover:-translate-y-1 hover:shadow-[2px_2px_0_0_rgba(17,24,39,1)] transition-all flex items-center gap-2 text-sm uppercase tracking-wider">
-          <span class="text-xl">🦁</span> Animals
-        </a>
-        <a href="vehicals.html" class="bg-white px-4 py-2 rounded-xl border-2 border-gray-900 font-bold hover:-translate-y-1 hover:shadow-[2px_2px_0_0_rgba(17,24,39,1)] transition-all flex items-center gap-2 text-sm uppercase tracking-wider">
-          <span class="text-xl">🚗</span> Vehicles
-        </a>
-      </div>
-    </div>
   </nav>
-  <div class="mt-auto space-y-4">
-    <button class="w-full py-4 bg-sky-300 text-gray-900 rounded-xl hover:-translate-y-1 hover:shadow-[4px_4px_0_0_rgba(17,24,39,1)] transition-all font-black uppercase border-4 border-gray-900 shadow-[2px_2px_0_0_rgba(17,24,39,1)]">Go Pro</button>
-  </div>
 </aside>
 
 <!-- KIDS MODE VIEW (Hero) -->
-<section class="absolute inset-0 pt-16 flex flex-col items-center md:items-start md:pl-[340px] overflow-x-hidden overflow-y-auto pb-32" id="kids-hero" style="background-color: #fdfbf7; background-image: radial-gradient(#FF9A9E 2px, transparent 2px), radial-gradient(#FECFEF 2px, transparent 2px); background-size: 40px 40px; background-position: 0 0, 20px 20px;">
-  
+<section class="absolute inset-0 pt-16 flex flex-col items-center md:items-start md:pl-[340px] overflow-x-hidden overflow-y-auto pb-32" id="kids-hero" style="background-color: #fdfbf7;">
   <div class="max-w-[1200px] w-full px-8 relative mt-16">
-    
-    <!-- Floating Animals -->
-    <div id="floatPanda" class="absolute top-10 -left-10 w-24 h-24 bg-white border-4 border-gray-900 rounded-full shadow-[6px_6px_0_0_rgba(17,24,39,1)] cursor-pointer hover:-translate-y-2 transition-transform flex flex-col items-center justify-center overflow-hidden z-20">
-      <div class="absolute top-4 left-3 w-3 h-3 bg-black rounded-full"></div>
-      <div class="absolute top-4 right-3 w-3 h-3 bg-black rounded-full"></div>
-      <div class="absolute top-0 left-0 w-8 h-8 bg-black rounded-full -translate-x-3 -translate-y-3"></div>
-      <div class="absolute top-0 right-0 w-8 h-8 bg-black rounded-full translate-x-3 -translate-y-3"></div>
-      <span class="mt-6 font-bold text-xs text-gray-900">Pip</span>
-    </div>
-    
-    <div id="floatOwl" class="absolute top-1/2 -right-12 w-24 h-24 bg-amber-200 border-4 border-gray-900 rounded-full shadow-[6px_6px_0_0_rgba(17,24,39,1)] cursor-pointer hover:-translate-y-2 transition-transform flex flex-col items-center justify-center z-20">
-      <span class="text-4xl">🦉</span>
-      <span class="font-bold text-xs mt-1 text-gray-900">Oliver</span>
-    </div>
-
-    <!-- Main Neubrutalist Hero Card -->
-    <div class="bg-cover bg-center border-4 border-gray-900 shadow-[12px_12px_0_0_rgba(17,24,39,1)] rounded-3xl p-12 flex flex-col md:flex-row gap-12 mb-12 relative z-10" style="background-image: url('https://i.ibb.co/C3RFJSFM/mountain-bg.jpg');">
-      
-      <!-- Left Content -->
-      <div class="flex-1 flex flex-col justify-center text-left bg-white/80 p-8 rounded-2xl border-2 border-gray-900 shadow-[4px_4px_0_0_rgba(17,24,39,1)] backdrop-blur-sm">
-        <p class="font-bold text-[#F43F5E] tracking-widest text-sm mb-4 uppercase">- Welcome Back -</p>
-        <h2 class="font-extrabold text-5xl text-gray-900 leading-tight mb-4">Your sketchbook, always open.</h2>
-        <p class="text-gray-700 text-lg mb-8 font-medium max-w-sm">Pick up where you left off, get inspired, or start a brand new page.</p>
-        
+    <div class="bg-cover bg-center border-4 border-gray-900 shadow-[12px_12px_0_0_rgba(17,24,39,1)] rounded-3xl p-12 flex flex-col md:flex-row gap-12 mb-12 relative z-10">
+      <div class="flex-1 flex flex-col justify-center text-left bg-white/80 p-8 rounded-2xl border-2 border-gray-900 shadow-[4px_4px_0_0_rgba(17,24,39,1)]">
+        <h2 class="font-extrabold text-5xl text-gray-900 leading-tight mb-4">Your Cloud Sketchbook.</h2>
         <div class="flex flex-wrap gap-4">
-          <button id="kidsStartBtn" class="picnic-bg font-bold text-lg px-6 py-4 border-4 border-gray-900 rounded-xl shadow-[4px_4px_0_0_rgba(17,24,39,1)] hover:translate-y-1 hover:translate-x-1 hover:shadow-[0px_0px_0_0_rgba(17,24,39,1)] transition-all"><span class="bg-white text-gray-900 px-4 py-2 rounded-lg border-2 border-gray-900">Start a new page</span></button>
-          <button id="kidsContinueBtn" class="picnic-bg font-bold text-lg px-6 py-4 border-4 border-gray-900 rounded-xl shadow-[4px_4px_0_0_rgba(17,24,39,1)] hover:translate-y-1 hover:translate-x-1 hover:shadow-[0px_0px_0_0_rgba(17,24,39,1)] transition-all"><span class="bg-white text-gray-900 px-4 py-2 rounded-lg border-2 border-gray-900">Continue last sketch</span></button>
+          <button id="kidsStartBtn" class="picnic-bg font-bold text-lg px-6 py-4 border-4 border-gray-900 rounded-xl shadow-[4px_4px_0_0_rgba(17,24,39,1)]"><span class="bg-white text-gray-900 px-4 py-2 rounded-lg border-2 border-gray-900">Start a new page</span></button>
         </div>
       </div>
-      
-      <!-- Right Canvas Preview -->
       <div class="flex-1">
-        <div class="bg-white border-4 border-gray-900 rounded-2xl h-80 relative shadow-[6px_6px_0_0_rgba(17,24,39,1)] overflow-hidden flex flex-col">
+        <div class="bg-white border-4 border-gray-900 rounded-2xl h-80 relative overflow-hidden flex flex-col shadow-[6px_6px_0_0_rgba(17,24,39,1)]">
           <div class="flex-1 bg-white bg-contain bg-center bg-no-repeat" id="heroCanvasPreview"></div>
-          <div class="h-12 bg-gray-700 border-t-4 border-gray-900 flex items-center px-4 justify-between">
-            <span class="text-white text-sm font-medium" id="heroCanvasTitle">Untitled sketch • saved page</span>
-            <div class="flex gap-2">
-              <div class="w-3 h-3 rounded-full bg-[#F43F5E]"></div>
-              <div class="w-3 h-3 rounded-full bg-gray-500"></div>
-              <div class="w-3 h-3 rounded-full bg-gray-500"></div>
-            </div>
+          <div class="h-12 bg-gray-700 border-t-4 border-gray-900 flex items-center px-4">
+            <span class="text-white text-sm font-medium" id="heroCanvasTitle">Sign in to sync your profile canvas data folder path</span>
           </div>
         </div>
       </div>
     </div>
-    
-    <!-- Bookmark Decor -->
-    <div class="w-full flex justify-around px-16 -mt-10 z-0 relative pointer-events-none">
-      <div class="pointer-events-auto">
-        <a href="flower.html" title="Go to Flower Game">
-          <svg width="60" height="90" viewBox="0 0 64 96" class="drop-shadow-[4px_4px_0_rgba(17,24,39,1)] hover:translate-y-2 transition-transform cursor-pointer">
-            <path d="M4 4 h56 v88 l-28 -20 l-28 20 z" fill="#a855f7" stroke="#111827" stroke-width="4" stroke-linejoin="round"/>
-          </svg>
-        </a>
-      </div>
-      <div class="pointer-events-auto">
-        <a href="ticktacktow.html" title="Go to Tic Tac Toe">
-          <svg width="60" height="90" viewBox="0 0 64 96" class="drop-shadow-[4px_4px_0_rgba(17,24,39,1)] hover:translate-y-2 transition-transform cursor-pointer">
-            <path d="M4 4 h56 v88 l-28 -20 l-28 20 z" fill="#eab308" stroke="#111827" stroke-width="4" stroke-linejoin="round"/>
-          </svg>
-        </a>
-      </div>
-      <div class="pointer-events-auto">
-        <a href="simonsays.html" title="Go to Simon Says">
-          <svg width="60" height="90" viewBox="0 0 64 96" class="drop-shadow-[4px_4px_0_rgba(17,24,39,1)] hover:translate-y-2 transition-transform cursor-pointer">
-            <path d="M4 4 h56 v88 l-28 -20 l-28 20 z" fill="#22c55e" stroke="#111827" stroke-width="4" stroke-linejoin="round"/>
-          </svg>
-        </a>
-      </div>
-      <div class="pointer-events-auto">
-        <a href="blocks.html" title="Go to Blocks Page">
-          <svg width="60" height="90" viewBox="0 0 64 96" class="drop-shadow-[4px_4px_0_rgba(17,24,39,1)] hover:translate-y-2 transition-transform cursor-pointer">
-            <path d="M4 4 h56 v88 l-28 -20 l-28 20 z" fill="#ef4444" stroke="#111827" stroke-width="4" stroke-linejoin="round"/>
-          </svg>
-        </a>
-      </div>
-      <div class="pointer-events-auto">
-        <a href="oddoneout.html" title="Go to Odd One Out">
-          <svg width="60" height="90" viewBox="0 0 64 96" class="drop-shadow-[4px_4px_0_rgba(17,24,39,1)] hover:translate-y-2 transition-transform cursor-pointer">
-            <path d="M4 4 h56 v88 l-28 -20 l-28 20 z" fill="#3b82f6" stroke="#111827" stroke-width="4" stroke-linejoin="round"/>
-          </svg>
-        </a>
-      </div>
-      <div class="pointer-events-auto">
-        <a href="stars.html" title="Go to Stars Game">
-          <svg width="60" height="90" viewBox="0 0 64 96" class="drop-shadow-[4px_4px_0_rgba(17,24,39,1)] hover:translate-y-2 transition-transform cursor-pointer">
-            <path d="M4 4 h56 v88 l-28 -20 l-28 20 z" fill="#f97316" stroke="#111827" stroke-width="4" stroke-linejoin="round"/>
-          </svg>
-        </a>
-      </div>
-    </div>
-
-  <!-- Kids Setup Dialog -->
-  <div id="kidsSetupDialog" class="fixed inset-0 bg-gray-900/80 z-50 flex items-center justify-center p-8 backdrop-blur-md transition-all duration-300 opacity-0 pointer-events-none">
-    <div class="bg-[#FFFDF0] border-8 border-gray-900 rounded-[2rem] p-10 max-w-4xl w-full shadow-[16px_16px_0_0_rgba(17,24,39,1)] flex flex-col md:flex-row gap-10">
-      
-      <!-- Setup Controls -->
-      <div class="flex-1 flex flex-col gap-6 text-center md:text-left">
-        <div class="flex items-center justify-center md:justify-start gap-4 mb-2">
-           <span class="text-4xl">🎨</span>
-           <h3 class="text-gray-900 text-3xl font-black tracking-wider uppercase">New Painting!</h3>
-        </div>
-        
-        <div class="flex flex-col gap-2">
-          <label class="text-gray-600 text-xs font-bold uppercase tracking-widest">Painting Name</label>
-          <input id="kidsSetupTitle" type="text" value="My Awesome Art" class="bg-white border-4 border-gray-900 text-gray-900 p-4 rounded-xl focus:outline-none focus:ring-4 focus:ring-[#F43F5E]/30 font-bold text-xl shadow-[inset_0_4px_0_rgba(0,0,0,0.1)]">
-        </div>
-        
-        <div class="hidden gap-4">
-          <div class="flex-1 flex flex-col gap-2">
-            <label class="text-gray-600 text-xs font-bold uppercase tracking-widest">Width (px)</label>
-            <input id="kidsSetupWidth" type="number" value="1920" class="bg-white border-4 border-gray-900 text-gray-900 p-4 rounded-xl focus:outline-none focus:ring-4 focus:ring-[#F43F5E]/30 font-bold text-xl shadow-[inset_0_4px_0_rgba(0,0,0,0.1)]">
-          </div>
-          <div class="flex-1 flex flex-col gap-2">
-            <label class="text-gray-600 text-xs font-bold uppercase tracking-widest">Height (px)</label>
-            <input id="kidsSetupHeight" type="number" value="1080" class="bg-white border-4 border-gray-900 text-gray-900 p-4 rounded-xl focus:outline-none focus:ring-4 focus:ring-[#F43F5E]/30 font-bold text-xl shadow-[inset_0_4px_0_rgba(0,0,0,0.1)]">
-          </div>
-        </div>
-        
-        <div class="flex gap-4 mt-4">
-          <button id="kidsSetupCancel" class="py-4 px-6 text-gray-600 hover:text-gray-900 font-black transition-colors uppercase border-4 border-transparent hover:border-gray-900 rounded-xl">Cancel</button>
-          <button id="kidsSetupConfirm" class="flower-bg flex-1 py-4 bg-lime-400 text-gray-900 font-black rounded-xl border-4 border-gray-900 shadow-[8px_8px_0_0_rgba(17,24,39,1)] hover:translate-y-1 hover:translate-x-1 hover:shadow-[0px_0px_0_0_rgba(17,24,39,1)] transition-all text-2xl uppercase tracking-widest">Draw!</button>
-        </div>
-      </div>
-      
-      <!-- Proportion Preview -->
-      <div class="bg-amber-100 border-8 border-gray-900 rounded-3xl flex items-center justify-center p-8 relative overflow-hidden shadow-[inset_0_8px_0_rgba(0,0,0,0.1)]">
-        <p class="absolute top-6 left-6 text-gray-900 text-xs uppercase tracking-widest font-black z-10 bg-white px-4 py-1 rounded-full border-2 border-gray-900 shadow-[2px_2px_0_0_rgba(17,24,39,1)]">Shape Preview</p>
-        <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20">
-           <span class="text-9xl">⭐</span>
-        </div>
-        <div id="kidsSetupPreviewBox" class="bg-white border-4 border-gray-900 shadow-[8px_8px_0_0_rgba(17,24,39,1)] rounded-xl relative z-20 flex items-center justify-center overflow-hidden" style="width: 256px; height: 144px; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
-           <span id="kidsSetupPreviewText" class="text-gray-400 font-black text-xl opacity-50">16:9</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Kids Isolated Canvas Studio -->
-  <div id="kidsCanvasStudio" class="fixed inset-0 bg-lime-100 z-[110] flex flex-col opacity-0 pointer-events-none transition-all duration-500">
-    <!-- Top Bar -->
-    <div class="h-24 border-b-8 border-gray-900 flex justify-between items-center px-8 bg-lime-300 relative z-50 shadow-[0_8px_0_0_rgba(17,24,39,1)]">
-      <div class="flex items-center gap-4">
-        <button id="kidsCanvasClose" class="bg-white text-gray-900 hover:bg-[#F43F5E] hover:text-white border-4 border-gray-900 px-6 py-3 rounded-2xl shadow-[4px_4px_0_0_rgba(17,24,39,1)] font-black text-xl tracking-widest flex items-center gap-3 uppercase transition-colors">
-          <span class="text-3xl">🏠</span> Back to Camp
-        </button>
-        <button id="undoBtn" class="bg-white border-4 border-gray-900 rounded-2xl px-6 py-3 text-xl font-black shadow-[4px_4px_0_0_rgba(17,24,39,1)] hover:-translate-y-1 hover:shadow-[6px_6px_0_0_rgba(17,24,39,1)] active:translate-y-1 active:shadow-none transition-all">↩️ Undo</button>
-        <button id="redoBtn" class="bg-white border-4 border-gray-900 rounded-2xl px-6 py-3 text-xl font-black shadow-[4px_4px_0_0_rgba(17,24,39,1)] hover:-translate-y-1 hover:shadow-[6px_6px_0_0_rgba(17,24,39,1)] active:translate-y-1 active:shadow-none transition-all">↪️ Redo</button>
-      </div>
-      
-      <div class="flex items-center gap-4">
-        <div class="bg-white border-4 border-gray-900 rounded-2xl px-6 py-2 flex items-center gap-4 shadow-[4px_4px_0_0_rgba(17,24,39,1)]">
-          <span class="font-black text-xl">Size:</span>
-          <input type="range" id="widthSlider" min="5" max="100" value="20" class="w-32" style="accent-color: #f43f5e; cursor: pointer;">
-        </div>
-        <h2 id="kidsCanvasTitleDisplay" class="text-gray-900 font-black tracking-widest uppercase text-2xl bg-white px-6 py-2 rounded-2xl border-4 border-gray-900 shadow-[4px_4px_0_0_rgba(17,24,39,1)]">Untitled sketch</h2>
-        <button id="kidsCanvasSaveBtn" class="bg-amber-400 text-gray-900 border-4 border-gray-900 px-6 py-3 rounded-2xl shadow-[4px_4px_0_0_rgba(17,24,39,1)] hover:translate-y-1 hover:translate-x-1 hover:shadow-none transition-all font-black text-lg tracking-widest flex items-center gap-2 uppercase">
-          <span class="text-2xl">💾</span> <span>Save to Device</span>
-        </button>
-      </div>
-    </div>
-    
-    <!-- Canvas Area -->
-    <div class="flex-1 relative overflow-hidden flex items-center justify-center bg-lime-100" id="kidsCanvasStage" style="background-image: radial-gradient(#a3e635 3px, transparent 3px); background-size: 40px 40px;">
-      
-      <!-- Square Canvas Frame -->
-      <div id="canvasFrame" class="absolute top-[5%] left-[5%] right-[5%] bottom-[5%] bg-[#15803d] border-[12px] border-gray-900 rounded-[40px] shadow-[16px_16px_0_0_rgba(17,24,39,1)] flex items-center justify-center p-3" style="background-image: radial-gradient(circle at 100% 150%, #15803d 24%, #16a34a 25%, #16a34a 28%, #15803d 29%, #15803d 36%, #16a34a 36%, #16a34a 40%, transparent 40%, transparent), radial-gradient(circle at 0 150%, #15803d 24%, #16a34a 25%, #16a34a 28%, #15803d 29%, #15803d 36%, #16a34a 36%, #16a34a 40%, transparent 40%, transparent); background-size: 60px 60px;">
-        <div style="position: absolute; top: -30px; left: -30px; font-size: 80px; transform: rotate(-45deg); filter: drop-shadow(4px 4px 0 #111827);">🌿</div>
-        <div style="position: absolute; top: -30px; right: -30px; font-size: 80px; transform: rotate(45deg) scaleX(-1); filter: drop-shadow(4px 4px 0 #111827);">🌿</div>
-        <div style="position: absolute; bottom: -30px; left: -30px; font-size: 80px; transform: rotate(-135deg); filter: drop-shadow(4px 4px 0 #111827);">🌿</div>
-        <div style="position: absolute; bottom: -30px; right: -30px; font-size: 80px; transform: rotate(135deg) scaleX(-1); filter: drop-shadow(4px 4px 0 #111827);">🌿</div>
-        
-        <canvas id="kidsIsolatedCanvas" width="1920" height="1080" class="bg-white border-4 border-gray-900 rounded-2xl" style="width:100%; height:100%; object-fit:contain;"></canvas>
-      </div>
-    
-      <!-- Floating Animals -->
-      <div id="elephant-hand" class="animal kids-clickable-animal" style="top: calc(50% - 160px); left: 30px; font-size: 60px; z-index: 60; cursor: pointer; position: absolute;">🖐️</div>
-      <div class="animal kids-clickable-animal" style="top: 50%; transform: translateY(-50%); left: 10px; z-index: 60; animation-duration: 5s; cursor: pointer; position: absolute;">
-        <svg width="110" height="110" viewBox="0 0 100 100" style="filter: drop-shadow(4px 4px 0 rgba(17,24,39,1));">
-          <circle cx="20" cy="45" r="20" fill="#94a3b8"/>
-          <circle cx="80" cy="45" r="20" fill="#94a3b8"/>
-          <circle cx="20" cy="45" r="12" fill="#f472b6"/>
-          <circle cx="80" cy="45" r="12" fill="#f472b6"/>
-          <circle cx="50" cy="50" r="25" fill="#cbd5e1"/>
-          <circle cx="42" cy="45" r="4" fill="#0f172a"/>
-          <circle cx="58" cy="45" r="4" fill="#0f172a"/>
-          <circle cx="35" cy="52" r="5" fill="#f472b6" opacity="0.6"/>
-          <circle cx="65" cy="52" r="5" fill="#f472b6" opacity="0.6"/>
-          <path d="M43,55 Q40,80 50,85 Q60,80 57,55 Z" fill="#cbd5e1"/>
-          <path d="M43,55 Q40,80 50,85 Q60,80 57,55 Z" fill="none" stroke="#94a3b8" stroke-width="2"/>
-          <line x1="46" y1="65" x2="54" y2="65" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/>
-          <line x1="48" y1="72" x2="52" y2="72" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div class="animal kids-clickable-animal" style="top: 15px; right: 150px; font-size: 60px; z-index: 60; cursor: pointer; position: absolute;">🐯</div>
-      <div style="position: absolute; top: 0%; left: 50%; transform: translateX(-50%); z-index: 60;">
-        <div class="animal animate-bounce kids-clickable-animal" style="font-size: 90px; animation-duration: 3s; position: relative; cursor: pointer;">🦉</div>
-      </div>
-    
-      <!-- Interactive Moving Train -->
-      <div id="movingSnake" class="snake-move" onclick="stopSnake(this)" title="Click me to stop!" style="bottom: 4%; transform-origin: bottom center; display: flex; align-items: center;">
-         <div style="display: flex; align-items: center;">
-           <div style="font-size: 80px; transform: scaleX(-1); animation: chooChoo 0.3s infinite alternate; z-index: 2;">🚂</div>
-           <div style="display: flex; margin-left: -10px;">
-             <span style="font-size: 60px; margin-left: -5px; animation: chooChoo 0.3s infinite alternate; animation-delay: 0.1s;">🚃</span>
-             <span style="font-size: 60px; margin-left: -5px; animation: chooChoo 0.3s infinite alternate; animation-delay: 0.2s;">🚃</span>
-             <span style="font-size: 60px; margin-left: -5px; animation: chooChoo 0.3s infinite alternate; animation-delay: 0.3s;">🚃</span>
-           </div>
-         </div>
-      </div>
-    
-      <!-- Peeking Tools Sidebar -->
-      <div id="toolsSidebar" class="absolute right-0 top-1/2 -translate-y-1/2 flex flex-col gap-3 z-50">
-        <button class="peeking-btn kids-tool-btn bg-amber-200 active flex relative" data-tool="pen">🖍️</button>
-        <button class="peeking-btn kids-tool-btn bg-sky-300 flex relative" data-tool="brush">🖌️</button>
-        <button class="peeking-btn kids-tool-btn bg-pink-300 flex relative" data-tool="eraser">🧽</button>
-        <button class="peeking-btn kids-tool-btn bg-violet-300 flex relative" data-tool="rainbow">🌈</button>
-        <button class="peeking-btn kids-tool-btn bg-teal-300 flex relative" data-tool="wand">🪄</button>
-        <button class="peeking-btn kids-tool-btn bg-rose-300 flex relative" data-tool="stamp"><span class="stamp-icon">⭐</span></button>
-        <button class="peeking-btn kids-tool-btn bg-indigo-300 flex relative" data-tool="color">🎨</button>
-      </div>
-      
-      <!-- Sticker Picker -->
-      <div id="stickerPicker" class="absolute bg-white border-4 border-gray-900 p-2 rounded-2xl shadow-[4px_4px_0_0_rgba(17,24,39,1)] flex-wrap gap-2 w-48 z-[200] right-[110px] top-1/2 -translate-y-1/2" style="display: none;">
-        <button class="sticker-opt text-4xl hover:scale-125 transition-transform" data-sticker="⭐">⭐</button>
-        <button class="sticker-opt text-4xl hover:scale-125 transition-transform" data-sticker="🎈">🎈</button>
-      </div>
-    </div>
-  </div>
 
     <!-- Saved Pages List -->
     <div class="text-left mb-16">
-      <p class="font-bold text-[#F43F5E] mb-4">↳ your saved pages</p>
-      <div id="savedPagesGrid" class="flex gap-6 overflow-x-auto pb-4">
-        <button id="kidsNewPageGridBtn" class="min-w-[140px] h-[140px] border-4 border-dashed border-gray-400 rounded-2xl flex flex-col items-center justify-center text-gray-500 hover:bg-white hover:border-gray-900 hover:text-gray-900 hover:shadow-[4px_4px_0_0_rgba(17,24,39,1)] transition-all bg-transparent">
-          <span class="text-3xl mb-2">+</span>
-          <span class="font-bold text-sm">New page</span>
-        </button>
-      </div>
-    </div>
-    
-    <!-- Openverse Search Mock -->
-    <div class="text-left mb-16">
-      <div class="flex justify-between items-end mb-4">
-        <h3 class="font-extrabold text-2xl text-gray-900">Looking for inspiration?</h3>
-      </div>
-      <div class="flex flex-wrap gap-4">
-        <div class="w-40 h-40 bg-white border-4 border-gray-900 rounded-2xl shadow-[6px_6px_0_0_rgba(17,24,39,1)] overflow-hidden flex flex-col hover:-translate-y-1 transition-transform cursor-pointer">
-          <div class="flex-1 bg-gray-800 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1517849845537-4d257902454a?w=200')"></div>
-          <div class="p-2 text-[10px] text-gray-500 font-bold border-t-4 border-gray-900 bg-white">Doggy</div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Animal Dictionary Bookmark -->
-    <div id="animalBookmark" class="fixed bottom-10 left-10 z-50 glass-panel p-6 rounded-2xl flex items-center gap-4 cursor-pointer hover:translate-y--2 transition-transform shadow-amber-900/20 shadow-2xl">
-      <span class="material-symbols-outlined text-amber-500 text-[40px]" data-weight="fill">menu_book</span>
-      <div>
-        <p class="font-label-caps text-label-caps opacity-60">My collection</p>
-        <p class="font-title-lg text-title-lg">Animal Dictionary</p>
-      </div>
-    </div>
-
-    <!-- Grass Field Footer -->
-    <div id="grassScrollArea" class="relative w-full shrink-0 z-[40] mt-20" style="min-height: 250px;">
-      <div id="flowerBed" class="absolute bottom-[180px] w-full h-[600px] pointer-events-none z-10 flex justify-around items-end px-4 md:px-20"></div>
-      <div class="absolute bottom-0 w-full h-full z-20 flex flex-col pt-[100px] pointer-events-none">
-         <div class="flex-grow flex flex-col justify-end pointer-events-auto">
-             <div class="w-full h-12 bg-green-500 border-t-8 border-green-700 relative shadow-[0_-8px_20px_rgba(0,0,0,0.15)]"></div>
-             <div class="w-full bg-[#8B4513] border-t-4 border-[#5C2E0B] relative overflow-hidden flex flex-col justify-end min-h-[140px]">
-                <div class="relative z-30 w-full flex flex-col md:flex-row justify-between items-center px-10 py-6 border-t-2 border-[#5C2E0B] mt-12 bg-[#6b330d]">
-                    <p class="font-bold text-amber-100/80 mb-4 md:mb-0 text-sm">© 2026 WoodleDoo. All rights reserved.</p>
-                </div>
-             </div>
-         </div>
-      </div>
+      <p class="font-bold text-[#F43F5E] mb-4">↳ synced cloud paintings</p>
+      <div id="savedPagesGrid" class="flex gap-6 overflow-x-auto pb-4"></div>
     </div>
   </div>
 </section>
 
-<!-- Dictionary Modal -->
-<div id="animalDictModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:9999; align-items:center; justify-content:center;">
-  <div style="background:white; padding:2rem; border-radius:1rem; text-align:center;">
-     <h2 class="text-2xl font-bold mb-4">Animal Dictionary</h2>
-     <button id="closeDictBtn" class="bg-slate-900 text-white px-6 py-2 rounded-full">Close</button>
+<!-- Kids Isolated Canvas Studio -->
+<div id="kidsCanvasStudio" class="fixed inset-0 bg-lime-100 z-[110] flex flex-col opacity-0 pointer-events-none transition-all duration-500">
+  <div class="h-24 border-b-8 border-gray-900 flex justify-between items-center px-8 bg-lime-300 relative z-50">
+    <button id="kidsCanvasClose" class="bg-white border-4 border-gray-900 px-6 py-3 rounded-2xl font-black text-xl">🏠 Exit</button>
+    <div class="flex items-center gap-4">
+      <div class="bg-white border-4 border-gray-900 rounded-2xl px-6 py-2 flex items-center gap-4">
+        <input type="range" id="widthSlider" min="5" max="100" value="20">
+      </div>
+      <h2 id="kidsCanvasTitleDisplay" class="text-gray-900 font-black px-6 py-2 rounded-2xl border-4 border-gray-900">Art Canvas</h2>
+      <button id="kidsCanvasSaveBtn" class="bg-amber-400 text-gray-900 border-4 border-gray-900 px-6 py-3 rounded-2xl font-black text-lg tracking-widest flex items-center gap-2 uppercase">
+        <span class="text-2xl">☁️</span> <span>Save to Cloud</span>
+      </button>
+    </div>
+  </div>
+  <div class="flex-1 relative flex items-center justify-center bg-lime-100" id="kidsCanvasStage">
+    <div id="canvasFrame" class="absolute inset-[10%] bg-[#15803d] border-[12px] border-gray-900 rounded-[40px] p-3">
+      <canvas id="kidsIsolatedCanvas" class="bg-white border-4 border-gray-900 rounded-2xl" style="width:100%; height:100%; object-fit:contain;"></canvas>
+    </div>
+    <div id="toolsSidebar" class="absolute right-0 top-1/2 -translate-y-1/2 flex flex-col gap-3 z-50">
+      <button class="peeking-btn kids-tool-btn bg-amber-200 active flex relative" data-tool="pen">🖍️</button>
+      <button class="peeking-btn kids-tool-btn bg-sky-300 flex relative" data-tool="brush">🖌️</button>
+      <button class="peeking-btn kids-tool-btn bg-pink-300 flex relative" data-tool="eraser">🧽</button>
+      <button class="peeking-btn kids-tool-btn bg-violet-300 flex relative" data-tool="rainbow">🌈</button>
+    </div>
   </div>
 </div>
 
-<!-- Core Engine Scripts -->
-<script>
-  (function initIsolatedCanvasEngines() {
-      var startBtn = document.getElementById('kidsStartBtn');
-      var setupDialog = document.getElementById('kidsSetupDialog');
-      var cancelBtn = document.getElementById('kidsSetupCancel');
-      var confirmBtn = document.getElementById('kidsSetupConfirm');
-      
-      var canvasStudio = document.getElementById('kidsCanvasStudio');
-      var canvasClose = document.getElementById('kidsCanvasClose');
-      var canvasTitleDisplay = document.getElementById('kidsCanvasTitleDisplay');
-      var isolatedCanvas = document.getElementById('kidsIsolatedCanvas');
-      var toolBtns = document.querySelectorAll('.kids-tool-btn');
-      var widthSlider = document.getElementById('widthSlider');
-      
-      var ctx = isolatedCanvas.getContext('2d', { willReadFrequently: true });
-      var isDrawing = false;
-      var lastX = 0, lastY = 0;
-      var currentMode = 'pen';
-      var currentColor = '#111827';
-      var undoStack = [];
-      var redoStack = [];
-      
-      function saveState() {
-        undoStack.push(ctx.getImageData(0, 0, isolatedCanvas.width, isolatedCanvas.height));
-        redoStack = [];
-      }
+<!-- Kids Setup Dialog -->
+<div id="kidsSetupDialog" class="fixed inset-0 bg-gray-900/80 z-50 flex items-center justify-center p-8 opacity-0 pointer-events-none transition-all duration-300">
+  <div class="bg-[#FFFDF0] border-8 border-gray-900 rounded-[2rem] p-10 max-w-md w-full shadow-[16px_16px_0_0_rgba(17,24,39,1)]">
+    <h3 class="text-gray-900 text-3xl font-black mb-4">NEW ART PIECE</h3>
+    <input id="kidsSetupTitle" type="text" value="My Cloud Painting" class="w-full bg-white border-4 border-gray-900 text-gray-900 p-4 rounded-xl font-bold text-xl mb-6">
+    <div class="flex gap-4">
+      <button id="kidsSetupCancel" class="py-4 px-6 text-gray-600 font-black border-4 border-transparent hover:border-gray-900 rounded-xl">Cancel</button>
+      <button id="kidsSetupConfirm" class="flex-1 py-4 bg-lime-400 text-gray-900 font-black rounded-xl border-4 border-gray-900 text-xl uppercase">Create</button>
+    </div>
+  </div>
+</div>
 
-      if(startBtn) {
-        startBtn.addEventListener('click', function() {
-          setupDialog.classList.remove('opacity-0', 'pointer-events-none');
-          setupDialog.classList.add('opacity-100');
-        });
-      }
-      
-      if(cancelBtn) {
-        cancelBtn.addEventListener('click', function() {
-          setupDialog.classList.remove('opacity-100');
-          setupDialog.classList.add('opacity-0', 'pointer-events-none');
-        });
-      }
-      
-      if(confirmBtn) {
-        confirmBtn.addEventListener('click', function() {
-          setupDialog.classList.remove('opacity-100');
-          setupDialog.classList.add('opacity-0', 'pointer-events-none');
-          canvasStudio.classList.remove('opacity-0', 'pointer-events-none');
-          canvasStudio.classList.add('opacity-100');
-          
-          var frame = document.getElementById('canvasFrame');
-          var rect = frame.getBoundingClientRect();
-          isolatedCanvas.width = Math.max(800, rect.width - 24);
-          isolatedCanvas.height = Math.max(600, rect.height - 24);
-          
-          ctx.fillStyle = '#FFFFFF';
-          ctx.fillRect(0, 0, isolatedCanvas.width, isolatedCanvas.height);
-          canvasTitleDisplay.textContent = document.getElementById('kidsSetupTitle').value || 'My Awesome Art';
-          saveState();
-        });
-      }
+<!-- Firebase Modular Script Ecosystem Configuration Integration Block -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getStorage, ref, uploadString, getDownloadURL, listAll } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
-      if(canvasClose) {
-        canvasClose.addEventListener('click', function() {
-          canvasStudio.classList.remove('opacity-100');
-          canvasStudio.classList.add('opacity-0', 'pointer-events-none');
-        });
-      }
+  const firebaseConfig = {
+      apiKey: "AIzaSyC9PwmfDi8BxFXi6Rb_n5_H_x83iIXJeP8",
+      authDomain: "woodledoo-auth.firebaseapp.com",
+      projectId: "woodledoo-auth",
+      storageBucket: "woodledoo-auth.firebasestorage.app",
+      messagingSenderId: "551323879293",
+      appId: "1:551323879293:web:6477f4310262a27238ee14",
+      measurementId: "G-VLJ5EVD50B"
+  };
 
-      toolBtns.forEach(function(btn) {
-        btn.addEventListener('click', function() {
-          currentMode = btn.getAttribute('data-tool');
-          toolBtns.forEach(b => b.classList.remove('active', 'ring-4', 'ring-gray-900'));
-          btn.classList.add('active', 'ring-4', 'ring-gray-900');
-        });
-      });
-
-      function getToolWidth() {
-        const w = parseInt(widthSlider.value);
-        if (currentMode === 'pen') return w * 0.4;
-        if (currentMode === 'brush') return w * 1.5;
-        if (currentMode === 'eraser') return w * 3;
-        return w;
-      }
-
-      function getPos(e) {
-        var rect = isolatedCanvas.getBoundingClientRect();
-        var clientX = e.clientX || (e.touches && e.touches[0].clientX);
-        var clientY = e.clientY || (e.touches && e.touches[0].clientY);
-        return {
-          x: (clientX - rect.left) * (isolatedCanvas.width / rect.width),
-          y: (clientY - rect.top) * (isolatedCanvas.height / rect.height)
-        };
-      }
-
-      isolatedCanvas.addEventListener('mousedown', function(e) {
-        isDrawing = true;
-        var pos = getPos(e);
-        lastX = pos.x; lastY = pos.y;
-        ctx.beginPath();
-        ctx.moveTo(lastX, lastY);
-      });
-
-      isolatedCanvas.addEventListener('mousemove', function(e) {
-        if(!isDrawing) return;
-        var pos = getPos(e);
-        ctx.lineCap = 'round';
-        ctx.lineJoin = 'round';
-        ctx.lineWidth = getToolWidth();
-        ctx.strokeStyle = currentMode === 'eraser' ? '#FFFFFF' : currentColor;
-        
-        if(currentMode === 'rainbow') {
-            ctx.strokeStyle = `hsl(${Date.now() % 360}, 100%, 50%)`;
-        }
-        
-        ctx.lineTo(pos.x, pos.y);
-        ctx.stroke();
-        lastX = pos.x; lastY = pos.y;
-      });
-
-      window.addEventListener('mouseup', function() {
-        if(isDrawing) {
-          isDrawing = false;
-          ctx.closePath();
-          saveState();
-        }
-      });
-
-      // ================= CRITICAL EFFECTIVE FIX: NATIVE FILE MANAGER SAVE FUNCTION =================
-      var saveBtn = document.getElementById('kidsCanvasSaveBtn');
-      if(saveBtn) {
-        saveBtn.addEventListener('click', async function() {
-          try {
-            // 1. Invoke system browser file manager to pick custom export target directory
-            const rootDirectoryHandle = await window.showDirectoryPicker();
-            
-            // 2. Silently create or verify folder with target name 'woodle doo'
-            const woodledooFolder = await rootDirectoryHandle.getDirectoryHandle('woodle doo', { create: true });
-            
-            // 3. Process image data stream from canvas source
-            const imageBlob = await new Promise(resolve => isolatedCanvas.toBlob(resolve, 'image/png'));
-            
-            // 4. Generate dynamic image descriptor filename inside target folder
-            const filename = 'canvas-' + Date.now() + '.png';
-            const fileHandle = await woodledooFolder.getFileHandle(filename, { create: true });
-            
-            // 5. Open stream pipe and execute local write operations
-            const stream = await fileHandle.createWritable();
-            await stream.write(imageBlob);
-            await stream.close();
-            
-            // Visual success indicator
-            var originalContent = saveBtn.innerHTML;
-            saveBtn.innerHTML = '<span>✅ Folder Created & Saved!</span>';
-            setTimeout(() => { saveBtn.innerHTML = originalContent; }, 1500);
-
-          } catch (error) {
-            console.warn("Local storage pipeline writing process rejected or denied:", error);
-            alert("Save path cancelled or missing permission. Please confirm directory access window prompts.");
-          }
-        });
-      }
-  })();
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const storage = getStorage(app);
   
-  function stopSnake(el) {
-    el.classList.add('stopped');
-    setTimeout(() => el.classList.remove('stopped'), 500);
+  let currentUser = null;
+
+  // Track the logged in user state automatically across pages
+  onAuthStateChanged(auth, (user) => {
+    const userNameDisplay = document.getElementById('userNameDisplay');
+    const userHeaderPicture = document.getElementById('userHeaderPicture');
+    const accountBtn = document.getElementById('accountBtn');
+    const heroCanvasTitle = document.getElementById('heroCanvasTitle');
+
+    if (user) {
+      currentUser = user;
+      if(userNameDisplay) { userNameDisplay.innerText = `Hi, ${user.displayName}!`; userNameDisplay.classList.remove('hidden'); }
+      if(userHeaderPicture) { userHeaderPicture.src = user.photoURL; userHeaderPicture.classList.remove('hidden'); }
+      if(accountBtn) accountBtn.classList.add('text-green-500');
+      if(heroCanvasTitle) heroCanvasTitle.textContent = "Synced Dashboard Online";
+      
+      // Load user cloud canvas list images
+      loadUserCloudGallery();
+    } else {
+      currentUser = null;
+      if(userNameDisplay) userNameDisplay.classList.add('hidden');
+      if(userHeaderPicture) userHeaderPicture.classList.add('hidden');
+      if(accountBtn) accountBtn.classList.remove('text-green-500');
+    }
+  });
+
+  // Load sketches saved inside Firebase Storage for this account profile
+  async function loadUserCloudGallery() {
+    if (!currentUser) return;
+    const grid = document.getElementById('savedPagesGrid');
+    if (!grid) return;
+    grid.innerHTML = '';
+
+    const listRef = ref(storage, `users/${currentUser.uid}/`);
+    try {
+      const res = await listAll(listRef);
+      res.items.forEach(async (itemRef) => {
+        const url = await getDownloadURL(itemRef);
+        const card = document.createElement('div');
+        card.className = 'min-w-[140px] h-[140px] bg-white border-4 border-gray-900 rounded-2xl flex flex-col overflow-hidden shadow-[4px_4px_0_0_rgba(17,24,39,1)]';
+        card.innerHTML = `
+          <div class="flex-1 bg-white bg-contain bg-center bg-no-repeat" style="background-image: url('${url}')"></div>
+          <div class="bg-gray-700 border-t-4 border-gray-900 text-white text-[10px] font-bold p-1 text-center truncate">Cloud Save</div>
+        `;
+        grid.appendChild(card);
+      });
+    } catch (err) {
+      console.error("Error downloading cloud image lists: ", err);
+    }
   }
+
+  // Hook save processing button directly up into Cloud Storage Engine API pipes
+  const cloudSaveBtn = document.getElementById('kidsCanvasSaveBtn');
+  const isolatedCanvas = document.getElementById('kidsIsolatedCanvas');
+
+  if(cloudSaveBtn) {
+    cloudSaveBtn.addEventListener('click', async function() {
+      if(!currentUser) {
+        alert("Please sign in with your Google account first to enable saving options!");
+        return;
+      }
+
+      var originalContent = cloudSaveBtn.innerHTML;
+      cloudSaveBtn.innerHTML = '<span>Uploading...</span>';
+      cloudSaveBtn.disabled = true;
+
+      try {
+        // Capture canvas base64 image data string output
+        const dataURL = isolatedCanvas.toDataURL('image/png');
+        
+        // Define clean cloud unique filename directory reference target 
+        const storageRef = ref(storage, `users/${currentUser.uid}/canvas-${Date.now()}.png`);
+        
+        // Upload file securely inside the cloud database bucket structure string pipeline
+        await uploadString(storageRef, dataURL, 'data_url');
+
+        // Reset visual state indicators on complete resolution pipelines successfully
+        cloudSaveBtn.innerHTML = '<span>☁️ Saved to Cloud!</span>';
+        setTimeout(() => {
+          cloudSaveBtn.innerHTML = originalContent;
+          cloudSaveBtn.disabled = false;
+          document.getElementById('kidsCanvasStudio').classList.add('opacity-0', 'pointer-events-none');
+          loadUserCloudGallery();
+        }, 1200);
+
+      } catch (error) {
+        console.error("Cloud storage operational failure pipeline:", error);
+        alert("Upload rejected: " + error.message);
+        cloudSaveBtn.innerHTML = originalContent;
+        cloudSaveBtn.disabled = false;
+      }
+    });
+  }
+</script>
+
+<!-- Interface Engine Operations Layout Interactions -->
+<script>
+  (function initLayoutGears() {
+    var startBtn = document.getElementById('kidsStartBtn');
+    var setupDialog = document.getElementById('kidsSetupDialog');
+    var cancelBtn = document.getElementById('kidsSetupCancel');
+    var confirmBtn = document.getElementById('kidsSetupConfirm');
+    var canvasStudio = document.getElementById('kidsCanvasStudio');
+    var canvasClose = document.getElementById('kidsCanvasClose');
+    var canvasTitleDisplay = document.getElementById('kidsCanvasTitleDisplay');
+    var isolatedCanvas = document.getElementById('kidsIsolatedCanvas');
+    var toolBtns = document.querySelectorAll('.kids-tool-btn');
+    var widthSlider = document.getElementById('widthSlider');
+    
+    var ctx = isolatedCanvas.getContext('2d');
+    var isDrawing = false;
+    var lastX = 0, lastY = 0;
+    var currentMode = 'pen';
+
+    if(startBtn) startBtn.addEventListener('click', () => setupDialog.classList.replace('opacity-0', 'opacity-100'), setupDialog.classList.remove('pointer-events-none'));
+    if(cancelBtn) cancelBtn.addEventListener('click', () => setupDialog.classList.replace('opacity-100', 'opacity-0'), setupDialog.classList.add('pointer-events-none'));
+    
+    if(confirmBtn) {
+      confirmBtn.addEventListener('click', function() {
+        setupDialog.classList.replace('opacity-100', 'opacity-0');
+        setupDialog.classList.add('pointer-events-none');
+        canvasStudio.classList.replace('opacity-0', 'opacity-100');
+        canvasStudio.classList.remove('pointer-events-none');
+        
+        var frame = document.getElementById('canvasFrame');
+        var rect = frame.getBoundingClientRect();
+        isolatedCanvas.width = rect.width - 24;
+        isolatedCanvas.height = rect.height - 24;
+        
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(0, 0, isolatedCanvas.width, isolatedCanvas.height);
+        canvasTitleDisplay.textContent = document.getElementById('kidsSetupTitle').value || 'My Cloud Painting';
+      });
+    }
+
+    if(canvasClose) canvasClose.addEventListener('click', () => canvasStudio.classList.replace('opacity-100', 'opacity-0'), canvasStudio.classList.add('pointer-events-none'));
+
+    toolBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        currentMode = btn.getAttribute('data-tool');
+        toolBtns.forEach(b => b.classList.remove('ring-4', 'ring-gray-900'));
+        btn.classList.add('ring-4', 'ring-gray-900');
+      });
+    });
+
+    function getPos(e) {
+      var rect = isolatedCanvas.getBoundingClientRect();
+      return {
+        x: (e.clientX - rect.left) * (isolatedCanvas.width / rect.width),
+        y: (e.clientY - rect.top) * (isolatedCanvas.height / rect.height)
+      };
+    }
+
+    isolatedCanvas.addEventListener('mousedown', (e) => { isDrawing = true; var pos = getPos(e); lastX = pos.x; lastY = pos.y; ctx.beginPath(); ctx.moveTo(lastX, lastY); });
+    isolatedCanvas.addEventListener('mousemove', (e) => {
+      if(!isDrawing) return;
+      var pos = getPos(e);
+      ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      ctx.lineWidth = widthSlider.value * (currentMode === 'eraser' ? 2.5 : 0.5);
+      ctx.strokeStyle = currentMode === 'eraser' ? '#FFFFFF' : '#111827';
+      if(currentMode === 'rainbow') ctx.strokeStyle = `hsl(${Date.now() % 360}, 100%, 50%)`;
+      ctx.lineTo(pos.x, pos.y); ctx.stroke();
+      lastX = pos.x; lastY = pos.y;
+    });
+    window.addEventListener('mouseup', () => { if(isDrawing) { isDrawing = false; ctx.closePath(); } });
+  })();
 </script>
 </body>
 </html>
