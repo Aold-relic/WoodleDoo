@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Sketchline | Blocks Room</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=Hanken+Grotesk:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+    <style>
+        body {
+            background: linear-gradient(180deg, #0ea5e9 0%, #1e3a8a 100%);
+            font-family: 'Hanken Grotesk', sans-serif;
+            position: relative;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'EB Garamond', serif;
+        }
+        /* Aquarium Bubbles */
+        .bubble {
+            position: absolute;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(255,255,255,0.1));
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.3);
+            animation: floatUp 8s infinite ease-in;
+            opacity: 0;
+            pointer-events: none;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+            20% { opacity: 0.6; }
+            80% { opacity: 0.6; transform: translateY(20vh) scale(1.2) translateX(20px); }
+            100% { transform: translateY(-10vh) scale(1.5) translateX(-20px); opacity: 0; }
+        }
+    </style>
+</head>
+<body class="text-gray-900 overflow-x-hidden min-h-screen p-12">
+    <!-- Aquarium Background Decor -->
+    <div class="fixed inset-0 pointer-events-none z-[-1] overflow-hidden">
+        <div class="bubble" style="left: 10%; width: 40px; height: 40px; animation-duration: 6s; animation-delay: 0s;"></div>
+        <div class="bubble" style="left: 30%; width: 20px; height: 20px; animation-duration: 9s; animation-delay: 2s;"></div>
+        <div class="bubble" style="left: 60%; width: 50px; height: 50px; animation-duration: 7s; animation-delay: 1s;"></div>
+        <div class="bubble" style="left: 80%; width: 30px; height: 30px; animation-duration: 10s; animation-delay: 3s;"></div>
+        <div class="bubble" style="left: 45%; width: 25px; height: 25px; animation-duration: 8s; animation-delay: 4s;"></div>
+        
+        <!-- Fish/Seaweed -->
+        <div class="absolute bottom-10 left-10 text-6xl opacity-80" style="animation: floatUp 15s infinite ease-in-out alternate;">🌿</div>
+        <div class="absolute bottom-20 right-10 text-7xl opacity-80" style="animation: floatUp 12s infinite ease-in-out alternate-reverse;">🌿</div>
+        <div class="absolute top-32 left-20 text-5xl opacity-80" style="animation: floatUp 20s infinite ease-in-out">🐠</div>
+        <div class="absolute top-1/2 right-32 text-6xl opacity-80 transform -scale-x-100" style="animation: floatUp 25s infinite ease-in-out reverse;">🐡</div>
+    </div>
+    
+    <a href="index.html" class="inline-flex items-center gap-2 mb-12 font-bold text-gray-600 hover:text-[#F43F5E] transition-colors uppercase tracking-widest text-sm border-2 border-transparent hover:border-gray-900 bg-white/50 px-4 py-2 rounded-full shadow-sm hover:shadow-[2px_2px_0_0_rgba(17,24,39,1)]">
+        &larr; Back to Sketchline
+    </a>
+    
+    <div class="max-w-5xl mx-auto flex flex-col h-[70vh] relative mt-8 select-none z-10">
+        <!-- Ocean / Slots Area -->
+        <div class="flex-1 rounded-t-3xl border-4 border-b-0 border-blue-900 bg-blue-500/30 p-8 shadow-[12px_0_0_0_rgba(17,24,39,1)] relative overflow-hidden flex justify-center items-center gap-12 backdrop-blur-sm" id="slotContainer">
+            <div class="absolute top-4 left-4 text-white font-black text-2xl uppercase tracking-widest opacity-80 drop-shadow-[2px_2px_0_rgba(17,24,39,1)]">Match the Shapes!</div>
+            
+            <!-- Slots (Dashed Outlines) -->
+            <div class="w-40 h-40 slot drop-zone" data-shape="square">
+                <svg width="100%" height="100%" viewBox="0 0 100 100">
+                    <rect x="10" y="10" width="80" height="80" rx="12" fill="transparent" stroke="#ffffff" stroke-width="4" stroke-dasharray="8 8" opacity="0.6"/>
+                </svg>
+            </div>
+            <div class="w-40 h-40 slot drop-zone" data-shape="circle">
+                <svg width="100%" height="100%" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="40" fill="transparent" stroke="#ffffff" stroke-width="4" stroke-dasharray="8 8" opacity="0.6"/>
+                </svg>
+            </div>
+            <div class="w-40 h-40 slot drop-zone" data-shape="triangle">
+                <svg width="100%" height="100%" viewBox="0 0 100 100">
+                    <path d="M50 10 L90 85 L10 85 Z" fill="transparent" stroke="#ffffff" stroke-width="4" stroke-linejoin="round" stroke-dasharray="8 8" opacity="0.6"/>
+                </svg>
+            </div>
+            <div class="w-40 h-40 slot drop-zone" data-shape="rectangle">
+                <svg width="100%" height="100%" viewBox="0 0 100 100">
+                    <rect x="5" y="25" width="90" height="50" rx="8" fill="transparent" stroke="#ffffff" stroke-width="4" stroke-dasharray="8 8" opacity="0.6"/>
+                </svg>
+            </div>
+        </div>
+        
+        <!-- Sand / Platform Area -->
+        <div class="h-48 rounded-b-3xl border-4 border-gray-900 bg-amber-200 p-8 shadow-[12px_12px_0_0_rgba(17,24,39,1)] relative z-10 flex justify-center items-end gap-16" id="platformContainer">
+            <!-- Sand detail -->
+            <div class="absolute top-0 left-0 w-full h-4 bg-amber-300 border-b-4 border-gray-900"></div>
+            
+            <!-- Seashell decor -->
+            <div class="absolute bottom-4 left-10 text-4xl opacity-80 pointer-events-none drop-shadow-md">🐚</div>
+            <div id="resetCrab" class="absolute bottom-8 right-12 text-5xl opacity-80 drop-shadow-md cursor-pointer hover:-translate-y-2 hover:scale-110 transition-all z-50 select-none" title="Reset Game!">🦀</div>
+            
+            <!-- Draggable Shapes -->
+            <div class="w-40 h-40 draggable cursor-grab active:cursor-grabbing hover:-translate-y-2 transition-transform drop-shadow-[4px_4px_0_rgba(17,24,39,1)] z-50 touch-none" data-shape="square" style="transform: translate(0px, 0px);">
+                <svg width="100%" height="100%" viewBox="0 0 100 100">
+                    <rect x="10" y="10" width="80" height="80" rx="12" fill="#ef4444" stroke="#111827" stroke-width="4" />
+                </svg>
+            </div>
+            <div class="w-40 h-40 draggable cursor-grab active:cursor-grabbing hover:-translate-y-2 transition-transform drop-shadow-[4px_4px_0_rgba(17,24,39,1)] z-50 touch-none" data-shape="circle" style="transform: translate(0px, 0px);">
+                <svg width="100%" height="100%" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="40" fill="#3b82f6" stroke="#111827" stroke-width="4" />
+                </svg>
+            </div>
+            <div class="w-40 h-40 draggable cursor-grab active:cursor-grabbing hover:-translate-y-2 transition-transform drop-shadow-[4px_4px_0_rgba(17,24,39,1)] z-50 touch-none" data-shape="triangle" style="transform: translate(0px, 0px);">
+                <svg width="100%" height="100%" viewBox="0 0 100 100">
+                    <path d="M50 10 L90 85 L10 85 Z" fill="#eab308" stroke="#111827" stroke-width="4" stroke-linejoin="round" />
+                </svg>
+            </div>
+            <div class="w-40 h-40 draggable cursor-grab active:cursor-grabbing hover:-translate-y-2 transition-transform drop-shadow-[4px_4px_0_rgba(17,24,39,1)] z-50 touch-none" data-shape="rectangle" style="transform: translate(0px, 0px);">
+                <svg width="100%" height="100%" viewBox="0 0 100 100">
+                    <rect x="5" y="25" width="90" height="50" rx="8" fill="#10b981" stroke="#111827" stroke-width="4" />
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const draggables = document.querySelectorAll('.draggable');
+        const dropZones = document.querySelectorAll('.drop-zone');
+        let activeDrag = null;
+        let startX = 0, startY = 0;
+        let initialX = 0, initialY = 0;
+        let matchedCount = 0;
+
+        // Sound effect function (Mario-style Chimes)
+        function playPopSound() {
+            var AudioContext = window.AudioContext || window.webkitAudioContext;
+            if (!AudioContext) return;
+            var ctx = new AudioContext();
+            
+            // Magic Chimes (Mario-style!)
+            var freqs = [523.25, 659.25, 783.99, 1046.50];
+            freqs.forEach((freq, index) => {
+                var osc = ctx.createOscillator();
+                var gain = ctx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.value = freq;
+                var startTime = ctx.currentTime + (index * 0.05);
+                gain.gain.setValueAtTime(0, startTime);
+                gain.gain.linearRampToValueAtTime(0.1, startTime + 0.1);
+                gain.gain.exponentialRampToValueAtTime(0.01, startTime + 1.0);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(startTime);
+                osc.stop(startTime + 1.0);
+            });
+        }
+
+        // Win Confetti
+        function shootConfetti(side) {
+            var rect = document.getElementById('slotContainer').getBoundingClientRect();
+            for (let i = 0; i < 150; i++) {
+                let conf = document.createElement('div');
+                conf.textContent = ['🎉', '✨', '🎈', '🎊', '💖', '⭐'][Math.floor(Math.random() * 6)];
+                conf.className = 'fixed z-[9999] pointer-events-none text-4xl';
+                if (side === 'left') {
+                    conf.style.left = (rect.left + 50) + 'px';
+                    conf.style.bottom = (window.innerHeight - rect.bottom + 50) + 'px';
+                } else {
+                    conf.style.right = (window.innerWidth - rect.right + 50) + 'px';
+                    conf.style.bottom = (window.innerHeight - rect.bottom + 50) + 'px';
+                }
+                document.body.appendChild(conf);
+                
+                let tx = (side === 'left' ? 1 : -1) * (Math.random() * Math.min(window.innerWidth - 100, 1000) + 100);
+                let ty = -(Math.random() * (window.innerHeight - 100) + 200);
+                let rot = Math.random() * 1080 - 540;
+                
+                conf.style.transition = 'transform 800ms cubic-bezier(0.25, 1, 0.5, 1)';
+                
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        conf.style.transform = `translate(${tx}px, ${ty}px) rotate(${rot}deg)`;
+                    });
+                });
+                
+                setTimeout(() => {
+                    conf.style.transition = 'transform 1200ms ease-in, opacity 1200ms ease-in';
+                    let fallTy = window.innerHeight;
+                    let fallTx = tx + ((side === 'left' ? 1 : -1) * (Math.random() * 200));
+                    conf.style.transform = `translate(${fallTx}px, ${fallTy}px) rotate(${rot + 360}deg)`;
+                    conf.style.opacity = '0';
+                }, 800);
+                
+                setTimeout(() => conf.remove(), 2000);
+            }
+        }
+
+        // Drag mechanics
+        draggables.forEach(draggable => {
+            draggable.addEventListener('mousedown', dragStart);
+            draggable.addEventListener('touchstart', dragStart, {passive: false});
+        });
+
+        // Crab Reset Button
+        document.getElementById('resetCrab').addEventListener('click', () => {
+            matchedCount = 0;
+            
+            // Little jump animation for the crab
+            const crab = document.getElementById('resetCrab');
+            crab.style.transform = 'translateY(-20px) scale(1.2)';
+            setTimeout(() => crab.style.transform = '', 200);
+            
+            // Pop sound (just the first 0.1s pop, simplified)
+            var AudioContext = window.AudioContext || window.webkitAudioContext;
+            if (AudioContext) {
+                var ctx = new AudioContext();
+                var popOsc = ctx.createOscillator();
+                var popGain = ctx.createGain();
+                popOsc.type = 'sine';
+                popOsc.frequency.setValueAtTime(800, ctx.currentTime);
+                popOsc.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + 0.1);
+                popGain.gain.setValueAtTime(1, ctx.currentTime);
+                popGain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+                popOsc.connect(popGain);
+                popGain.connect(ctx.destination);
+                popOsc.start();
+                popOsc.stop(ctx.currentTime + 0.1);
+            }
+            
+            // Reset Draggables
+            draggables.forEach(draggable => {
+                draggable.dataset.matched = 'false';
+                draggable.style.transition = 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                draggable.style.transform = `translate(0px, 0px) scale(1) rotate(0deg)`;
+                draggable.classList.add('hover:-translate-y-2', 'cursor-grab');
+                draggable.classList.remove('active:cursor-grabbing');
+            });
+            
+            // Reset Drop Zones
+            dropZones.forEach(zone => {
+                zone.querySelector('svg *').setAttribute('stroke-dasharray', '8 8');
+                zone.querySelector('svg *').setAttribute('stroke', '#ffffff');
+            });
+        });
+
+        function dragStart(e) {
+            if (e.target.closest('.draggable').dataset.matched === 'true') return;
+            activeDrag = e.target.closest('.draggable');
+            if (e.type === 'touchstart') {
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+            } else {
+                startX = e.clientX;
+                startY = e.clientY;
+            }
+            
+            // Get current transform
+            const style = window.getComputedStyle(activeDrag);
+            const matrix = new DOMMatrixReadOnly(style.transform);
+            initialX = matrix.m41;
+            initialY = matrix.m42;
+            
+            activeDrag.style.transition = 'none';
+            activeDrag.classList.add('z-[100]');
+            activeDrag.classList.remove('z-50', 'hover:-translate-y-2');
+            
+            window.addEventListener('mousemove', drag);
+            window.addEventListener('touchmove', drag, {passive: false});
+            window.addEventListener('mouseup', dragEnd);
+            window.addEventListener('touchend', dragEnd);
+        }
+
+        function drag(e) {
+            if (!activeDrag) return;
+            e.preventDefault();
+            
+            let currentX, currentY;
+            if (e.type === 'touchmove') {
+                currentX = e.touches[0].clientX;
+                currentY = e.touches[0].clientY;
+            } else {
+                currentX = e.clientX;
+                currentY = e.clientY;
+            }
+            
+            const dx = currentX - startX;
+            const dy = currentY - startY;
+            
+            activeDrag.style.transform = `translate(${initialX + dx}px, ${initialY + dy}px) scale(1.1) rotate(5deg)`;
+        }
+
+        function dragEnd(e) {
+            if (!activeDrag) return;
+            
+            // Collision detection
+            const dragRect = activeDrag.getBoundingClientRect();
+            let matched = false;
+            
+            dropZones.forEach(zone => {
+                const zoneRect = zone.getBoundingClientRect();
+                const shapeType = activeDrag.dataset.shape;
+                const zoneType = zone.dataset.shape;
+                
+                // Simple AABB collision (center of draggable inside zone)
+                const dragCenterX = dragRect.left + dragRect.width / 2;
+                const dragCenterY = dragRect.top + dragRect.height / 2;
+                
+                if (dragCenterX > zoneRect.left && dragCenterX < zoneRect.right &&
+                    dragCenterY > zoneRect.top && dragCenterY < zoneRect.bottom) {
+                    
+                    if (shapeType === zoneType) {
+                        // Match!
+                        matched = true;
+                        activeDrag.dataset.matched = 'true';
+                        
+                        // Calculate offset to snap exactly to slot
+                        const dx = zoneRect.left - dragRect.left;
+                        const dy = zoneRect.top - dragRect.top;
+                        
+                        // Parse current transform to add dx and dy
+                        const style = window.getComputedStyle(activeDrag);
+                        const matrix = new DOMMatrixReadOnly(style.transform);
+                        
+                        activeDrag.style.transition = 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                        activeDrag.style.transform = `translate(${matrix.m41 + dx}px, ${matrix.m42 + dy}px) scale(1) rotate(0deg)`;
+                        activeDrag.classList.remove('cursor-grab', 'active:cursor-grabbing');
+                        
+                        // Turn off dashed border of slot
+                        zone.querySelector('svg *').setAttribute('stroke-dasharray', '0');
+                        zone.querySelector('svg *').setAttribute('stroke', '#111827');
+                        
+                        playPopSound();
+                        matchedCount++;
+                        
+                        if (matchedCount === 4) {
+                            setTimeout(() => {
+                                shootConfetti('left');
+                                shootConfetti('right');
+                                
+                                // Triple pop for the confetti explosion!
+                                playPopSound();
+                                setTimeout(playPopSound, 150);
+                                setTimeout(playPopSound, 300);
+                            }, 400);
+                        }
+                    }
+                }
+            });
+            
+            if (!matched) {
+                // Return to start
+                activeDrag.style.transition = 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                activeDrag.style.transform = `translate(0px, 0px) scale(1) rotate(0deg)`;
+                activeDrag.classList.add('hover:-translate-y-2');
+            }
+            
+            activeDrag.classList.remove('z-[100]');
+            activeDrag.classList.add('z-50');
+            
+            window.removeEventListener('mousemove', drag);
+            window.removeEventListener('touchmove', drag);
+            window.removeEventListener('mouseup', dragEnd);
+            window.removeEventListener('touchend', dragEnd);
+            
+            activeDrag = null;
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+

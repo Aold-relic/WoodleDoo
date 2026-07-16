@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Box Breathing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+    <style>
+        body {
+            /* Calm gradient background */
+            background: linear-gradient(135deg, #fce7f3 0%, #e0e7ff 50%, #dcfce3 100%);
+            font-family: 'Fredoka One', cursive;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        /* Subtle animated background floating shapes */
+        .shape {
+            position: absolute;
+            filter: blur(40px);
+            opacity: 0.6;
+            z-index: 0;
+            border-radius: 50%;
+            animation: float 20s infinite ease-in-out alternate;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(100px, -100px) scale(1.5); }
+        }
+
+        .phase-text-enter {
+            animation: fadeText 0.5s ease-in-out forwards;
+        }
+
+        @keyframes fadeText {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* The Box and Dot Animation */
+        .box-container {
+            width: 337px;
+            height: 337px;
+            border: 12px solid rgba(139, 90, 43, 0.95);
+            border-radius: 20px;
+            position: relative;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.15), inset 0 0 20px rgba(0, 0, 0, 0.1);
+            background: rgba(139, 90, 43, 0.4);
+            backdrop-filter: blur(10px);
+        }
+
+        .moving-dot {
+            position: absolute;
+            width: 44px;
+            height: 44px;
+            background-color: #fbbf24; /* Bright warm amber */
+            border-radius: 50%;
+            box-shadow: 0 0 30px #fbbf24, 0 0 60px #fbbf24; /* Huge neon glow */
+            /* Center the dot on the border */
+            top: -22px;
+            left: -22px;
+            z-index: 50;
+        }
+
+        .monkey-roam-left {
+            animation: roamLeft 18s linear infinite paused;
+        }
+        @keyframes incenseDrift {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-5px) rotate(2deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+        .incense-anim {
+            animation: incenseDrift 8s ease-in-out infinite;
+        }
+
+        .animate-dot {
+            animation: moveDot 16s linear infinite;
+        }
+
+        @keyframes moveDot {
+            0%   { transform: translate(0, 0); }               /* Top Left */
+            25%  { transform: translate(337px, 0); }           /* Top Right */
+            50%  { transform: translate(337px, 337px); }       /* Bottom Right */
+            75%  { transform: translate(0, 337px); }           /* Bottom Left */
+            100% { transform: translate(0, 0); }               /* Top Left */
+        }
+        
+
+    </style>
+</head>
+<body class="relative">
+
+    <!-- Background decorative blobs -->
+    <div class="shape w-96 h-96 bg-purple-500 top-[-10%] left-[-10%]"></div>
+    <div class="shape w-[30rem] h-[30rem] bg-teal-400 bottom-[-20%] right-[-10%]" style="animation-duration: 25s; animation-direction: alternate-reverse;"></div>
+
+    <!-- Top Navigation -->
+    <div class="absolute top-6 left-6 z-50">
+        <a href="index.html" class="inline-flex items-center gap-2 bg-white/50 backdrop-blur-md text-gray-900 border-4 border-gray-900 px-6 py-3 rounded-2xl shadow-[4px_4px_0_0_rgba(17,24,39,1)] hover:translate-y-1 hover:translate-x-1 hover:shadow-none transition-all font-bold text-xl uppercase tracking-widest cursor-pointer">
+            <span class="text-2xl">🏠</span> Back to Studio
+        </a>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="relative z-10 flex flex-col items-center justify-center w-full max-w-2xl text-center">
+        
+        <!-- Instruction Text -->
+        <h1 id="instructionText" class="text-5xl md:text-6xl font-black text-gray-900 bg-yellow-300 px-8 py-4 rounded-3xl drop-shadow-md mb-12 h-24 flex items-center justify-center border-4 border-gray-900 shadow-[8px_8px_0_0_rgba(17,24,39,1)] transition-colors duration-300">
+            Box Breathing
+        </h1>
+
+        <div class="flex items-center justify-center w-full mb-12">
+            <div class="box-container" id="boxContainer">
+                <!-- The actual animated dot -->
+                <div id="breathingDot" class="moving-dot"></div>
+                
+                <!-- Labels inside the box -->
+                <div class="absolute inset-0 flex flex-col justify-between p-4 opacity-90 font-bold tracking-widest uppercase text-lg pointer-events-none">
+                    <div class="text-center w-full text-black">Breathe In ➔</div>
+                    <div class="flex justify-between w-full h-full items-center">
+                        <div class="text-black -rotate-90">Hold ➔</div>
+                        <div class="text-black rotate-90">Hold ➔</div>
+                    </div>
+                    <div class="text-center w-full text-black">⬅ Breathe Out</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex gap-4">
+            <!-- Start Button -->
+            <button id="startBtn" class="bg-indigo-500 text-white font-black text-3xl px-10 py-5 rounded-full border-4 border-white shadow-[6px_6px_0_0_rgba(255,255,255,0.4)] hover:-translate-y-1 transition-all active:scale-95">
+                Start Breathing 🌬️
+            </button>
+            
+            <!-- Pause Button (Hidden initially) -->
+            <button id="pauseBtn" class="hidden bg-rose-500 text-white font-black text-3xl px-10 py-5 rounded-full border-4 border-white shadow-[6px_6px_0_0_rgba(255,255,255,0.4)] hover:-translate-y-1 transition-all active:scale-95">
+                Pause ⏸️
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Incense Decor -->
+    <div class="fixed bottom-4 right-10 z-20 pointer-events-none opacity-80 incense-anim" style="mix-blend-mode: multiply;">
+        <img src="https://aold-relic.github.io/WoodleDoo/images/home/incense.png" class="w-32 h-32 md:w-48 md:h-48 object-contain">
+    </div>
+
+    <script>
+        const instructionText = document.getElementById('instructionText');
+        const breathingDot = document.getElementById('breathingDot');
+        const startBtn = document.getElementById('startBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+
+        let isRunning = false;
+        let isPaused = false;
+        let elapsed = -100; // Start slightly before 0 so first tick is 0
+        let currentPhase = -1;
+        let tickerInterval;
+
+        function updateText(text, bgClass) {
+            instructionText.classList.remove('phase-text-enter');
+            void instructionText.offsetWidth; 
+            
+            instructionText.innerText = text;
+            instructionText.className = `text-5xl md:text-6xl font-black text-gray-900 px-8 py-4 rounded-3xl mb-12 h-24 flex items-center justify-center border-4 border-gray-900 shadow-[8px_8px_0_0_rgba(17,24,39,1)] transition-colors duration-300 phase-text-enter ${bgClass}`;
+        }
+
+        function tick() {
+            if (isPaused) return;
+            
+            elapsed += 100;
+            if (elapsed >= 16000) {
+                elapsed = 0; // Reset loop
+            }
+
+            let newPhase = -1;
+            if (elapsed < 4000) newPhase = 0;
+            else if (elapsed < 8000) newPhase = 1;
+            else if (elapsed < 12000) newPhase = 2;
+            else newPhase = 3;
+
+            if (newPhase !== currentPhase) {
+                currentPhase = newPhase;
+
+                if (currentPhase === 0) {
+                    updateText('Breathe In...', 'bg-sky-300');
+                }
+                if (currentPhase === 1) {
+                    updateText('Hold...', 'bg-indigo-300');
+                }
+                if (currentPhase === 2) {
+                    updateText('Breathe Out...', 'bg-teal-300');
+                }
+                if (currentPhase === 3) {
+                    updateText('Hold...', 'bg-purple-300');
+                }
+            }
+        }
+
+        startBtn.addEventListener('click', () => {
+            startBtn.classList.add('hidden');
+            pauseBtn.classList.remove('hidden');
+            
+            isRunning = true;
+            breathingDot.classList.add('animate-dot');
+            tickerInterval = setInterval(tick, 100);
+        });
+
+        pauseBtn.addEventListener('click', () => {
+            if (!isPaused) {
+                // Pause
+                isPaused = true;
+                breathingDot.style.animationPlayState = 'paused';
+                pauseBtn.innerText = 'Resume ▶️';
+                pauseBtn.classList.replace('bg-rose-500', 'bg-emerald-500');
+                instructionText.innerText = 'Paused';
+                instructionText.className = 'text-6xl drop-shadow-[0_0_15px_rgba(255,255,255,0.8)] mb-12 h-20 flex items-center justify-center text-gray-300';
+
+            } else {
+                // Resume
+                isPaused = false;
+                breathingDot.style.animationPlayState = 'running';
+                pauseBtn.innerText = 'Pause ⏸️';
+                pauseBtn.classList.replace('bg-emerald-500', 'bg-rose-500');
+                // Force phase update on next tick
+                currentPhase = -1; 
+                elapsed -= 100; 
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+

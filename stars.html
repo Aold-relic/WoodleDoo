@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star Catch By Night | Sketchline Studio</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap');
+        
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #0f172a; 
+            background-image: radial-gradient(#334155 2px, transparent 2px);
+            background-size: 40px 40px;
+        }
+
+        .btn-brutal {
+            border: 4px solid #111827;
+            box-shadow: 6px 6px 0 0 rgba(17,24,39,1);
+            transition: all 0.2s ease-in-out;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .btn-brutal:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 8px 8px 0 0 rgba(17,24,39,1);
+        }
+        .btn-brutal:active {
+            transform: translate(6px, 6px);
+            box-shadow: 0px 0px 0 0 rgba(17,24,39,1);
+        }
+
+        .moon {
+            position: absolute;
+            top: 40px;
+            right: 10%;
+            width: 100px;
+            height: 100px;
+            background-color: #fef08a;
+            border-radius: 50%;
+            border: 4px solid #111827;
+            box-shadow: 8px 8px 0 0 rgba(17,24,39,1), inset -15px -10px 0 0 #fde047;
+            z-index: 0;
+        }
+
+        .cloud {
+            position: absolute;
+            font-size: 80px;
+            filter: drop-shadow(4px 4px 0 rgba(17,24,39,1));
+            opacity: 0.8;
+            z-index: 0;
+        }
+        @keyframes floatCloud {
+            0% { transform: translateX(-20vw); }
+            100% { transform: translateX(110vw); }
+        }
+        
+        @keyframes cloudBurst {
+            0% { transform: scale(0) rotate(-20deg); opacity: 0; }
+            50% { transform: scale(1.2) rotate(10deg); opacity: 1; }
+            100% { transform: scale(1) rotate(0deg); opacity: 0; }
+        }
+        .cloud-burst {
+            animation: cloudBurst 3s forwards !important;
+        }
+
+        @keyframes cloudClearLeft {
+            100% { opacity: 0; transform: translateX(-100vw) scale(0.5); }
+        }
+        @keyframes cloudClearRight {
+            100% { opacity: 0; transform: translateX(100vw) scale(0.5); }
+        }
+        .cloud-clearing-left {
+            animation: cloudClearLeft 1s forwards !important;
+        }
+        .cloud-clearing-right {
+            animation: cloudClearRight 1s forwards !important;
+        }
+
+        @keyframes rainbowPulse {
+            0% { background-color: #fca5a5; }
+            20% { background-color: #fde047; }
+            40% { background-color: #86efac; }
+            60% { background-color: #93c5fd; }
+            80% { background-color: #d8b4fe; }
+            100% { background-color: #fca5a5; }
+        }
+        .rainbow-bg {
+            animation: rainbowPulse 0.5s infinite;
+        }
+        
+        .color-orb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 3px solid #111827;
+            background-color: #334155;
+            transition: all 0.3s ease;
+        }
+        .color-orb.active {
+            box-shadow: 2px 2px 0 0 rgba(17,24,39,1);
+        }
+    </style>
+</head>
+<body class="min-h-screen p-8 relative overflow-hidden flex flex-col items-center">
+
+    <div class="moon"></div>
+    <div id="cloudContainer" class="absolute inset-0 pointer-events-none z-0 overflow-hidden"></div>
+
+    <div class="w-full max-w-7xl flex justify-between items-center mb-6 relative z-10">
+        <a href="index.html" class="btn-brutal bg-white text-gray-900 px-6 py-3 rounded-2xl flex items-center gap-3 text-xl bg-yellow-300">
+            <span class="text-3xl">🏠</span> Back to Home
+        </a>
+        
+        <div class="flex gap-4">
+            <div class="bg-white border-4 border-gray-900 rounded-3xl px-8 py-3 shadow-[8px_8px_0_0_rgba(17,24,39,1)] flex gap-4 items-center">
+                <span class="text-3xl">⭐</span>
+                <h1 class="text-4xl font-black text-[#f97316] uppercase tracking-widest">Score: <span id="scoreDisplay">0</span></h1>
+            </div>
+            <button id="pauseBtnUI" class="btn-brutal bg-blue-400 text-white px-4 py-3 rounded-2xl text-2xl" title="Pause Game">⏸️</button>
+            <button id="resetBtnUI" class="btn-brutal bg-red-400 text-white px-4 py-3 rounded-2xl text-2xl" title="Reset Game">🔄</button>
+        </div>
+        
+        <div class="bg-white border-4 border-gray-900 rounded-xl px-4 py-2 shadow-[4px_4px_0_0_rgba(17,24,39,1)] flex flex-col items-center min-w-[250px]">
+            <p class="font-black text-gray-900 uppercase text-sm mb-1 tracking-wider border-b-2 border-gray-200 pb-1 w-full text-center">Top 3 Scores</p>
+            <div class="flex gap-4 font-black mt-1 items-center" id="leaderboardDisplay">
+                <!-- Javascript will populate this -->
+                <span class="text-amber-500 text-lg">1st: 0</span>
+                <span class="text-gray-400 text-base">2nd: 0</span>
+                <span class="text-yellow-700 text-sm">3rd: 0</span>
+            </div>
+        </div> 
+    </div>
+
+    <!-- Game Container -->
+    <div id="gameWindow" class="w-full max-w-6xl bg-indigo-950 border-[12px] border-gray-900 rounded-[3rem] shadow-[16px_16px_0_0_rgba(17,24,39,1)] flex-1 flex flex-col items-center justify-center relative overflow-hidden z-10 transition-colors" style="height: 85vh;">
+        
+        <!-- Target Collection Meter & Set Tracker -->
+        <div class="absolute top-6 right-6 bg-white border-4 border-gray-900 rounded-2xl p-4 shadow-[8px_8px_0_0_rgba(17,24,39,1)] z-20 flex flex-col items-center">
+            <p class="font-black text-gray-900 text-lg mb-2 uppercase tracking-wider" id="targetText">Collect Yellow!</p>
+            
+            <div id="starSlots" class="flex gap-1 mb-3 h-8 items-center justify-center">
+                <!-- Filled via JS -->
+            </div>
+            
+            <div id="completedOrbs" class="flex gap-2 mb-1 w-full justify-center border-t-2 border-gray-200 pt-3 mt-1">
+                <div class="color-orb"></div>
+                <div class="color-orb"></div>
+                <div class="color-orb"></div>
+            </div>
+        </div>
+
+        <canvas id="gameCanvas" class="absolute inset-0 w-full h-full cursor-none"></canvas>
+        
+        <!-- Start Overlay -->
+        <div id="startOverlay" class="absolute inset-0 bg-gray-900/80 flex flex-col items-center justify-center z-30 backdrop-blur-sm">
+            <div class="bg-white p-10 rounded-3xl border-8 border-gray-900 shadow-[16px_16px_0_0_rgba(17,24,39,1)] text-center max-w-xl">
+                <h2 class="text-5xl font-black text-indigo-600 mb-4 uppercase">Star Catch!</h2>
+                <p class="text-xl font-bold text-gray-700 mb-6">Complete all 3 color sets to spawn the Special Star! Watch out for shiny Black Stars!<br><br><span class="text-sm bg-gray-200 px-3 py-1 rounded">Press SPACE to Pause</span></p>
+                <div id="startScreenScoreDisplay" class="hidden mb-6 bg-yellow-100 p-4 rounded-xl border-4 border-yellow-400 text-yellow-900 font-black text-2xl">
+                    Previous Score: 0
+                </div>
+                <button id="startBtn" class="btn-brutal w-full bg-lime-400 text-gray-900 text-3xl py-6 rounded-2xl">Play Now 🚀</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const startOverlay = document.getElementById('startOverlay');
+        const startBtn = document.getElementById('startBtn');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const targetText = document.getElementById('targetText');
+        const starSlots = document.getElementById('starSlots');
+        const completedOrbs = document.getElementById('completedOrbs');
+        const gameWindow = document.getElementById('gameWindow');
+        const cloudContainer = document.getElementById('cloudContainer');
+        const leaderboardDisplay = document.getElementById('leaderboardDisplay');
+        const pauseBtnUI = document.getElementById('pauseBtnUI');
+        const resetBtnUI = document.getElementById('resetBtnUI');
+        
+        let width, height;
+        let animationId;
+        let isPlaying = false;
+        let isPausedGame = false;
+        let pauseStartTime = 0;
+        let score = 0;
+        
+        const COLORS = {
+            'Yellow': '#fde047',
+            'Silver': '#cbd5e1',
+            'Red': '#fca5a5',
+            'Blue': '#93c5fd',
+            'Green': '#86efac',
+            'Purple': '#d8b4fe',
+            'Orange': '#fdba74',
+            'Black': '#111827'
+        };
+        const targetColorNames = ['Yellow', 'Silver', 'Red', 'Blue', 'Green', 'Purple', 'Orange']; 
+        const allStarColors = ['Yellow', 'Silver', 'Red', 'Blue', 'Green', 'Purple', 'Orange'];
+        
+        let currentTargetColor = targetColorNames[0];
+        let currentProgress = 0;
+        const TARGET_MAX = 5;
+        let completedColors = new Set();
+        
+        let isReadyFreeze = false;
+        let readyTimer = 0;
+        
+        let isRainbowBonus = false;
+        let rainbowBonusTimer = 0;
+
+        function getHighScores() {
+            const scores = localStorage.getItem('starCatchHighScores');
+            return scores ? JSON.parse(scores) : [0, 0, 0];
+        }
+        
+        function saveHighScore(newScore) {
+            let scores = getHighScores();
+            scores.push(newScore);
+            scores.sort((a, b) => b - a); 
+            scores = scores.slice(0, 3); 
+            localStorage.setItem('starCatchHighScores', JSON.stringify(scores));
+            renderHighScores();
+        }
+        
+        function renderHighScores() {
+            const scores = getHighScores();
+            leaderboardDisplay.innerHTML = `
+                <span class="text-amber-500 text-lg">1st: ${scores[0]}</span>
+                <span class="text-gray-400 text-base">2nd: ${scores[1]}</span>
+                <span class="text-yellow-700 text-sm">3rd: ${scores[2]}</span>
+            `;
+        }
+        renderHighScores();
+
+        const player = {
+            x: 0,
+            y: 0,
+            size: 100, 
+            emoji: '🧺'
+        };
+        
+        let stars = [];
+        let bgStars = [];
+        const starSize = 50;
+        
+        let isSpecialEvent = false;
+        let specialStar = null; 
+        
+        let floatingTexts = [];
+        
+        let audioCtx;
+        let masterGain;
+        
+        function resize() {
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+            width = rect.width;
+            height = rect.height;
+            
+            if (!isPlaying || (!isSpecialEvent && !isReadyFreeze)) {
+                player.x = width / 2;
+                player.y = height - player.size;
+            }
+            
+            bgStars = [];
+            for (let i = 0; i < 150; i++) {
+                bgStars.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    radius: Math.random() * 2 + 0.5,
+                    speed: Math.random() * 0.5 + 0.1
+                });
+            }
+        }
+        window.addEventListener('resize', resize);
+        
+        function togglePause() {
+            if (!isPlaying) return;
+            isPausedGame = !isPausedGame;
+            pauseBtnUI.textContent = isPausedGame ? '▶️' : '⏸️';
+            
+            if (isPausedGame) {
+                pauseBtnUI.classList.replace('bg-blue-400', 'bg-green-400');
+                pauseStartTime = Date.now();
+            } else {
+                pauseBtnUI.classList.replace('bg-green-400', 'bg-blue-400');
+                const pauseDuration = Date.now() - pauseStartTime;
+                if (rainbowBonusTimer) rainbowBonusTimer += pauseDuration;
+                if (readyTimer) readyTimer += pauseDuration;
+                if (specialStar && specialStar.timer) specialStar.timer += pauseDuration;
+                if (specialStar && specialStar.moveTimer) specialStar.moveTimer += pauseDuration;
+            }
+        }
+        
+        pauseBtnUI.addEventListener('click', togglePause);
+
+        window.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' && isPlaying) {
+                e.preventDefault(); 
+                togglePause();
+            }
+        });
+        
+        function resetGame() {
+            if (score > 0) saveHighScore(score);
+            
+            const startScreenScoreDisplay = document.getElementById('startScreenScoreDisplay');
+            if (startScreenScoreDisplay) {
+                startScreenScoreDisplay.textContent = `Previous Score: ${score}`;
+                startScreenScoreDisplay.classList.remove('hidden');
+            }
+            startOverlay.classList.remove('hidden');
+            isPlaying = false; // Immediately halt the game loops
+            
+            score = 0;
+            scoreDisplay.textContent = score;
+            stars = [];
+            completedColors.clear();
+            isPausedGame = false;
+            isSpecialEvent = false;
+            isReadyFreeze = false;
+            isRainbowBonus = false;
+            specialStar = null;
+            floatingTexts = [];
+            
+            pauseBtnUI.textContent = '⏸️';
+            pauseBtnUI.classList.replace('bg-green-400', 'bg-blue-400');
+            gameWindow.classList.remove('rainbow-bg');
+            
+            pickNewTarget();
+        }
+        
+        resetBtnUI.addEventListener('click', () => {
+            if (isPlaying) resetGame();
+        });
+        
+        function spawnClouds() {
+            for(let i=0; i<8; i++) {
+                createCloud(true);
+            }
+            setInterval(() => {
+                if(!isSpecialEvent && !isReadyFreeze && !isPausedGame) createCloud(false);
+            }, 5000); 
+        }
+        
+        function createCloud(randomStart) {
+            const cloud = document.createElement('div');
+            cloud.textContent = '☁️';
+            cloud.className = 'cloud';
+            cloud.style.top = (Math.random() * 20) + '%';
+            cloud.style.fontSize = Math.floor(Math.random() * 80 + 60) + 'px';
+            
+            const duration = Math.floor(Math.random() * 15 + 15); 
+            
+            if (randomStart) {
+                cloud.style.animation = `floatCloud ${duration}s linear infinite`;
+                cloud.style.animationDelay = `-${Math.random() * duration}s`;
+            } else {
+                cloud.style.animation = `floatCloud ${duration}s linear forwards`;
+                setTimeout(() => {
+                    if (cloud.parentNode) cloud.remove();
+                }, duration * 1000);
+            }
+            cloudContainer.appendChild(cloud);
+        }
+
+        function clearClouds() {
+            const currentClouds = document.querySelectorAll('.cloud');
+            currentClouds.forEach((cloud, index) => {
+                if (index % 2 === 0) {
+                    cloud.classList.add('cloud-clearing-left');
+                } else {
+                    cloud.classList.add('cloud-clearing-right');
+                }
+                setTimeout(() => {
+                    if (cloud.parentNode) cloud.remove();
+                }, 1000);
+            });
+        }
+
+        function triggerCloudBurst() {
+            for(let i = 0; i < 16; i++) {
+                const cloud = document.createElement('div');
+                cloud.textContent = '☁️';
+                cloud.className = 'cloud cloud-burst';
+                
+                const edge = Math.floor(Math.random() * 4);
+                if (edge === 0) { 
+                    cloud.style.top = '-5%';
+                    cloud.style.left = (Math.random() * 100) + '%';
+                } else if (edge === 1) { 
+                    cloud.style.top = '95%';
+                    cloud.style.left = (Math.random() * 100) + '%';
+                } else if (edge === 2) { 
+                    cloud.style.top = (Math.random() * 100) + '%';
+                    cloud.style.left = '-5%';
+                } else { 
+                    cloud.style.top = (Math.random() * 100) + '%';
+                    cloud.style.left = '95%';
+                }
+                
+                cloud.style.fontSize = Math.floor(Math.random() * 100 + 80) + 'px';
+                gameWindow.appendChild(cloud);
+                setTimeout(() => {
+                    if (cloud.parentNode) cloud.remove();
+                }, 3000);
+            }
+        }
+
+        let silentOsc; // Global reference to prevent garbage collection
+        
+        function initAudio() {
+            try {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                masterGain = audioCtx.createGain();
+                masterGain.gain.value = 0.6; // Prevents clipping when many sounds play
+                masterGain.connect(audioCtx.destination);
+                
+                // Keep the audio engine fully awake with an inaudible sub-bass frequency.
+                // 10Hz is impossible for humans to hear, but the high amplitude tricks the browser's
+                // silence-detectors into keeping the audio thread locked in high-performance mode!
+                silentOsc = audioCtx.createOscillator();
+                silentOsc.type = 'sine';
+                silentOsc.frequency.value = 10; 
+                const silentGain = audioCtx.createGain();
+                silentGain.gain.value = 0.5; 
+                silentOsc.connect(silentGain);
+                silentGain.connect(audioCtx.destination);
+                silentOsc.start();
+                
+            } catch(e) {
+                console.log("Audio not supported");
+            }
+        }
+        
+        function playSound(type) {
+            if (!audioCtx) return;
+            
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(masterGain);
+            
+            const t = audioCtx.currentTime + 0.02;
+            
+            if (type === 'catch') {
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(987.77, t);
+                osc.frequency.setValueAtTime(1318.51, t + 0.1);
+                
+                gain.gain.setValueAtTime(0, t);
+                gain.gain.linearRampToValueAtTime(0.2, t + 0.02);
+                gain.gain.exponentialRampToValueAtTime(0.01, t + 0.3);
+                
+                osc.start(t);
+                osc.stop(t + 0.3);
+            } else if (type === 'levelUp') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(440, t);
+                osc.frequency.setValueAtTime(554, t + 0.1);
+                osc.frequency.setValueAtTime(659, t + 0.2);
+                osc.frequency.setValueAtTime(880, t + 0.3);
+                gain.gain.setValueAtTime(0, t);
+                gain.gain.linearRampToValueAtTime(0.4, t + 0.1);
+                gain.gain.exponentialRampToValueAtTime(0.01, t + 0.5);
+                osc.start(t);
+                osc.stop(t + 0.5);
+            } else if (type === 'specialCatch') {
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(800, t);
+                osc.frequency.exponentialRampToValueAtTime(1200, t + 0.1);
+                gain.gain.setValueAtTime(0, t);
+                gain.gain.linearRampToValueAtTime(0.3, t + 0.05);
+                gain.gain.exponentialRampToValueAtTime(0.01, t + 0.3);
+                osc.start(t);
+                osc.stop(t + 0.3);
+            } else if (type === 'wrong') {
+                osc.type = 'sawtooth'; 
+                osc.frequency.setValueAtTime(200, t);
+                osc.frequency.linearRampToValueAtTime(100, t + 0.3);
+                gain.gain.setValueAtTime(0.5, t);
+                gain.gain.exponentialRampToValueAtTime(0.01, t + 0.3);
+                osc.start(t);
+                osc.stop(t + 0.3);
+            } else if (type === 'ready') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(1000, t);
+                osc.frequency.setValueAtTime(1200, t + 0.5);
+                gain.gain.setValueAtTime(0, t);
+                gain.gain.linearRampToValueAtTime(0.8, t + 0.1);
+                gain.gain.exponentialRampToValueAtTime(0.01, t + 1.0);
+                osc.start(t);
+                osc.stop(t + 1.0);
+            }
+        }
+        
+        function updateOrbs() {
+            const orbs = completedOrbs.children;
+            const completedArr = Array.from(completedColors);
+            for(let i=0; i<3; i++) {
+                if (completedArr[i]) {
+                    orbs[i].style.backgroundColor = COLORS[completedArr[i]];
+                    orbs[i].className = 'color-orb active';
+                } else {
+                    orbs[i].style.backgroundColor = '#334155';
+                    orbs[i].className = 'color-orb';
+                }
+            }
+        }
+
+        function pickNewTarget() {
+            let availableColors = targetColorNames.filter(c => !completedColors.has(c));
+            
+            if (availableColors.length === 0) {
+                currentTargetColor = targetColorNames[0];
+            } else {
+                currentTargetColor = availableColors[Math.floor(Math.random() * availableColors.length)];
+            }
+            
+            currentProgress = 0;
+            updateMeterUI();
+        }
+        
+        function updateMeterUI() {
+            targetText.textContent = `Collect ${currentTargetColor}!`;
+            
+            starSlots.innerHTML = '';
+            for (let i = 0; i < TARGET_MAX; i++) {
+                const starIcon = document.createElement('div');
+                starIcon.textContent = '⭐';
+                if (i < currentProgress) {
+                    starIcon.style.opacity = '1';
+                    starIcon.style.filter = `drop-shadow(0px 0px 4px ${COLORS[currentTargetColor]}) drop-shadow(2px 2px 0px #111827)`;
+                    starIcon.style.transform = 'scale(1.2)';
+                } else {
+                    starIcon.style.opacity = '0.3';
+                    starIcon.style.filter = 'drop-shadow(2px 2px 0px #111827) grayscale(100%)';
+                    starIcon.style.transform = 'scale(1)';
+                }
+                starIcon.style.transition = 'all 0.2s';
+                starIcon.style.fontSize = '24px';
+                starSlots.appendChild(starIcon);
+            }
+            
+            updateOrbs();
+        }
+        
+        function spawnStar() {
+            if (!isPlaying) return;
+            if (isReadyFreeze || isSpecialEvent || isPausedGame) {
+                setTimeout(spawnStar, 100);
+                return;
+            }
+            
+            let x;
+            let attempts = 0;
+            do {
+                x = Math.max(starSize, Math.random() * (width - starSize));
+                attempts++;
+                let tooClose = stars.some(s => s.y < 100 && Math.abs(s.x - x) < starSize * 1.5);
+                if (!tooClose || attempts > 5) break;
+            } while(true);
+            
+            const speed = 4.5 + (Math.random() * 1.0); 
+            
+            let colorName;
+            
+            const rand = Math.random();
+            if (rand < 0.15) {
+                colorName = 'Black'; 
+            } else if (rand < 0.6) {
+                // 45% chance to guarantee the target color drops so the kid doesn't have to wait
+                colorName = currentTargetColor;
+            } else {
+                // 40% chance for a random colorful dishttps://aold-relic.github.io/WoodleDoo/images/vehicles/tractor
+                colorName = allStarColors[Math.floor(Math.random() * allStarColors.length)];
+            }
+            
+            stars.push({
+                x: x,
+                y: -starSize,
+                speed: speed,
+                colorName: colorName,
+                color: COLORS[colorName],
+                rotation: Math.random() * Math.PI * 2,
+                rotSpeed: (Math.random() - 0.5) * 0.05
+            });
+            
+            let delay = Math.max(150, 500 - (score * 5) + (Math.random() * 150));
+            if (isRainbowBonus) delay *= 0.5; 
+            setTimeout(spawnStar, delay);
+        }
+        
+        function prepareSpecialEvent() {
+            isReadyFreeze = true;
+            readyTimer = Date.now();
+            stars = []; // Instantly disappear
+            playSound('ready');
+        }
+
+        function spawnSpecialStar() {
+            isSpecialEvent = true;
+            player.emoji = '🥅'; 
+            clearClouds(); 
+            stars = []; // Ensure screen is completely clear of stars
+            
+            const side = Math.floor(Math.random() * 3); 
+            
+            let sx, sy;
+            if (side === 0) { 
+                sx = width / 2 + (Math.random() * 200 - 100);
+                sy = 50; 
+            } else if (side === 1) { 
+                sx = 50;
+                sy = height * 0.3 + (Math.random() * height * 0.3);
+            } else { 
+                sx = width - 50;
+                sy = height * 0.3 + (Math.random() * height * 0.3);
+            }
+
+            specialStar = {
+                state: 'roaming',
+                timer: Date.now(),
+                moveTimer: 0,
+                x: sx,
+                y: sy, 
+                vx: 0,
+                vy: 0,
+                rotation: 0,
+                rotSpeed: 0.2,
+                trail: [] 
+            };
+        }
+        
+        function triggerRainbowBonus() {
+            isRainbowBonus = true;
+            rainbowBonusTimer = Date.now();
+            gameWindow.classList.add('rainbow-bg');
+            completedColors.clear(); 
+            pickNewTarget();
+        }
+        
+        function endSpecialEvent() {
+            isSpecialEvent = false;
+            specialStar = null;
+            
+            if(!isRainbowBonus) {
+                player.emoji = '🧺';
+                player.y = height - player.size; 
+                completedColors.clear();
+                pickNewTarget();
+            }
+        }
+
+        function update() {
+            if (!isPlaying) return;
+            if (isPausedGame) return;
+            
+            if (isRainbowBonus && (Date.now() - rainbowBonusTimer > 3000)) {
+                isRainbowBonus = false;
+                gameWindow.classList.remove('rainbow-bg');
+                player.y = height - player.size;
+                player.emoji = '🧺';
+            }
+
+            if (isReadyFreeze) {
+                if (Date.now() - readyTimer > 1000) {
+                    isReadyFreeze = false;
+                    spawnSpecialStar();
+                }
+                return; 
+            }
+            
+            for (const bs of bgStars) {
+                bs.y += bs.speed * (isRainbowBonus ? 2 : 1);
+                if (bs.y > height) bs.y = 0;
+            }
+            
+            if (isSpecialEvent && specialStar) {
+                specialStar.trail.push({x: specialStar.x, y: specialStar.y, age: 0, hue: (Date.now()/5)%360});
+                if (specialStar.trail.length > 30) specialStar.trail.shift();
+                specialStar.trail.forEach(t => t.age += 0.03);
+
+                if (specialStar.state === 'roaming') {
+                    const roamTime = Date.now() - specialStar.timer;
+                    
+                    if (Date.now() - specialStar.moveTimer > 300) {
+                        specialStar.moveTimer = Date.now();
+                        specialStar.vx = (Math.random() - 0.5) * 18;
+                        specialStar.vy = (Math.random() - 0.5) * 18;
+                    }
+                    
+                    specialStar.x += specialStar.vx;
+                    specialStar.y += specialStar.vy;
+                    
+                    if (specialStar.x < 100) { specialStar.x = 100; specialStar.vx *= -1; }
+                    if (specialStar.x > width - 100) { specialStar.x = width - 100; specialStar.vx *= -1; }
+                    if (specialStar.y < 100) { specialStar.y = 100; specialStar.vy *= -1; }
+                    if (specialStar.y > height - 150) { specialStar.y = height - 150; specialStar.vy *= -1; }
+                    
+                    if (roamTime > 3000) {
+                        specialStar.state = 'falling';
+                    }
+                } else if (specialStar.state === 'falling') {
+                    specialStar.vy += 0.2;
+                    specialStar.x += specialStar.vx; 
+                    specialStar.y += specialStar.vy;
+                }
+
+                specialStar.rotation += specialStar.rotSpeed;
+                
+                const dx = specialStar.x - player.x;
+                const dy = specialStar.y - player.y;
+                const dist = Math.sqrt(dx*dx + dy*dy);
+                
+                if (dist < player.size/2 + starSize) { 
+                    score += 10;
+                    scoreDisplay.textContent = score;
+                    playSound('catch');
+                    triggerRainbowBonus();
+                    endSpecialEvent();
+                } else if (specialStar.y > height + 200) {
+                    endSpecialEvent(); 
+                }
+            }
+            
+            if (!isSpecialEvent) {
+                for (let i = stars.length - 1; i >= 0; i--) {
+                    const s = stars[i];
+                    s.y += s.speed;
+                    s.rotation += s.rotSpeed;
+                    
+                    const dx = s.x - player.x;
+                    let dyOffset = isRainbowBonus ? 0 : player.size/4;
+                    const dy = s.y - (player.y - dyOffset); 
+                    const distance = Math.sqrt(dx*dx + dy*dy);
+                    
+                    if (distance < (player.size/2 + starSize/2)) {
+                        
+                        let points = isRainbowBonus ? 2 : 1;
+                        
+                        if (s.colorName === 'Black') {
+                            playSound('wrong');
+                            score -= 2; 
+                            floatingTexts.push({ x: player.x, y: player.y - 50, text: "Oops!", age: 0 });
+                        } else if (isRainbowBonus) {
+                            playSound('catch');
+                            score += points;
+                        } else if (s.colorName === currentTargetColor) {
+                            playSound('catch');
+                            currentProgress++;
+                            score += points;
+                            updateMeterUI();
+                            
+                            if (currentProgress >= TARGET_MAX) {
+                                playSound('catch');
+                                score += 5; 
+                                
+                                completedColors.add(currentTargetColor);
+                                updateOrbs();
+                                
+                                if (completedColors.size >= 3) {
+                                    prepareSpecialEvent();
+                                    break;
+                                } else {
+                                    currentTargetColor = "NONE";
+                                    setTimeout(pickNewTarget, 500);
+                                }
+                            }
+                        } else {
+                            playSound('wrong');
+                            score -= 1;
+                        }
+                        
+                        scoreDisplay.textContent = score;
+                        
+                        stars.splice(i, 1);
+                        continue;
+                    }
+                    
+                    if (s.y > height + starSize) {
+                        stars.splice(i, 1);
+                    }
+                }
+            }
+            
+            floatingTexts.forEach(ft => ft.age += 0.02);
+            floatingTexts = floatingTexts.filter(ft => ft.age < 1);
+        }
+        
+        function drawCanvasStar(cx, cy, spikes, outerRadius, innerRadius, color) {
+            let rot = Math.PI / 2 * 3;
+            let x = cx;
+            let y = cy;
+            let step = Math.PI / spikes;
+
+            ctx.beginPath();
+            ctx.moveTo(cx, cy - outerRadius);
+            for (let i = 0; i < spikes; i++) {
+                x = cx + Math.cos(rot) * outerRadius;
+                y = cy + Math.sin(rot) * outerRadius;
+                ctx.lineTo(x, y);
+                rot += step;
+
+                x = cx + Math.cos(rot) * innerRadius;
+                y = cy + Math.sin(rot) * innerRadius;
+                ctx.lineTo(x, y);
+                rot += step;
+            }
+            ctx.lineTo(cx, cy - outerRadius);
+            ctx.closePath();
+            
+            ctx.fillStyle = color;
+            ctx.fill();
+            ctx.lineWidth = 4;
+            ctx.strokeStyle = '#111827';
+            ctx.stroke();
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, width, height);
+            
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+            for (const bs of bgStars) {
+                ctx.beginPath();
+                ctx.arc(bs.x, bs.y, bs.radius, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            ctx.font = `${player.size}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.filter = 'drop-shadow(6px 6px 0px rgba(17,24,39,1))';
+            let pyOffset = (isSpecialEvent || isRainbowBonus) ? 0 : 20; 
+            ctx.fillText(player.emoji, player.x, player.y - player.size/2 + pyOffset);
+            ctx.filter = 'none';
+            
+            for (const s of stars) {
+                ctx.save();
+                ctx.translate(s.x, s.y);
+                ctx.rotate(s.rotation);
+                
+                if (s.colorName === 'Black') {
+                    ctx.filter = 'drop-shadow(0 0 10px rgba(255, 255, 255, 0.8)) drop-shadow(4px 4px 0px rgba(17,24,39,1))';
+                } else {
+                    ctx.filter = 'drop-shadow(4px 4px 0px rgba(17,24,39,1))';
+                }
+                
+                drawCanvasStar(0, 0, 5, starSize*0.6, starSize*0.3, s.color);
+                ctx.restore();
+            }
+            
+            if (isSpecialEvent && specialStar) {
+                specialStar.trail.forEach(t => {
+                    ctx.save();
+                    ctx.translate(t.x, t.y);
+                    let scale = Math.max(0, 1 - t.age);
+                    ctx.scale(scale, scale);
+                    ctx.filter = `drop-shadow(0 0 10px hsl(${t.hue}, 100%, 70%))`;
+                    drawCanvasStar(0, 0, 5, starSize*0.5, starSize*0.25, `hsla(${t.hue}, 100%, 70%, ${scale})`);
+                    ctx.restore();
+                });
+
+                ctx.save();
+                ctx.translate(specialStar.x, specialStar.y);
+                ctx.rotate(specialStar.rotation);
+                
+                const hue = (Date.now() / 5) % 360;
+                ctx.filter = `drop-shadow(0 0 20px hsl(${hue}, 100%, 70%)) drop-shadow(4px 4px 0px rgba(17,24,39,1))`;
+                drawCanvasStar(0, 0, 5, starSize*0.8, starSize*0.4, `hsl(${hue}, 100%, 70%)`);
+                ctx.restore();
+            }
+            
+            ctx.save();
+            ctx.font = "900 60px Outfit";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.lineWidth = 8;
+            
+            floatingTexts.forEach(ft => {
+                let alpha = Math.max(0, 1 - ft.age);
+                ctx.fillStyle = `rgba(239, 68, 68, ${alpha})`; 
+                ctx.strokeStyle = `rgba(17, 24, 39, ${alpha})`;
+                ctx.strokeText(ft.text, ft.x, ft.y - (ft.age * 100));
+                ctx.fillText(ft.text, ft.x, ft.y - (ft.age * 100));
+            });
+            ctx.restore();
+            
+            if (isReadyFreeze && !isPausedGame) {
+                ctx.save();
+                ctx.fillStyle = "rgba(0, 0, 0, 0.4)";
+                ctx.fillRect(0, 0, width, height);
+                
+                ctx.font = "900 120px Outfit";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                
+                const hue = (Date.now() / 5) % 360;
+                ctx.fillStyle = `hsl(${hue}, 100%, 60%)`;
+                ctx.lineWidth = 15;
+                ctx.strokeStyle = "#111827";
+                ctx.strokeText("READY!", width/2, height/2);
+                ctx.fillText("READY!", width/2, height/2);
+                ctx.restore();
+            }
+            
+            if (isRainbowBonus && !isReadyFreeze && !isSpecialEvent && !isPausedGame) {
+                ctx.save();
+                ctx.font = "900 60px Outfit";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "top";
+                ctx.fillStyle = "#ffffff";
+                ctx.lineWidth = 8;
+                ctx.strokeStyle = "#111827";
+                ctx.strokeText("RAINBOW BONUS! +2 POINTS", width/2, 40);
+                ctx.fillText("RAINBOW BONUS! +2 POINTS", width/2, 40);
+                ctx.restore();
+            }
+            
+            if (isPausedGame) {
+                ctx.save();
+                ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
+                ctx.fillRect(0, 0, width, height);
+                
+                ctx.font = "900 100px Outfit";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillStyle = "#ffffff";
+                ctx.lineWidth = 12;
+                ctx.strokeStyle = "#111827";
+                ctx.strokeText("PAUSED", width/2, height/2);
+                ctx.fillText("PAUSED", width/2, height/2);
+                ctx.restore();
+            }
+        }
+        
+        function gameLoop() {
+            update();
+            draw();
+            animationId = requestAnimationFrame(gameLoop);
+        }
+        
+        function handleInput(clientX, clientY) {
+            if (isPausedGame) return;
+            const rect = canvas.getBoundingClientRect();
+            let x = clientX - rect.left;
+            x = Math.max(player.size/2, Math.min(width - player.size/2, x));
+            player.x = x;
+            
+            if (isSpecialEvent || isRainbowBonus) {
+                let y = clientY - rect.top;
+                y = Math.max(player.size/2, Math.min(height - player.size/2, y));
+                player.y = y;
+            }
+        }
+        
+        canvas.addEventListener('mousemove', (e) => {
+            if(isPlaying && !isReadyFreeze) handleInput(e.clientX, e.clientY);
+        });
+        
+        canvas.addEventListener('touchmove', (e) => {
+            if(isPlaying && !isReadyFreeze) {
+                e.preventDefault();
+                handleInput(e.touches[0].clientX, e.touches[0].clientY);
+            }
+        }, {passive: false});
+        
+        startBtn.addEventListener('click', () => {
+            initAudio();
+            startOverlay.classList.add('hidden');
+            score = 0;
+            scoreDisplay.textContent = score;
+            stars = [];
+            completedColors.clear();
+            isPlaying = true;
+            isPausedGame = false;
+            resize();
+            pickNewTarget();
+            spawnStar();
+            
+            if (!animationId) gameLoop();
+        });
+        
+        spawnClouds();
+        resize();
+        draw();
+
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+

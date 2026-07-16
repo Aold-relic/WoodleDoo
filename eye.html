@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Focus Light</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #374151; /* gray-700 */
+            background-image: radial-gradient(#4b5563 4px, transparent 4px);
+            background-size: 40px 40px;
+            font-family: 'Fredoka One', cursive;
+            margin: 0;
+            user-select: none;
+        }
+
+        .game-box {
+            box-shadow: 6px 6px 0px 0px rgba(17,24,39,1);
+            transition: transform 0.1s, background-color 0.2s, box-shadow 0.2s;
+        }
+        
+        .game-box:active {
+            transform: translate(2px, 2px);
+            box-shadow: 4px 4px 0px 0px rgba(17,24,39,1);
+        }
+
+        /* The glowing white class for when the pattern is shown */
+        .glow-white {
+            background-color: #ffffff !important;
+            box-shadow: 0px 0px 30px 10px rgba(255, 255, 255, 0.8) !important;
+            border-color: #ffffff !important;
+        }
+
+        /* Correct click class */
+        .glow-green {
+            background-color: #22c55e !important; /* emerald-500 */
+            box-shadow: 0px 0px 30px 10px rgba(34, 197, 94, 0.8) !important;
+            border-color: #14532d !important;
+        }
+
+        /* Incorrect click class */
+        .glow-red {
+            background-color: #ef4444 !important; /* red-500 */
+            box-shadow: 0px 0px 30px 10px rgba(239, 68, 68, 0.8) !important;
+            border-color: #7f1d1d !important;
+        }
+    </style>
+</head>
+<body class="min-h-screen w-full flex flex-col items-center justify-center relative">
+
+    <!-- Top Navigation -->
+    <div class="absolute top-6 left-6 z-50">
+        <a href="index.html" class="inline-flex items-center gap-2 bg-white text-gray-900 border-4 border-gray-900 px-6 py-3 rounded-2xl shadow-[4px_4px_0_0_rgba(17,24,39,1)] hover:translate-y-1 hover:translate-x-1 hover:shadow-none transition-all font-bold text-xl uppercase tracking-widest cursor-pointer">
+            <span class="text-2xl">🏠</span> Back to Studio
+        </a>
+    </div>
+
+    <!-- Score Display -->
+    <div class="absolute top-6 right-6 z-50 bg-white border-4 border-gray-900 px-8 py-3 rounded-2xl shadow-[4px_4px_0_0_rgba(17,24,39,1)]">
+        <p id="scoreDisplay" class="text-3xl font-black text-rose-500 uppercase tracking-widest m-0 leading-none">Score: 0</p>
+    </div>
+
+    <!-- UI Header -->
+    <div class="absolute top-12 left-1/2 -translate-x-1/2 z-40 flex flex-col items-center">
+        <h1 class="text-6xl font-black text-white drop-shadow-[0_4px_4px_rgba(0,0,0,0.5)] mb-4 text-center tracking-wide" style="-webkit-text-stroke: 2px #111827;">Focus Light</h1>
+        
+        <div class="bg-white border-4 border-gray-900 rounded-2xl px-8 py-4 shadow-[6px_6px_0_0_rgba(17,24,39,1)] text-center flex flex-col items-center gap-4">
+            <p id="statusText" class="text-2xl font-bold text-indigo-600 uppercase tracking-wider">Press Start to Play!</p>
+            <button id="startBtn" onclick="startGame()" class="bg-indigo-400 text-gray-900 border-4 border-gray-900 px-6 py-2 rounded-xl shadow-[4px_4px_0_0_rgba(17,24,39,1)] hover:translate-y-1 hover:translate-x-1 hover:shadow-none active:scale-95 transition-all font-black text-xl uppercase cursor-pointer">
+                Start Game
+            </button>
+        </div>
+    </div>
+
+    <!-- 3x3 Game Grid -->
+    <div class="grid grid-cols-3 gap-6 pt-40 z-10 font-black text-gray-900 drop-shadow-md">
+        <!-- 9 boxes generated via HTML -->
+        <div class="game-box box-0 bg-lime-400 border-4 border-gray-900 w-32 h-32 rounded-2xl cursor-pointer flex items-center justify-center text-5xl" onclick="handleBoxClick(0)"><span class="box-number transition-opacity duration-500">1</span></div>
+        <div class="game-box box-1 bg-cyan-400 border-4 border-gray-900 w-32 h-32 rounded-2xl cursor-pointer flex items-center justify-center text-5xl" onclick="handleBoxClick(1)"><span class="box-number transition-opacity duration-500">2</span></div>
+        <div class="game-box box-2 bg-blue-500 border-4 border-gray-900 w-32 h-32 rounded-2xl cursor-pointer flex items-center justify-center text-5xl" onclick="handleBoxClick(2)"><span class="box-number transition-opacity duration-500">3</span></div>
+        <div class="game-box box-3 bg-violet-500 border-4 border-gray-900 w-32 h-32 rounded-2xl cursor-pointer flex items-center justify-center text-5xl" onclick="handleBoxClick(3)"><span class="box-number transition-opacity duration-500">4</span></div>
+        <div class="game-box box-4 bg-fuchsia-500 border-4 border-gray-900 w-32 h-32 rounded-2xl cursor-pointer flex items-center justify-center text-5xl" onclick="handleBoxClick(4)"><span class="box-number transition-opacity duration-500">5</span></div>
+        <div class="game-box box-5 bg-pink-500 border-4 border-gray-900 w-32 h-32 rounded-2xl cursor-pointer flex items-center justify-center text-5xl" onclick="handleBoxClick(5)"><span class="box-number transition-opacity duration-500">6</span></div>
+        <div class="game-box box-6 bg-rose-500 border-4 border-gray-900 w-32 h-32 rounded-2xl cursor-pointer flex items-center justify-center text-5xl" onclick="handleBoxClick(6)"><span class="box-number transition-opacity duration-500">7</span></div>
+        <div class="game-box box-7 bg-orange-500 border-4 border-gray-900 w-32 h-32 rounded-2xl cursor-pointer flex items-center justify-center text-5xl" onclick="handleBoxClick(7)"><span class="box-number transition-opacity duration-500">8</span></div>
+        <div class="game-box box-8 bg-yellow-400 border-4 border-gray-900 w-32 h-32 rounded-2xl cursor-pointer flex items-center justify-center text-5xl" onclick="handleBoxClick(8)"><span class="box-number transition-opacity duration-500">9</span></div>
+    </div>
+
+    <script>
+        const statusText = document.getElementById('statusText');
+        const startBtn = document.getElementById('startBtn');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const boxes = document.querySelectorAll('.game-box');
+        
+        let sequence = [];
+        let playerSequence = [];
+        let isPlayerTurn = false;
+        let score = 0;
+        
+        // Wait function
+        const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+        function updateNumberOpacity() {
+            // Fade out completely after a score of 4 (opacity drops by 0.25 per win)
+            let opacity = Math.max(0, 1 - (score * 0.25));
+            document.querySelectorAll('.box-number').forEach(span => {
+                span.style.opacity = opacity;
+            });
+        }
+
+        async function startGame() {
+            startBtn.classList.add('hidden');
+            sequence = [];
+            
+            // Generate a random pattern of 5 lights
+            for (let i = 0; i < 5; i++) {
+                sequence.push(Math.floor(Math.random() * 9));
+            }
+            
+            await playSequence();
+        }
+
+        async function playSequence() {
+            isPlayerTurn = false;
+            playerSequence = [];
+            statusText.innerText = "Watch the pattern...";
+            statusText.className = "text-2xl font-bold text-amber-600 uppercase tracking-wider";
+            
+            await sleep(1000); // Wait a second before starting
+            
+            for (let i = 0; i < sequence.length; i++) {
+                const boxIndex = sequence[i];
+                const box = document.querySelector(`.box-${boxIndex}`);
+                
+                // Turn on white glow
+                box.classList.add('glow-white');
+                await sleep(600); // Light stays on for 600ms
+                
+                // Turn off
+                box.classList.remove('glow-white');
+                await sleep(300); // Pause before next light
+            }
+            
+            statusText.innerText = "Your Turn!";
+            statusText.className = "text-2xl font-bold text-emerald-600 uppercase tracking-wider";
+            isPlayerTurn = true;
+        }
+
+        async function handleBoxClick(index) {
+            if (!isPlayerTurn) return; // Ignore clicks if it's not the player's turn
+            
+            const box = document.querySelector(`.box-${index}`);
+            playerSequence.push(index);
+            
+            const currentStep = playerSequence.length - 1;
+            
+            // Check if they clicked the correct box for this step
+            if (playerSequence[currentStep] === sequence[currentStep]) {
+                // Correct!
+                box.classList.add('glow-green');
+                setTimeout(() => box.classList.remove('glow-green'), 300);
+                
+                // Did they finish the whole sequence?
+                if (playerSequence.length === sequence.length) {
+                    isPlayerTurn = false;
+                    score++;
+                    scoreDisplay.innerText = `Score: ${score}`;
+                    updateNumberOpacity();
+                    statusText.innerText = "Correct! Get ready...";
+                    statusText.className = "text-2xl font-bold text-indigo-600 uppercase tracking-wider";
+                    
+                    // Automatically start the next round
+                    setTimeout(() => {
+                        startGame();
+                    }, 1500);
+                }
+            } else {
+                // Incorrect!
+                isPlayerTurn = false;
+                score = 0;
+                scoreDisplay.innerText = `Score: ${score}`;
+                updateNumberOpacity();
+                box.classList.add('glow-red');
+                setTimeout(() => box.classList.remove('glow-red'), 500);
+                
+                statusText.innerText = "Oops! Wrong Pattern.";
+                statusText.className = "text-2xl font-bold text-red-600 uppercase tracking-wider";
+                startBtn.innerText = "Try Again";
+                startBtn.classList.remove('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+

@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicles Dictionary</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #38bdf8;
+            background-image: radial-gradient(#bae6fd 4px, transparent 4px);
+            background-size: 40px 40px;
+            font-family: 'Fredoka One', cursive;
+            margin: 0;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        /* 3D Flip Animation */
+        .page-flip-next {
+            animation: flipNext 0.6s ease-in-out forwards;
+        }
+
+        @keyframes flipNext {
+            0% {
+                transform: perspective(1000px) rotateY(0deg);
+                opacity: 1;
+            }
+
+            50% {
+                transform: perspective(1000px) rotateY(-90deg);
+                opacity: 0;
+            }
+
+            51% {
+                transform: perspective(1000px) rotateY(90deg);
+                opacity: 0;
+            }
+
+            100% {
+                transform: perspective(1000px) rotateY(0deg);
+                opacity: 1;
+            }
+        }
+
+        .page-flip-prev {
+            animation: flipPrev 0.6s ease-in-out forwards;
+        }
+
+        @keyframes flipPrev {
+            0% {
+                transform: perspective(1000px) rotateY(0deg);
+                opacity: 1;
+            }
+
+            50% {
+                transform: perspective(1000px) rotateY(90deg);
+                opacity: 0;
+            }
+
+            51% {
+                transform: perspective(1000px) rotateY(-90deg);
+                opacity: 0;
+            }
+
+            100% {
+                transform: perspective(1000px) rotateY(0deg);
+                opacity: 1;
+            }
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 8px 8px 0px 0px rgba(17, 24, 39, 1);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen w-full flex flex-col items-center relative pb-20">
+
+    <!-- Top Navigation -->
+    <div class="fixed top-6 left-6 z-50 flex gap-4">
+        <a id="backToStudioBtn" href="index.html"
+            class="inline-flex items-center gap-2 bg-white text-gray-900 border-4 border-gray-900 px-6 py-3 rounded-2xl shadow-[4px_4px_0_0_rgba(17,24,39,1)] hover:translate-y-1 hover:translate-x-1 hover:shadow-none transition-all font-bold text-xl uppercase tracking-widest cursor-pointer pointer-events-auto">
+            <span class="text-2xl">🏠</span> Back to Studio
+        </a>
+        <button id="backToCategoriesBtn" onclick="closeBook()"
+            class="hidden items-center gap-2 bg-white text-gray-900 border-4 border-gray-900 px-6 py-3 rounded-2xl shadow-[4px_4px_0_0_rgba(17,24,39,1)] hover:translate-y-1 hover:translate-x-1 hover:shadow-none transition-all font-bold text-xl uppercase tracking-widest cursor-pointer pointer-events-auto">
+            <span class="text-2xl">🔙</span> Back to Categories
+        </button>
+    </div>
+
+    <!-- Category Selection View -->
+    <div id="categoryView" class="w-full max-w-6xl p-8 pt-32 flex flex-col items-center justify-center z-10">
+        <h1 class="text-6xl font-black text-white drop-shadow-[0_4px_4px_rgba(0,0,0,0.5)] mb-12 text-center"
+            style="-webkit-text-stroke: 2px #111827;">Select a Vehicle Category!</h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
+            <!-- Road -->
+            <button onclick="openBook('road', 'Road Vehicles', 'bg-rose-400')"
+                class="card-hover bg-rose-200 text-gray-900 border-8 border-rose-600 rounded-3xl p-6 shadow-[6px_6px_0_0_#e11d48] transition-all flex flex-col items-center text-center">
+                <div class="flex flex-col items-center gap-4 w-full border-b-4 border-rose-600 pb-4 mb-4">
+                    <span
+                        class="text-5xl bg-white rounded-2xl p-3 border-4 border-rose-600 shadow-[4px_4px_0_0_#e11d48]">🚗</span>
+                    <span class="text-2xl font-black uppercase tracking-wider leading-tight text-rose-800">Road</span>
+                </div>
+                <p class="text-sm font-bold opacity-90 leading-snug text-rose-900">
+                    Car, Sedan, SUV, Motorcycle, Bicycle, School Bus
+                </p>
+            </button>
+            <!-- Farm -->
+            <button onclick="openBook('farm', 'Farm Vehicles', 'bg-emerald-400')"
+                class="card-hover bg-emerald-200 text-gray-900 border-8 border-emerald-600 rounded-3xl p-6 shadow-[6px_6px_0_0_#059669] transition-all flex flex-col items-center text-center">
+                <div class="flex flex-col items-center gap-4 w-full border-b-4 border-emerald-600 pb-4 mb-4">
+                    <span
+                        class="text-5xl bg-white rounded-2xl p-3 border-4 border-emerald-600 shadow-[4px_4px_0_0_#059669]">🚜</span>
+                    <span
+                        class="text-2xl font-black uppercase tracking-wider leading-tight text-emerald-800">Farm</span>
+                </div>
+                <p class="text-sm font-bold opacity-90 leading-snug text-emerald-900">
+                    Tractor, Combine Harvester, Plow Tractor
+                </p>
+            </button>
+            <!-- Rail -->
+            <button onclick="openBook('rail', 'Rail Vehicles', 'bg-fuchsia-400')"
+                class="card-hover bg-fuchsia-200 text-gray-900 border-8 border-fuchsia-600 rounded-3xl p-6 shadow-[6px_6px_0_0_#c026d3] transition-all flex flex-col items-center text-center">
+                <div class="flex flex-col items-center gap-4 w-full border-b-4 border-fuchsia-600 pb-4 mb-4">
+                    <span
+                        class="text-5xl bg-white rounded-2xl p-3 border-4 border-fuchsia-600 shadow-[4px_4px_0_0_#c026d3]">🚂</span>
+                    <span
+                        class="text-2xl font-black uppercase tracking-wider leading-tight text-fuchsia-800">Rail</span>
+                </div>
+                <p class="text-sm font-bold opacity-90 leading-snug text-fuchsia-900">
+                    Steam Train, Diesel Train, Electric Train
+                </p>
+            </button>
+            <!-- Air -->
+            <button onclick="openBook('air', 'Air Vehicles', 'bg-sky-400')"
+                class="card-hover bg-sky-200 text-gray-900 border-8 border-sky-600 rounded-3xl p-6 shadow-[6px_6px_0_0_#0284c7] transition-all flex flex-col items-center text-center">
+                <div class="flex flex-col items-center gap-4 w-full border-b-4 border-sky-600 pb-4 mb-4">
+                    <span
+                        class="text-5xl bg-white rounded-2xl p-3 border-4 border-sky-600 shadow-[4px_4px_0_0_#0284c7]">✈️</span>
+                    <span class="text-2xl font-black uppercase tracking-wider leading-tight text-sky-800">Air</span>
+                </div>
+                <p class="text-sm font-bold opacity-90 leading-snug text-sky-900">
+                    Airplane, Helicopter, Hot Air Balloon
+                </p>
+            </button>
+
+            <!-- Water -->
+            <button onclick="openBook('water', 'Water Vehicles', 'bg-blue-400')"
+                class="card-hover bg-blue-200 text-gray-900 border-8 border-blue-600 rounded-3xl p-6 shadow-[6px_6px_0_0_#2563eb] transition-all flex flex-col items-center text-center">
+                <div class="flex flex-col items-center gap-4 w-full border-b-4 border-blue-600 pb-4 mb-4">
+                    <span
+                        class="text-5xl bg-white rounded-2xl p-3 border-4 border-blue-600 shadow-[4px_4px_0_0_#2563eb]">🚢</span>
+                    <span class="text-2xl font-black uppercase tracking-wider leading-tight text-blue-800">Water</span>
+                </div>
+                <p class="text-sm font-bold opacity-90 leading-snug text-blue-900">
+                    Boat, Speedboat, Submarine
+                </p>
+            </button>
+
+            <!-- Emergency -->
+            <button onclick="openBook('emergency', 'Emergency Vehicles', 'bg-red-400')"
+                class="card-hover bg-red-200 text-gray-900 border-8 border-red-600 rounded-3xl p-6 shadow-[6px_6px_0_0_#dc2626] transition-all flex flex-col items-center text-center">
+                <div class="flex flex-col items-center gap-4 w-full border-b-4 border-red-600 pb-4 mb-4">
+                    <span
+                        class="text-5xl bg-white rounded-2xl p-3 border-4 border-red-600 shadow-[4px_4px_0_0_#dc2626]">🚒</span>
+                    <span
+                        class="text-2xl font-black uppercase tracking-wider leading-tight text-red-800">Emergency</span>
+                </div>
+                <p class="text-sm font-bold opacity-90 leading-snug text-red-900">
+                    Fire Truck, Ambulance, Police Car
+                </p>
+            </button>
+
+
+
+        </div>
+    </div>
+
+    <!-- Book View (Hidden initially) -->
+    <div id="bookView" class="hidden flex-col items-center justify-center w-full min-h-screen z-10 pt-32 pb-20">
+
+        <div
+            class="flex w-[1100px] h-[600px] shadow-[20px_20px_0_0_rgba(17,24,39,1)] rounded-3xl border-8 border-gray-900 bg-[#FFFDF0] relative">
+
+            <!-- Book Spine / Center Fold -->
+            <div
+                class="absolute left-1/2 top-0 bottom-0 w-[8px] -translate-x-1/2 bg-gray-300 shadow-[inset_0_0_20px_rgba(0,0,0,0.3)] z-20">
+            </div>
+
+            <!-- Left Page (Story Content) -->
+            <div id="leftPage" class="w-1/2 h-full p-12 flex flex-col justify-center items-center text-center relative">
+                <h1 id="pageTitle" class="text-5xl font-black text-gray-900 mb-8 leading-tight drop-shadow-md">Category
+                    Title</h1>
+                <ul id="pageText"
+                    class="text-2xl font-bold text-gray-700 leading-relaxed text-left list-disc pl-8 space-y-4">
+                    <li>Point 1</li>
+                    <li>Point 2</li>
+                    <li>Point 3</li>
+                </ul>
+
+                <div class="absolute bottom-8 left-12">
+                    <span id="pageNumLeft" class="text-xl font-bold text-gray-400">Page 1</span>
+                </div>
+            </div>
+
+            <!-- Right Page (Illustration) -->
+            <div id="rightPage" class="w-1/2 h-full p-8 flex items-center justify-center relative">
+                
+                
+                <div id="emojiContainer"
+                    class="w-full h-full flex items-center justify-center bg-[#bae6fd] rounded-2xl border-4 border-gray-900 shadow-[8px_8px_0_0_rgba(17,24,39,1)] text-[150px]">
+                    🚗
+                </div>
+
+                <div class="absolute bottom-8 right-12">
+                    <span id="pageNumRight" class="text-xl font-bold text-gray-400">Page 2</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page Controls -->
+        <div class="flex gap-8 mt-8">
+            <button id="prevBtn"
+                class="bg-amber-400 text-gray-900 border-4 border-gray-900 px-8 py-4 rounded-full shadow-[6px_6px_0_0_rgba(17,24,39,1)] hover:translate-y-1 hover:translate-x-1 hover:shadow-none active:scale-95 transition-all font-black text-2xl flex items-center gap-4 opacity-50 cursor-not-allowed">
+                <span>◀</span> Previous
+            </button>
+            <button id="nextBtn"
+                class="bg-emerald-400 text-gray-900 border-4 border-gray-900 px-8 py-4 rounded-full shadow-[6px_6px_0_0_rgba(17,24,39,1)] hover:translate-y-1 hover:translate-x-1 hover:shadow-none active:scale-95 transition-all font-black text-2xl flex items-center gap-4">
+                Next <span>▶</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const vehicleData = {
+            road: [
+                { name: "Car", emoji: "🚗", image: "https://i.ibb.co/GfZbHQ6q/storybook-car-1783689225799.jpg", points: ["Has 4 wheels.", "Used for daily driving.", "Fits a small family."] },
+                { name: "Sedan", emoji: "🚙", image: "https://i.ibb.co/zVT9NPZq/storybook-sedan-1783689237880.jpg", points: ["Has 4 doors.", "Has a separate trunk.", "Very common on roads."] },
+
+                { name: "SUV", emoji: "🚙", image: "https://i.ibb.co/r2KQdN0r/storybook-suv-1783689259076.jpg", points: ["Stands for Sports Utility Vehicle.", "Sits high off the ground.", "Great for rough roads."] },
+
+                { name: "Motorcycle", emoji: "🏍️", image: "https://i.ibb.co/BH2cKyvy/storybook-motorcycle-1783690027775.jpg", points: ["Has only 2 wheels.", "Requires a helmet.", "Goes very fast!"] },
+
+                { name: "Bicycle", emoji: "🚲", image: "https://i.ibb.co/9k4sCkQd/storybook-bicycle-1783690063136.jpg", points: ["You have to pedal it.", "Doesn't use gas.", "Great exercise!"] },
+                { name: "School Bus", emoji: "🚌", image: "https://i.ibb.co/0jgLngRH/storybook-schoolbus-1783690073531.jpg", points: ["Painted bright yellow.", "Takes kids to school.", "Has a stop sign that pops out."] }
+            ],
+            farm: [
+                { name: "Tractor", emoji: "🚜", image: "https://i.ibb.co/21ZJCMtm/tractor-1783857796299.jpg", points: ["The most common farm vehicle.", "Pulls heavy equipment.", "Has huge back wheels."] },
+                { name: "Combine Harvester", emoji: "🚜", image: "https://i.ibb.co/gbLXF5wg/combine-harvester-1783857806783.jpg", points: ["Cuts down crops.", "Separates grain from stalks.", "Very massive machine."] },
+                { name: "Plow Tractor", emoji: "🚜", image: "https://i.ibb.co/Kjyw49rz/plow-tractor-1783857816593.jpg", points: ["Digs lines into the dirt.", "Prepares soil for seeds.", "Turns over the earth."] }
+            ],
+            rail: [
+                { name: "Steam Train", emoji: "🚂", image: "https://i.ibb.co/QFn3kX52/steam-train-1783857827798.jpg", points: ["Runs on coal and water.", "Puffs thick white smoke.", "Goes CHOO CHOO!"] },
+                { name: "Diesel Train", emoji: "🚆", image: "https://i.ibb.co/WvPRnJmd/diesel-train-1783857838429.jpg", points: ["Runs on diesel fuel.", "Very strong and loud.", "Pulls long lines of cars."] },
+                { name: "Electric Train", emoji: "🚈", image: "https://i.ibb.co/9mQJH28H/electric-train-1783858152000.jpg", points: ["Gets power from wires above.", "Very quiet.", "Causes no pollution."] }
+            ],
+            air: [
+                { name: "Airplane", emoji: "✈️", image: "https://i.ibb.co/ymZwDVNb/airplane-1783858161880.jpg", points: ["Has fixed wings.", "Flies very fast.", "Uses jet engines or propellers."] },
+                { name: "Helicopter", emoji: "🚁", image: "https://i.ibb.co/ynYkdSsP/helicopter-1783858173426.jpg", points: ["Has spinning rotor blades.", "Can hover in one place.", "Takes off straight up."] },
+                { name: "Hot Air Balloon", emoji: "🎈", image: "https://i.ibb.co/twQn57wp/hot-air-balloon-1783858183866.jpg", points: ["Uses a giant fire burner.", "Floats up slowly.", "Passengers stand in a basket."] }
+            ],
+            water: [
+                { name: "Boat", emoji: "🛶", image: "https://i.ibb.co/mFGJCvCM/boat-1783858194035.jpg", points: ["Floats on water.", "Can be powered by oars, sails, or motors.", "Used for travel or fun."] },
+                { name: "Speedboat", emoji: "🚤", image: "https://i.ibb.co/bjCNrwsT/speedboat-1783858324053.jpg", points: ["Has a very powerful motor.", "Bounces fast over waves.", "Used for water skiing."] },
+                { name: "Submarine", emoji: "🤿", image: "https://i.ibb.co/V0W2vHTS/submarine-1783858336481.jpg", points: ["Travels completely underwater.", "Uses sonar to 'see' in the dark.", "Can stay submerged for months."] }
+            ],
+            emergency: [
+                { name: "Fire Truck", emoji: "🚒", image: "https://i.ibb.co/pvvNsrcP/fire-truck-1783858345712.jpg", points: ["Bright red and very loud.", "Carries water hoses and axes.", "Driven by brave firefighters."] },
+                { name: "Ambulance", emoji: "🚑", image: "https://i.ibb.co/CK7VYnR9/ambulance-1783858356224.jpg", points: ["A mobile emergency room.", "Has a loud siren to clear traffic.", "Carries paramedics and medical gear."] },
+                { name: "Police Car", emoji: "🚓", image: "https://i.ibb.co/zVy00Sqm/police-car-1783858365449.jpg", points: ["Has flashing red and blue lights.", "Can drive very fast.", "Helps keep the community safe."] }
+            ]
+        };
+
+        // Preload all vehicle images for instant rendering
+        window.addEventListener('load', () => {
+            Object.values(vehicleData).forEach(category => {
+                category.forEach(page => {
+                    if (page.image) {
+                        const img = new Image();
+                        img.src = page.image;
+                    }
+                });
+            });
+        });
+
+        let currentCategoryData = [];
+        let currentPage = 0;
+
+        const categoryView = document.getElementById('categoryView');
+        const bookView = document.getElementById('bookView');
+        const backToStudioBtn = document.getElementById('backToStudioBtn');
+        const backToCategoriesBtn = document.getElementById('backToCategoriesBtn');
+        const leftPageEl = document.getElementById('leftPage');
+        const rightPageEl = document.getElementById('rightPage');
+        const titleEl = document.getElementById('pageTitle');
+        const textEl = document.getElementById('pageText');
+        const emojiContainer = document.getElementById('emojiContainer');
+
+        const pageNumLeft = document.getElementById('pageNumLeft');
+        const pageNumRight = document.getElementById('pageNumRight');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        let currentThemeColor = 'bg-sky-400'; // Default theme
+
+        function openBook(categoryId, titleText, themeColor) {
+            currentCategoryData = vehicleData[categoryId];
+            currentPage = 0;
+            currentThemeColor = themeColor;
+
+            // The emoji container theme is set in renderPage()
+
+            // Hide categories, show book
+            categoryView.classList.add('hidden');
+            bookView.classList.remove('hidden');
+            bookView.classList.add('flex');
+            
+            // Toggle nav buttons
+            backToStudioBtn.classList.add('hidden');
+            backToStudioBtn.classList.remove('inline-flex');
+            backToCategoriesBtn.classList.remove('hidden');
+            backToCategoriesBtn.classList.add('inline-flex');
+
+            renderPage();
+            window.scrollTo(0, 0);
+        }
+
+        function closeBook() {
+            categoryView.classList.remove('hidden');
+            bookView.classList.add('hidden');
+            bookView.classList.remove('flex');
+            
+            // Toggle nav buttons
+            backToCategoriesBtn.classList.add('hidden');
+            backToCategoriesBtn.classList.remove('inline-flex');
+            backToStudioBtn.classList.remove('hidden');
+            backToStudioBtn.classList.add('inline-flex');
+        }
+
+        function renderPage() {
+            const pageData = currentCategoryData[currentPage];
+
+            titleEl.innerText = pageData.name;
+
+            // Populate bullet points
+            textEl.innerHTML = '';
+            pageData.points.forEach(point => {
+                const li = document.createElement('li');
+                li.innerText = point;
+                textEl.appendChild(li);
+            });
+
+                if (pageData.image) {
+                    emojiContainer.className = `w-full h-full flex items-center justify-center bg-white rounded-2xl border-4 border-gray-900 shadow-[8px_8px_0_0_rgba(17,24,39,1)] text-[150px] relative overflow-hidden`;
+                    emojiContainer.innerHTML = `<img src="${pageData.image}" alt="${pageData.name}" class="max-h-[90%] max-w-[90%] object-contain hover:scale-110 transition-transform duration-500 cursor-pointer" />`;
+                } else {
+                    emojiContainer.className = `w-full h-full flex items-center justify-center rounded-2xl border-4 border-gray-900 shadow-[8px_8px_0_0_rgba(17,24,39,1)] text-[150px] ${currentThemeColor}`;
+                    emojiContainer.innerHTML = `<span>${pageData.emoji}</span>`;
+                }
+                
+                pageNumLeft.innerText = `Page ${currentPage * 2 + 1}`;
+            pageNumRight.innerText = `Page ${currentPage * 2 + 2}`;
+
+            // Update Button States
+            if (currentPage === 0) {
+                prevBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                prevBtn.classList.remove('hover:translate-y-1', 'hover:translate-x-1', 'hover:shadow-none');
+            } else {
+                prevBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                prevBtn.classList.add('hover:translate-y-1', 'hover:translate-x-1', 'hover:shadow-none');
+            }
+
+            if (currentPage === currentCategoryData.length - 1) {
+                nextBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                nextBtn.classList.remove('hover:translate-y-1', 'hover:translate-x-1', 'hover:shadow-none');
+            } else {
+                nextBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                nextBtn.classList.add('hover:translate-y-1', 'hover:translate-x-1', 'hover:shadow-none');
+            }
+        }
+
+        function triggerFlipAnimation(direction) {
+            const animClass = direction === 'next' ? 'page-flip-next' : 'page-flip-prev';
+
+            leftPageEl.classList.add(animClass);
+            rightPageEl.classList.add(animClass);
+
+            setTimeout(() => {
+                renderPage();
+            }, 300);
+
+            setTimeout(() => {
+                leftPageEl.classList.remove(animClass);
+                rightPageEl.classList.remove(animClass);
+            }, 600);
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentPage > 0) {
+                currentPage--;
+                triggerFlipAnimation('prev');
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentPage < currentCategoryData.length - 1) {
+                currentPage++;
+                triggerFlipAnimation('next');
+            }
+        });
+
+    </script>
+</body>
+
+</html>
+
+
+
+
+
+
+

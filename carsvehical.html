@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Storybook</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #38bdf8;
+            background-image: radial-gradient(#bae6fd 4px, transparent 4px);
+            background-size: 40px 40px;
+            font-family: 'Fredoka One', cursive;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        #leftPage {
+            transform-origin: right center;
+        }
+        #rightPage {
+            transform-origin: left center;
+        }
+
+        /* 3D Flip Animation Next */
+        .page-flip-next-right {
+            animation: flipRightNext 0.6s ease-in forwards;
+        }
+        .page-flip-next-left {
+            animation: flipLeftNext 0.6s ease-out forwards;
+            animation-delay: 0.3s; /* Waits for right page to finish turning */
+            opacity: 0;
+            transform: perspective(1200px) rotateY(90deg);
+        }
+
+        @keyframes flipRightNext {
+            0% { transform: perspective(1200px) rotateY(0deg); opacity: 1; }
+            100% { transform: perspective(1200px) rotateY(-90deg); opacity: 0; }
+        }
+        @keyframes flipLeftNext {
+            0% { transform: perspective(1200px) rotateY(90deg); opacity: 0; }
+            100% { transform: perspective(1200px) rotateY(0deg); opacity: 1; }
+        }
+
+        /* 3D Flip Animation Prev */
+        .page-flip-prev-left {
+            animation: flipLeftPrev 0.6s ease-in forwards;
+        }
+        .page-flip-prev-right {
+            animation: flipRightPrev 0.6s ease-out forwards;
+            animation-delay: 0.3s;
+            opacity: 0;
+            transform: perspective(1200px) rotateY(-90deg);
+        }
+
+        @keyframes flipLeftPrev {
+            0% { transform: perspective(1200px) rotateY(0deg); opacity: 1; }
+            100% { transform: perspective(1200px) rotateY(90deg); opacity: 0; }
+        }
+        @keyframes flipRightPrev {
+            0% { transform: perspective(1200px) rotateY(-90deg); opacity: 0; }
+            100% { transform: perspective(1200px) rotateY(0deg); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="h-screen w-screen flex flex-col items-center justify-center relative">
+
+    <!-- Top Navigation -->
+    <div class="absolute top-6 left-6 z-50">
+        <a href="index.html" class="inline-flex items-center gap-2 bg-white text-gray-900 border-4 border-gray-900 px-6 py-3 rounded-2xl shadow-[4px_4px_0_0_rgba(17,24,39,1)] hover:translate-y-1 hover:translate-x-1 hover:shadow-none transition-all font-bold text-xl uppercase tracking-widest cursor-pointer pointer-events-auto">
+            <span class="text-2xl">🏠</span> Back to Studio
+        </a>
+    </div>
+
+    <!-- Book Container -->
+    <div class="flex w-[1100px] h-[650px] shadow-[20px_20px_0_0_rgba(17,24,39,1)] rounded-3xl border-8 border-gray-900 bg-[#FFFDF0] relative mt-10">
+        
+        <!-- Book Spine / Center Fold -->
+        <div class="absolute left-1/2 top-0 bottom-0 w-[8px] -translate-x-1/2 bg-gray-300 shadow-[inset_0_0_20px_rgba(0,0,0,0.3)] z-20"></div>
+
+        <!-- Left Page (Story Content) -->
+        <div id="leftPage" class="w-1/2 h-full p-12 flex flex-col justify-center items-center text-center relative">
+            <h1 id="pageTitle" class="text-5xl font-black text-gray-900 mb-8 leading-tight drop-shadow-md">The Great Vehicle Adventure!</h1>
+            <p id="pageText" class="text-3xl font-bold text-sky-600 leading-relaxed">Let's learn about some amazing vehicles!</p>
+            
+            <div class="absolute bottom-8 left-12">
+                <span id="pageNumLeft" class="text-xl font-bold text-gray-400">Page 1</span>
+            </div>
+        </div>
+        
+        <!-- Right Page (Illustration) -->
+        <div id="rightPage" class="w-1/2 h-full p-8 flex items-center justify-center relative">
+            <img id="pageImg" src="https://i.ibb.co/ymmHh9CG/storybook-cover-1783429657030.jpg" class="w-full h-full object-cover rounded-2xl border-4 border-gray-900 shadow-[8px_8px_0_0_rgba(17,24,39,1)] bg-white">
+            
+            <div id="emojiContainer" class="hidden w-full h-full flex items-center justify-center bg-[#bae6fd] rounded-2xl border-4 border-gray-900 shadow-[8px_8px_0_0_rgba(17,24,39,1)] text-[150px]">
+            </div>
+            
+            <div class="absolute bottom-8 right-12">
+                <span id="pageNumRight" class="text-xl font-bold text-gray-400">Page 2</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page Controls -->
+    <div class="flex gap-8 mt-12 z-50">
+        <button id="prevBtn" class="bg-amber-400 text-gray-900 border-4 border-gray-900 px-8 py-4 rounded-full shadow-[6px_6px_0_0_rgba(17,24,39,1)] hover:translate-y-1 hover:translate-x-1 hover:shadow-none active:scale-95 transition-all font-black text-2xl flex items-center gap-4 opacity-50 cursor-not-allowed">
+            <span>◀</span> Previous Page
+        </button>
+        <button id="nextBtn" class="bg-emerald-400 text-gray-900 border-4 border-gray-900 px-8 py-4 rounded-full shadow-[6px_6px_0_0_rgba(17,24,39,1)] hover:translate-y-1 hover:translate-x-1 hover:shadow-none active:scale-95 transition-all font-black text-2xl flex items-center gap-4">
+            Next Page <span>▶</span>
+        </button>
+    </div>
+
+    <script>
+        // Storybook Data
+        const bookPages = [
+            {
+                title: "The Great Vehicle Adventure!",
+                text: "Let's turn the page and learn about some amazing vehicles!",
+                image: "https://i.ibb.co/ymmHh9CG/storybook-cover-1783429657030.jpg",
+                color: "text-sky-600"
+            },
+            {
+                title: "The Fire Truck",
+                text: "The Fire Truck zooms fast with its loud siren! WEE-WOO!",
+                image: "https://i.ibb.co/8nf0yDw6/storybook-firetruck-1783429668517.jpg",
+                color: "text-red-500"
+            },
+            {
+                title: "The Police Car",
+                text: "The friendly Police Car patrols the city streets to keep everyone safe.",
+                image: "https://i.ibb.co/spPq0803/storybook-police-1783429680839.jpg",
+                color: "text-blue-600"
+            },
+            {
+                title: "The Excavator",
+                text: "The giant yellow Excavator digs up dirt and rocks at the construction site!",
+                image: "https://i.ibb.co/cKVYrZkY/storybook-excavator-1783429691299.jpg",
+                color: "text-amber-500"
+            },
+            {
+                title: "The Airplane",
+                text: "The https://aold-relic.github.io/WoodleDoo/images/vehicles/Airplane flies high up in the clouds, soaring like a giant bird!",
+                image: "https://aold-relic.github.io/WoodleDoo/images/vehicles/storybook_vehicles/airplane_1783612027620.png",
+                color: "text-sky-500"
+            },
+            {
+                title: "The Helicopter",
+                text: "The https://aold-relic.github.io/WoodleDoo/images/vehicles/Helicopter goes whop-whop-whop as its rotors spin super fast!",
+                image: "https://aold-relic.github.io/WoodleDoo/images/vehicles/storybook_vehicles/helicopter_1783612036304.png",
+                color: "text-emerald-500"
+            },
+            {
+                title: "The Big Ship",
+                text: "The giant Ship carries heavy cargo safely across the deep blue ocean.",
+                image: "https://i.ibb.co/zTfNmBzz/storybook-ship-1783612046545.jpg",
+                color: "text-indigo-600"
+            },
+            {
+                title: "The Speedboat",
+                text: "The Speedhttps://aold-relic.github.io/WoodleDoo/images/vehicles/boat bounces over the waves, splashing water everywhere!",
+                image: "https://aold-relic.github.io/WoodleDoo/images/vehicles/storybook_speedvehicles/boat_1783612058283.png",
+                color: "text-cyan-500"
+            },
+            {
+                title: "The Submarine",
+                text: "The https://aold-relic.github.io/WoodleDoo/images/vehicles/Submarine dives deep underwater to explore hidden ocean secrets!",
+                image: "https://aold-relic.github.io/WoodleDoo/images/vehicles/storybook_vehicles/submarine_1783612067559.png",
+                color: "text-teal-600"
+            }
+        ];
+
+        let currentPage = 0;
+
+        const leftPageEl = document.getElementById('leftPage');
+        const rightPageEl = document.getElementById('rightPage');
+        const titleEl = document.getElementById('pageTitle');
+        const textEl = document.getElementById('pageText');
+        const imgEl = document.getElementById('pageImg');
+        const emojiContainer = document.getElementById('emojiContainer');
+        const pageNumLeft = document.getElementById('pageNumLeft');
+        const pageNumRight = document.getElementById('pageNumRight');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function updateBook(direction) {
+            // Determine animation class
+            const leftAnim = direction === 'next' ? 'page-flip-next-left' : 'page-flip-prev-left';
+            const rightAnim = direction === 'next' ? 'page-flip-next-right' : 'page-flip-prev-right';
+            
+            // Trigger animation on both pages
+            leftPageEl.classList.add(leftAnim);
+            rightPageEl.classList.add(rightAnim);
+
+            // Wait for half the animation (when opacity is 0) to swap content
+            setTimeout(() => {
+                const pageData = bookPages[currentPage];
+                
+                titleEl.innerText = pageData.title;
+                textEl.innerText = pageData.text;
+                textEl.className = `text-3xl font-bold leading-relaxed ${pageData.color}`;
+                
+                if (pageData.emoji) {
+                    imgEl.classList.add('hidden');
+                    emojiContainer.classList.remove('hidden');
+                    emojiContainer.innerText = pageData.emoji;
+                } else {
+                    imgEl.classList.remove('hidden');
+                    emojiContainer.classList.add('hidden');
+                    imgEl.src = pageData.image;
+                }
+                
+                pageNumLeft.innerText = `Page ${currentPage * 2 + 1}`;
+                pageNumRight.innerText = `Page ${currentPage * 2 + 2}`;
+
+                // Update Button States
+                if (currentPage === 0) {
+                    prevBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                    prevBtn.classList.remove('hover:translate-y-1', 'hover:translate-x-1', 'hover:shadow-none');
+                } else {
+                    prevBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                    prevBtn.classList.add('hover:translate-y-1', 'hover:translate-x-1', 'hover:shadow-none');
+                }
+
+                if (currentPage === bookPages.length - 1) {
+                    nextBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                    nextBtn.classList.remove('hover:translate-y-1', 'hover:translate-x-1', 'hover:shadow-none');
+                } else {
+                    nextBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                    nextBtn.classList.add('hover:translate-y-1', 'hover:translate-x-1', 'hover:shadow-none');
+                }
+
+            }, 300); // 300ms is halfway through the animation
+
+            // Remove animation classes when done
+            setTimeout(() => {
+                leftPageEl.classList.remove(leftAnim);
+                rightPageEl.classList.remove(rightAnim);
+            }, 600);
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentPage > 0) {
+                currentPage--;
+                updateBook('prev');
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentPage < bookPages.length - 1) {
+                currentPage++;
+                updateBook('next');
+            }
+        });
+
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+

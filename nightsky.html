@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Night Sky Adventure</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #000000;
+            font-family: 'Fredoka One', cursive;
+        }
+        canvas {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        .ui-layer {
+            position: relative;
+            z-index: 10;
+            pointer-events: none; /* Let clicks pass to wheel buttons */
+        }
+        .clickable {
+            pointer-events: auto;
+        }
+        
+        .zodiac-item {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform-origin: center center;
+            font-size: 5rem;
+            margin-left: -3rem;
+            margin-top: -3rem;
+            width: 6rem;
+            height: 6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent; /* Removed circular background */
+            color: #fef08a; /* Star yellow text */
+            text-shadow: 0 0 20px rgba(129, 140, 248, 0.8);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Interactive UI Layer -->
+    <div class="ui-layer p-6 w-full flex justify-between items-start h-screen">
+        
+        <!-- Back Button -->
+        <a href="index.html" class="clickable inline-flex items-center gap-2 bg-[#0f0c29] text-indigo-100 border-4 border-indigo-400 px-6 py-3 rounded-2xl shadow-[0_0_20px_rgba(129,140,248,0.5)] hover:scale-105 active:scale-95 transition-all font-bold text-xl uppercase tracking-widest" style="background-image: radial-gradient(circle, #24243e, #302b63, #0f0c29);">
+            <span class="text-2xl drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">🚀</span> 
+            <span>Back to Studio</span>
+        </a>
+        
+        <!-- Active Constellation Info -->
+        <div class="flex flex-col items-end gap-4 max-w-lg">
+            <div id="constellationTitle" class="clickable bg-[#0f0c29] border-4 border-indigo-400 px-8 py-4 rounded-3xl shadow-[0_0_20px_rgba(129,140,248,0.5)] text-3xl font-black text-indigo-100 uppercase tracking-widest transition-opacity duration-300" style="background-image: radial-gradient(circle, #24243e, #302b63, #0f0c29);">
+                Select a Star Sign
+            </div>
+            <div id="constellationInfo" class="clickable bg-[#0f0c29] border-4 border-indigo-400 px-6 py-4 rounded-2xl shadow-[0_0_15px_rgba(129,140,248,0.4)] text-lg font-bold text-indigo-200 transition-opacity duration-300 text-right" style="background-image: radial-gradient(circle, #24243e, #302b63, #0f0c29);">
+                Turn the wheel to discover the stars!
+            </div>
+        </div>
+        
+    </div>
+
+    <!-- Zodiac Wheel UI -->
+    <!-- Container width and wheel size -->
+    <div class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full h-[350px] overflow-hidden z-20 pointer-events-none">
+        
+        <!-- Glowing Pointer for Active Constellation -->
+        <div class="absolute top-[130px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[20px] border-r-[20px] border-t-[25px] border-l-transparent border-r-transparent border-t-indigo-400 z-30 drop-shadow-[0_0_15px_rgba(129,140,248,1)] animate-bounce"></div>
+
+        <div id="wheel" class="absolute top-[170px] left-1/2 -translate-x-1/2 w-[900px] h-[900px] rounded-full border-[12px] border-indigo-900 bg-[#0f0c29] shadow-[0_0_80px_rgba(129,140,248,0.3)] transition-transform duration-700 ease-in-out pointer-events-auto" style="background-image: radial-gradient(circle at 50% 50%, #24243e, #302b63 60%, #0f0c29 90%);">
+            <!-- Items injected via JS -->
+        </div>
+    </div>
+    
+    <!-- Controls -->
+    <!-- Spaced out further to sit outside the visible constellations -->
+    <div class="fixed bottom-16 left-1/2 -translate-x-1/2 w-[850px] flex justify-between z-30 pointer-events-none">
+        <button id="prevBtn" class="pointer-events-auto bg-indigo-600 text-white border-4 border-indigo-300 w-20 h-20 rounded-full shadow-[0_0_20px_rgba(129,140,248,0.8)] hover:scale-110 active:scale-95 transition-all font-black text-4xl flex items-center justify-center">◀</button>
+        <button id="nextBtn" class="pointer-events-auto bg-indigo-600 text-white border-4 border-indigo-300 w-20 h-20 rounded-full shadow-[0_0_20px_rgba(129,140,248,0.8)] hover:scale-110 active:scale-95 transition-all font-black text-4xl flex items-center justify-center">▶</button>
+    </div>
+
+    <!-- Starry Background Canvas -->
+    <canvas id="starCanvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('starCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        // 1. Constellation Data Engine with Fun Facts
+        const zodiacs = [
+            { name: "Aries", emoji: "♈", imageFile: "https://i.ibb.co/svtBCykR/zodiac-aries-1783428256202.jpg", info: "The Ram! Known for being brave, energetic, and always ready for an adventure.", stars: [[-1, 0.5], [-0.2, 0.1], [0.5, 0], [1.2, 0.8]], edges: [[0,1],[1,2],[2,3]] },
+            { name: "Taurus", emoji: "♉", imageFile: "https://i.ibb.co/YB1zk3QW/zodiac-taurus-1783428265133.jpg", info: "The Bull! Taurus is strong, dependable, and loves comfortable, cozy spaces.", stars: [[-1, 1], [-0.5, 0.2], [0, 0], [0.8, -0.5], [1.5, -1], [1, 1]], edges: [[0,1],[1,2],[2,3],[3,4],[2,5]] },
+            { name: "Gemini", emoji: "♊", imageFile: "https://i.ibb.co/mFyJfnxX/zodiac-gemini-1783428275567.jpg", info: "The Twins! Quick-witted, talkative, and always curious about the world.", stars: [[-1, 1], [-0.8, 0], [-1, -1], [1, 1], [0.8, 0], [1, -1]], edges: [[0,1],[1,2],[3,4],[4,5],[1,4]] },
+            { name: "Cancer", emoji: "♋", imageFile: "https://i.ibb.co/Jf9Bp98/zodiac-cancer-1783428286444.jpg", info: "The Crab! Cancers are very caring, loyal, and love protecting their friends.", stars: [[-1, -0.5], [-0.2, 0.2], [0.5, -0.2], [1, 0.5]], edges: [[0,1],[1,2],[2,3]] },
+            { name: "Leo", emoji: "♌", imageFile: "https://i.ibb.co/ZbyQ0px/zodiac-leo-1783428300098.jpg", info: "The Lion! Bold, creative, and loves being the star of the show.", stars: [[-1.2, -0.5], [-0.8, -1.2], [-0.2, -1], [0, -0.2], [1, 0.5], [1.5, -0.5]], edges: [[0,1],[1,2],[2,3],[3,0],[3,4],[4,5]] },
+            { name: "Virgo", emoji: "♍", imageFile: "https://i.ibb.co/kVCVftwL/zodiac-virgo-1783428311048.jpg", info: "The Maiden! Very smart, detail-oriented, and loves helping others solve problems.", stars: [[-1.5, 1], [-1, 0], [-0.2, -0.5], [0.5, 0], [1, 0.8], [1.5, 0], [1, -1]], edges: [[0,1],[1,2],[2,3],[3,4],[3,5],[5,6]] },
+            { name: "Libra", emoji: "♎", imageFile: "https://i.ibb.co/rRLkWLCq/zodiac-libra-1783428328548.jpg", info: "The Scales! Libras love balance, peace, and making sure everything is fair.", stars: [[-1.2, 0.5], [-0.5, 0], [0.5, 0], [1.2, 0.5], [0, -1]], edges: [[0,1],[1,2],[2,3],[1,4],[2,4]] },
+            { name: "Scorpio", emoji: "♏", imageFile: "https://i.ibb.co/DfG5Db1w/zodiac-scorpio-1783428340438.jpg", info: "The Scorpion! Brave, passionate, and great at keeping secrets.", stars: [[-1.5, -1], [-0.8, -0.5], [-0.2, 0], [0.5, 0.5], [1.2, -0.2], [1, -1]], edges: [[0,1],[1,2],[2,3],[3,4],[4,5]] },
+            { name: "Sagittarius", emoji: "♐", imageFile: "https://i.ibb.co/23Hsws4N/zodiac-sagittarius-1783428351950.jpg", info: "The Archer! A true explorer who loves traveling and learning new things.", stars: [[-1, 1], [-0.5, 0.2], [0, 0], [0.5, -0.5], [1, 0.5], [1.2, -1], [0, -1]], edges: [[0,1],[1,2],[2,3],[3,4],[3,5],[2,6]] },
+            { name: "Capricorn", emoji: "♑", imageFile: "https://i.ibb.co/pv1xcQsn/zodiac-capricorn-new-1783428908424.jpg", info: "The Sea Goat! Hard-working, determined, and always climbs to the very top.", stars: [[-1, -0.5], [-0.5, 0.5], [0.5, 0.5], [1, -0.5], [0, -1.2]], edges: [[0,1],[1,2],[2,3],[2,4],[1,4]] },
+            { name: "Aquarius", emoji: "♒", imageFile: "https://i.ibb.co/hxhbNGxL/zodiac-aquarius-1783428372761.jpg", info: "The Water Bearer! Super creative, unique, and loves inventing new ideas.", stars: [[-1.5, 0.5], [-0.5, 1], [0.5, 0.5], [1.5, 1], [-1.5, -0.5], [-0.5, 0], [0.5, -0.5], [1.5, 0]], edges: [[0,1],[1,2],[2,3],[4,5],[5,6],[6,7]] },
+            { name: "Pisces", emoji: "♓", imageFile: "https://i.ibb.co/mCVwpnRX/zodiac-pisces-1783428384830.jpg", stars: [[-1.5, -1], [-1, 0], [-1.5, 1], [1.5, -1], [1, 0], [1.5, 1]], info: "The Fish! Highly imaginative, dreamy, and very kind-hearted.", edges: [[0,1],[1,2],[3,4],[4,5],[1,4]] }
+        ];
+
+        // Preload Zodiac Line Art Images
+        zodiacs.forEach(z => {
+            z.img = new Image();
+            z.img.src = `${z.imageFile}`;
+        });
+
+        // Background stars
+        const stars = [];
+        for (let i = 0; i < 300; i++) {
+            stars.push({
+                x: Math.random() * window.innerWidth,
+                y: Math.random() * window.innerHeight,
+                radius: Math.random() * 2 + 0.5,
+                alpha: Math.random(),
+                speed: Math.random() * 0.03 + 0.005,
+                direction: Math.random() > 0.5 ? 1 : -1,
+                color: Math.random() > 0.9 ? '#fffaeb' : (Math.random() > 0.8 ? '#93c5fd' : '#ffffff')
+            });
+        }
+
+        // State
+        let activeIndex = 0;
+        let wheelRotation = 0;
+        let constellationAlpha = 0; // for fading in
+
+        // Setup Wheel UI
+        const wheel = document.getElementById('wheel');
+        const titleEl = document.getElementById('constellationTitle');
+        const infoEl = document.getElementById('constellationInfo');
+        const anglePerItem = 360 / zodiacs.length;
+        
+        // Push items out to edge of the wheel
+        const wheelRadius = 400; 
+        
+        zodiacs.forEach((z, idx) => {
+            const el = document.createElement('div');
+            el.className = 'zodiac-item';
+            el.innerHTML = z.emoji;
+            // Position on circle boundary
+            const angleRad = (idx * anglePerItem - 90) * (Math.PI / 180);
+            el.style.transform = `translate(${Math.cos(angleRad) * wheelRadius}px, ${Math.sin(angleRad) * wheelRadius}px) rotate(${idx * anglePerItem}deg)`;
+            wheel.appendChild(el);
+        });
+
+        function updateWheel(direction = 0) {
+            wheelRotation -= direction * anglePerItem;
+            wheel.style.transform = `translateX(-50%) rotate(${wheelRotation}deg)`;
+            
+            // Rotate items back so they stay upright
+            const items = document.querySelectorAll('.zodiac-item');
+            items.forEach((item, idx) => {
+                const angleRad = (idx * anglePerItem - 90) * (Math.PI / 180);
+                item.style.transform = `translate(${Math.cos(angleRad) * wheelRadius}px, ${Math.sin(angleRad) * wheelRadius}px) rotate(${-wheelRotation}deg)`;
+            });
+
+            titleEl.style.opacity = 0;
+            infoEl.style.opacity = 0;
+            
+            setTimeout(() => {
+                const currentZodiac = zodiacs[activeIndex];
+                titleEl.innerText = `${currentZodiac.emoji} ${currentZodiac.name}`;
+                infoEl.innerText = currentZodiac.info;
+                
+                titleEl.style.opacity = 1;
+                infoEl.style.opacity = 1;
+            }, 300);
+
+            // Reset constellation fade
+            constellationAlpha = 0;
+        }
+
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            activeIndex = (activeIndex - 1 + zodiacs.length) % zodiacs.length;
+            updateWheel(-1);
+        });
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            activeIndex = (activeIndex + 1) % zodiacs.length;
+            updateWheel(1);
+        });
+
+        updateWheel(0); // Initial call
+
+        // Animation Loop
+        let time = 0;
+        function drawScene() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            time += 0.05;
+
+            // Draw Background Stars (dimmed slightly if constellation is active)
+            ctx.globalAlpha = 0.6; // dim background
+            for (let i = 0; i < stars.length; i++) {
+                const s = stars[i];
+                s.alpha += s.speed * s.direction;
+                if (s.alpha >= 1) { s.alpha = 1; s.direction = -1; }
+                else if (s.alpha <= 0.2) { s.alpha = 0.2; s.direction = 1; }
+
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+                
+                let r=255, g=255, b=255;
+                if(s.color === '#fffaeb') { r=255; g=250; b=235; }
+                if(s.color === '#93c5fd') { r=147; g=197; b=253; }
+                
+                ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${s.alpha})`;
+                ctx.fill();
+            }
+            ctx.globalAlpha = 1.0;
+
+            // Fade in constellation
+            if (constellationAlpha < 1) {
+                constellationAlpha += 0.02;
+            }
+
+            // Draw Active Constellation
+            const activeZodiac = zodiacs[activeIndex];
+            const cx = canvas.width / 2;
+            const cy = canvas.height / 2.5; // Slightly above center to clear wheel
+            const scale = Math.min(canvas.width, canvas.height) * 0.15; // Scale factor
+
+            // Draw line-art image in the background with screen blending
+            if (activeZodiac.img && activeZodiac.img.complete) {
+                ctx.globalCompositeOperation = 'screen'; // Hides black background
+                ctx.globalAlpha = constellationAlpha * 0.4; // Faint, glowing presence
+                
+                // Keep image sized nicely compared to constellation
+                const imgSize = scale * 8; 
+                ctx.drawImage(activeZodiac.img, cx - imgSize/2, cy - imgSize/2, imgSize, imgSize);
+                
+                ctx.globalAlpha = 1.0;
+                ctx.globalCompositeOperation = 'source-over'; // Reset
+            }
+
+            const currentStars = activeZodiac.stars.map(p => ({
+                x: cx + p[0] * scale,
+                y: cy + p[1] * scale
+            }));
+
+            // Twinkle factor for lines
+            const lineGlow = 0.5 + Math.sin(time) * 0.3;
+
+            // Draw Connection Lines
+            ctx.lineWidth = 6;
+            ctx.strokeStyle = `rgba(244, 63, 94, ${constellationAlpha * lineGlow})`; // Neon pink/red glow
+            ctx.shadowBlur = 20;
+            ctx.shadowColor = '#F43F5E';
+            
+            ctx.beginPath();
+            activeZodiac.edges.forEach(edge => {
+                const p1 = currentStars[edge[0]];
+                const p2 = currentStars[edge[1]];
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(p2.x, p2.y);
+            });
+            ctx.stroke();
+
+            // Draw Constellation Stars
+            currentStars.forEach((p, i) => {
+                const starTwinkle = 0.7 + Math.sin(time + i) * 0.3;
+                
+                // Outer Glow (Larger)
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, 20, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${constellationAlpha * starTwinkle})`;
+                ctx.shadowBlur = 40;
+                ctx.shadowColor = '#FFF';
+                ctx.fill();
+                
+                // Inner bright core (Larger)
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, 10, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 253, 240, ${constellationAlpha})`;
+                ctx.shadowBlur = 0;
+                ctx.fill();
+            });
+
+            ctx.shadowBlur = 0; // reset
+            requestAnimationFrame(drawScene);
+        }
+
+        drawScene();
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
