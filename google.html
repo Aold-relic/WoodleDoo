@@ -31,7 +31,7 @@
 <body class="min-h-screen w-full flex flex-col items-center justify-center p-6 text-slate-800 relative">
 
     <!-- Return Link -->
-    <a href="index.html" class="absolute top-8 left-8 flex items-center gap-2 text-slate-500 hover:text-slate-900 transition-colors font-medium">
+    <a href="about.html" class="absolute top-8 left-8 flex items-center gap-2 text-slate-500 hover:text-slate-900 transition-colors font-medium">
         <span class="material-symbols-outlined text-xl">arrow_back</span> Return to Studio
     </a>
 
@@ -57,7 +57,7 @@
         </button>
 
         <!-- Authenticated User Profile (Hidden by default) -->
-        <div id="userProfile" class="hidden flex-col items-center gap-4 w-full">
+        <div id="userProfile" class="hidden flex-col items-center gap-4 w-full mt-4">
             <img id="userPicture" src="" alt="Profile" class="w-20 h-20 rounded-full border-4 border-slate-200 shadow-md object-cover">
             <div>
                 <p class="text-sm text-slate-400 font-bold uppercase tracking-widest">Signed in as</p>
@@ -130,12 +130,12 @@
                 try {
                     await signOut(auth);
                 } catch (error) {
-                    console.error(error);
+                    console.error("Sign out error:", error);
                 }
             } else {
                 try {
                     await signInWithPopup(auth, provider);
-                    // Automatically redirect to about dashboard on login:
+                    // Automatically redirect to dashboard on login:
                     window.location.href = "about.html"; 
                 } catch (error) {
                     alert("Login failed: " + error.message);
