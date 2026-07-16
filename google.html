@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,17 +10,17 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0f172a;
+            background-color: #f8fafc; /* Crisp light slate background */
             background-image: 
-                radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.15), transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(244, 63, 94, 0.15), transparent 25%);
+                radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.25), transparent 35%),
+                radial-gradient(circle at 85% 30%, rgba(244, 63, 94, 0.2), transparent 35%);
         }
         .glass-card {
-            background: rgba(30, 41, 59, 0.7);
+            background: rgba(255, 255, 255, 0.75); /* Bright glass background */
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.1);
         }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
@@ -28,48 +28,40 @@
         }
     </style>
 </head>
-<body class="min-h-screen w-full flex flex-col items-center justify-center p-6 text-slate-100 relative">
+<body class="min-h-screen w-full flex flex-col items-center justify-center p-6 text-slate-800 relative">
 
-    <a href="index.html" class="absolute top-8 left-8 flex items-center gap-2 text-slate-400 hover:text-white transition-colors font-medium">
+    <!-- Return Link (styled for light background) -->
+    <a href="about.html" class="absolute top-8 left-8 flex items-center gap-2 text-slate-500 hover:text-slate-900 transition-colors font-medium">
         <span class="material-symbols-outlined text-xl">arrow_back</span> Return to Studio
     </a>
 
     <div class="glass-card rounded-[2rem] p-12 flex flex-col items-center text-center max-w-md w-full animate-[fadeIn_0.6s_ease-out]">
-        <div class="bg-blue-500/10 border border-blue-500/20 p-4 rounded-2xl shadow-[0_0_20px_rgba(59,130,246,0.2)] mb-6">
-            <span class="material-symbols-outlined text-blue-400 text-4xl">account_circle</span>
+        <!-- Top Icon Wrapper -->
+        <div class="bg-blue-500/10 border border-blue-500/20 p-4 rounded-2xl shadow-[0_0_20px_rgba(59,130,246,0.1)] mb-6">
+            <span class="material-symbols-outlined text-blue-500 text-4xl">account_circle</span>
         </div>
         
-        <h1 class="text-3xl font-bold mb-2">Welcome Back</h1>
-        <p class="text-slate-400 mb-10">Sign in with your Google account to continue to WoodleDoo.</p>
+        <h1 class="text-3xl font-bold mb-2 text-slate-900">Welcome Back</h1>
+        <p class="text-slate-500 mb-10">Sign in with your Google account to continue to WoodleDoo.</p>
 
-        <!-- Custom Login Button -->
-        <!-- Google Sign-In Container -->
-        <div id="g_id_onload"
-             data-client_id="435710422174-8lt38sr6k7bj28sqg1ideqqtldug4mju.apps.googleusercontent.com"
-             data-context="signin"
-             data-ux_mode="popup"
-             data-callback="handleCredentialResponse"
-             data-auto_prompt="false">
-        </div>
-        
-        <div class="g_id_signin mb-4"
-             data-type="standard"
-             data-shape="rectangular"
-             data-theme="filled_black"
-             data-text="signin_with"
-             data-size="large"
-             data-logo_alignment="left">
-        </div>
+        <!-- Dynamic Login / Logout Button Container -->
+        <button id="login-btn" class="flex items-center gap-3 bg-slate-900 text-white font-bold text-lg px-8 py-3 rounded-xl shadow-md hover:shadow-lg hover:bg-slate-800 transition-all duration-300 w-full justify-center mb-4">
+            <svg class="w-6 h-6" viewBox="0 0 48 48">
+                <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                <path fill="none" d="M0 0h48v48H0z"/>
+            </svg>
+            <span>Sign in with Google</span>
+        </button>
 
         <!-- Authenticated User Profile (Hidden by default) -->
         <div id="userProfile" class="hidden flex-col items-center gap-4 w-full">
-
-        <!-- Authenticated User Profile (Hidden by default) -->
-        <div id="userProfile" class="hidden flex-col items-center gap-4 w-full">
-            <img id="userPicture" src="" alt="Profile" class="w-20 h-20 rounded-full border-4 border-slate-700 shadow-lg object-cover">
+            <img id="userPicture" src="" alt="Profile" class="w-20 h-20 rounded-full border-4 border-slate-200 shadow-md object-cover">
             <div>
                 <p class="text-sm text-slate-400 font-bold uppercase tracking-widest">Signed in as</p>
-                <h2 id="userName" class="text-2xl font-bold text-white mt-1"></h2>
+                <h2 id="userName" class="text-2xl font-bold text-slate-800 mt-1"></h2>
             </div>
         </div>
 
@@ -103,9 +95,9 @@
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // Change button to Sign Out
+                // Change button style and label to Sign Out
                 loginBtn.innerHTML = `
-                    <span class="material-symbols-outlined text-gray-700">logout</span>
+                    <span class="material-symbols-outlined text-white">logout</span>
                     <span>Sign Out</span>
                 `;
                 
@@ -115,7 +107,7 @@
                 userName.innerText = user.displayName;
                 userPicture.src = user.photoURL || 'https://via.placeholder.com/80';
             } else {
-                // Revert to Sign In
+                // Revert to original Sign In layout
                 loginBtn.innerHTML = `
                     <svg class="w-6 h-6" viewBox="0 0 48 48">
                         <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
@@ -142,9 +134,9 @@
                 }
             } else {
                 try {
-                    const result = await signInWithPopup(auth, provider);
-                    // Successfully logged in! Redirect to the home page automatically:
-                    window.location.href = "index.html"; 
+                    await signInWithPopup(auth, provider);
+                    // Automatically redirect to home dashboard on login:
+                    window.location.href = "about.html"; 
                 } catch (error) {
                     alert("Login failed: " + error.message);
                 }
